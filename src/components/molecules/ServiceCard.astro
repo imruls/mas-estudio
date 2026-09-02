@@ -1,0 +1,28 @@
+---
+import Icon from "../atoms/Icon.astro";
+import { buildWhatsAppLink } from "../../utils/whatsapp";
+import { siteData, type PracticeArea } from "../../data/DataSite";
+
+interface Props {
+  area: PracticeArea;
+}
+
+const { area } = Astro.props;
+const href = buildWhatsAppLink(siteData.contact.whatsappNumber, area.whatsappMessage);
+---
+
+<article class="service-card">
+  <div class="service-card__icon">
+    <Icon name={area.icon} />
+  </div>
+  <h3 class="service-card__title">{area.title}</h3>
+  <p class="service-card__description">{area.description}</p>
+  <a
+    class="service-card__cta"
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Consultar por WhatsApp
+  </a>
+</article>

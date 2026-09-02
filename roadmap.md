@@ -37,17 +37,17 @@ la estructura de carpetas lista.
 `package.json`, `/src`.
 
 **Tareas:**
-- [ ] Crear el proyecto con `pnpm create astro@latest` (plantilla mínima,
+- [x] Crear el proyecto con `pnpm create astro@latest` (plantilla mínima,
       TypeScript strict).
-- [ ] Configurar `astro.config.mjs` para deploy en Vercel.
-- [ ] Crear la estructura de carpetas de Atomic Design definida en
+- [x] Configurar `astro.config.mjs` para deploy en Vercel.
+- [x] Crear la estructura de carpetas de Atomic Design definida en
       `03-estructura-tecnica.md` (`/components/atoms`, `/molecules`,
       `/organisms`, `/templates`, `/data`, `/styles`).
-- [ ] Copiar `assets/logo-mas-transparente.png` y
+- [x] Copiar `assets/logo-mas-transparente.png` y
       `assets/isotipo-mas-transparente.png` a `src/assets/brand/` (ya
       tienen fondo transparente, no requieren procesamiento).
-- [ ] Generar el set de favicons a partir de `isotipo-mas-transparente.png`.
-- [ ] Verificar que `pnpm dev` levante una página en blanco sin errores.
+- [x] Generar el set de favicons a partir de `isotipo-mas-transparente.png`.
+- [x] Verificar que `pnpm dev` levante una página en blanco sin errores.
 
 **Prompt sugerido:**
 > "Iniciá un proyecto Astro + TypeScript con pnpm. Armá la estructura de
@@ -78,14 +78,14 @@ funcionando, antes de construir ningún componente visual.
 de Google Fonts).
 
 **Tareas:**
-- [ ] Importar Playfair Display + Inter (Google Fonts).
-- [ ] Declarar `:root` con las variables de color de `01-diseno-y-marca.md`.
-- [ ] Declarar variables de espaciado y breakpoints como comentario de
+- [x] Importar Playfair Display + Inter (Google Fonts).
+- [x] Declarar `:root` con las variables de color de `01-diseno-y-marca.md`.
+- [x] Declarar variables de espaciado y breakpoints como comentario de
       referencia (Astro/CSS no tiene variables de media query nativas, pero
       documentar los valores usados: 480px / 768px / 1024px / 1280px).
-- [ ] Reset/normalize básico.
-- [ ] Estilos base de `body`, `h1`-`h3`, `p`, `a` usando las variables.
-- [ ] Crear una página de prueba temporal (`/styleguide` o similar) que
+- [x] Reset/normalize básico.
+- [x] Estilos base de `body`, `h1`-`h3`, `p`, `a` usando las variables.
+- [x] Crear una página de prueba temporal (`/styleguide` o similar) que
       muestre la paleta, la tipografía en sus distintos tamaños y un botón
       de ejemplo, solo para validar visualmente el sistema. (Se borra antes
       de producción o se deja oculta, a definir.)
@@ -122,15 +122,15 @@ hardcodeado.
 (o similar, para el helper de links).
 
 **Tareas:**
-- [ ] Crear las interfaces TypeScript definidas en `03-estructura-tecnica.md`
+- [x] Crear las interfaces TypeScript definidas en `03-estructura-tecnica.md`
       (`PracticeArea`, `Testimonial`, `Partner`, `SiteData`).
-- [ ] Completar `siteData` con todo el copy real de `02-contenido-copy.md`
+- [x] Completar `siteData` con todo el copy real de `02-contenido-copy.md`
       (hero, 5 áreas de práctica, "Nosotros", 4 testimonios placeholder,
       contacto, SEO).
-- [ ] Marcar explícitamente con comentarios `// TODO: placeholder` los
+- [x] Marcar explícitamente con comentarios `// TODO: placeholder` los
       testimonios y las fotos de los socios, como está indicado en
       `02-contenido-copy.md`.
-- [ ] Crear `buildWhatsAppLink(number, message)` que arme la URL
+- [x] Crear `buildWhatsAppLink(number, message)` que arme la URL
       `https://wa.me/...` con el texto URL-encoded.
 
 **Prompt sugerido:**
@@ -168,16 +168,16 @@ contenido de las secciones intermedias.
 `src/components/molecules/NavLink.astro`.
 
 **Tareas:**
-- [ ] `MainLayout.astro`: estructura HTML base + meta tags SEO (usando
+- [x] `MainLayout.astro`: estructura HTML base + meta tags SEO (usando
       `siteData.seo`, con el dominio placeholder) + import de `Style.css`.
-- [ ] `Navbar`: logo completo en desktop, isotipo en mobile, links a cada
+- [x] `Navbar`: logo completo en desktop, isotipo en mobile, links a cada
       sección (anclas `#servicios`, `#nosotros`, etc.), CTA de WhatsApp,
       menú hamburguesa responsive por debajo de 768px.
-- [ ] `Footer`: nombre completo del estudio, línea legal, email y WhatsApp
+- [x] `Footer`: nombre completo del estudio, línea legal, email y WhatsApp
       como links rápidos.
-- [ ] `WhatsAppFloatingButton`: fixed bottom-right, ícono de WhatsApp,
+- [x] `WhatsAppFloatingButton`: fixed bottom-right, ícono de WhatsApp,
       mensaje general de `siteData.contact.defaultWhatsappMessage`.
-- [ ] Crear `index.astro` mínimo que solo use `MainLayout` con un `<main>`
+- [x] Crear `index.astro` mínimo que solo use `MainLayout` con un `<main>`
       vacío, para poder ver Navbar + Footer + botón flotante funcionando
       de punta a punta.
 
@@ -211,13 +211,13 @@ respecto al menú mobile abierto (no deberían superponerse mal).
 **Archivos involucrados:** `src/components/organisms/Hero.astro`.
 
 **Tareas:**
-- [ ] Título y subtítulo desde `siteData.hero`.
-- [ ] CTA primario (WhatsApp) y CTA secundario (scroll a Servicios).
-- [ ] Composición visual: definir si el Hero lleva el logo completo grande,
+- [x] Título y subtítulo desde `siteData.hero`.
+- [x] CTA primario (WhatsApp) y CTA secundario (scroll a Servicios).
+- [x] Composición visual: definir si el Hero lleva el logo completo grande,
       una imagen/ilustración relacionada a la balanza, o se mantiene solo
       tipográfico (más alineado a la referencia de "estructura/tipografía"
       que le gustó al cliente).
-- [ ] Insertar en `index.astro` dentro de `<main>`.
+- [x] Insertar en `index.astro` dentro de `<main>`.
 
 **Prompt sugerido:**
 > "Construí el Hero según el copy de `siteData.hero`. Priorizá una
@@ -252,17 +252,17 @@ estudiojuridicocr.com.ar.
 `src/components/atoms/Icon.astro`.
 
 **Tareas:**
-- [ ] `ServiceCard`: ícono, título, descripción, y CTA de WhatsApp
+- [x] `ServiceCard`: ícono, título, descripción, y CTA de WhatsApp
       específico por área (usando `buildWhatsAppLink` + el
       `whatsappMessage` de cada `PracticeArea`).
-- [ ] `ServiciosSection`: título + bajada de sección, grilla de 5
+- [x] `ServiciosSection`: título + bajada de sección, grilla de 5
       `ServiceCard` (1 col mobile → 2 col tablet → 3 col desktop, con la
       quinta card centrada o en su propia fila, a resolver visualmente).
-- [ ] Elegir/generar set de íconos para las 5 áreas (auto/tránsito,
+- [x] Elegir/generar set de íconos para las 5 áreas (auto/tránsito,
       pergamino/documento, edificio/empresa, casa, familia) — usar una
       librería de íconos ligera (ej. Lucide) en tono línea, coherente con
       el estilo elegante de la marca.
-- [ ] Insertar en `index.astro`.
+- [x] Insertar en `index.astro`.
 
 **Prompt sugerido:**
 > "Construí la sección de Servicios iterando sobre `siteData.practiceAreas`.
@@ -295,14 +295,14 @@ visual, dejando explícito en el código que son de placeholder.
 `src/components/atoms/StarRating.astro`.
 
 **Tareas:**
-- [ ] `StarRating`: componente simple que recibe un número 1-5 y pinta
+- [x] `StarRating`: componente simple que recibe un número 1-5 y pinta
       estrellas con el Dorado Estudio.
-- [ ] `TestimonialCard`: cita, nombre/iniciales, contexto (área de
+- [x] `TestimonialCard`: cita, nombre/iniciales, contexto (área de
       práctica), rating.
-- [ ] `ReseñasSection`: título de sección + grilla o carrusel de las 4
+- [x] `ReseñasSection`: título de sección + grilla o carrusel de las 4
       `TestimonialCard` (a decidir si carrusel/slider o grilla estática
       según cuánto espacio ocupen en mobile).
-- [ ] Insertar en `index.astro`.
+- [x] Insertar en `index.astro`.
 
 **Prompt sugerido:**
 > "Construí la sección de Reseñas con los 4 testimonios placeholder de
@@ -406,7 +406,7 @@ revisar la experiencia de scroll completa.
       apunten a los `id` reales de cada sección.
 - [ ] Revisar transiciones entre secciones (alternancia de fondos Marfil /
       Arena para generar ritmo visual, según se definió en la paleta).
-- [ ] Eliminar o dejar oculta la página `/styleguide` de la Fase 1.
+- [ ] Eliminar la página `/styleguide` de la Fase 1.
 
 **Prompt sugerido:**
 > "Ensamblá todas las secciones en `index.astro` en el orden definitivo.

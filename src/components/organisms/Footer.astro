@@ -1,0 +1,27 @@
+---
+import { siteData } from "../../data/DataSite";
+import { buildWhatsAppLink } from "../../utils/whatsapp";
+
+const whatsappHref = buildWhatsAppLink(
+  siteData.contact.whatsappNumber,
+  siteData.contact.defaultWhatsappMessage,
+);
+const mailHref = `mailto:${siteData.contact.email}`;
+---
+
+<footer class="footer" id="footer">
+  <div class="container footer__inner">
+    <p class="footer__name">{siteData.footer.fullName}</p>
+
+    <ul class="footer__links">
+      <li><a href={mailHref}>{siteData.contact.email}</a></li>
+      <li>
+        <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
+          {siteData.contact.phone}
+        </a>
+      </li>
+    </ul>
+
+    <p class="footer__legal">{siteData.footer.legalText}</p>
+  </div>
+</footer>

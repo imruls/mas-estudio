@@ -1,0 +1,44 @@
+---
+import { Image } from "astro:assets";
+import heroBackground from "../../assets/hero/hero-background.jpg";
+import { siteData } from "../../data/DataSite";
+import { buildWhatsAppLink } from "../../utils/whatsapp";
+
+const ctaHref = buildWhatsAppLink(
+  siteData.contact.whatsappNumber,
+  siteData.contact.defaultWhatsappMessage,
+);
+---
+
+<section class="hero" id="inicio">
+  <Image
+    src={heroBackground}
+    alt=""
+    class="hero__bg"
+    widths={[640, 1024, 1600, 2400]}
+    sizes="100vw"
+    loading="eager"
+    fetchpriority="high"
+  />
+  <div class="hero__scrim" aria-hidden="true"></div>
+
+  <div class="container hero__inner">
+    <div class="hero__content">
+      <h1 class="hero__title">{siteData.hero.title}</h1>
+      <p class="hero__subtitle">{siteData.hero.subtitle}</p>
+      <div class="hero__actions">
+        <a
+          class="btn btn-primary"
+          href={ctaHref}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {siteData.hero.ctaPrimary}
+        </a>
+        <a class="hero__cta-secondary" href="#servicios">
+          {siteData.hero.ctaSecondary}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

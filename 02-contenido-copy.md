@@ -91,16 +91,18 @@ Título de sección: **"Lo que dicen nuestros clientes"**
 
 4 testimonios de placeholder (ficticios, deben reemplazarse antes de
 producción — marcar con comentario `// TODO: reseña placeholder, reemplazar
-por testimonio real`):
+por testimonio real`). Se usan nombres completos ficticios (en vez de solo
+iniciales) para que las cards tengan más peso visual:
 
 1. **"Me sentí acompañado en todo momento, explicaron cada paso con mucha
-   claridad."** — M. G., cliente de Sucesiones ★★★★★
+   claridad."** — Marcela González, cliente de Sucesiones ★★★★★
 2. **"Excelente atención y mucha rapidez para resolver mi situación."**
-   — J. L., cliente de Derecho Inmobiliario ★★★★★
+   — Julián López, cliente de Derecho Inmobiliario ★★★★★
 3. **"Profesionalismo y calidez humana, algo difícil de encontrar."**
-   — R. F., cliente de Derecho de Familia ★★★★★
+   — Romina Fernández, cliente de Derecho de Familia ★★★★★
 4. **"Resolvieron mi caso de forma ágil y siempre estuvieron disponibles
-   para mis dudas."** — S. P., cliente de Accidentes de Tránsito ★★★★★
+   para mis dudas."** — Sebastián Pérez, cliente de Accidentes de Tránsito
+   ★★★★★
 
 ## Contacto
 

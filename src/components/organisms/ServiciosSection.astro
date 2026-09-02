@@ -1,0 +1,17 @@
+---
+import { siteData } from "../../data/DataSite";
+import ServiceCard from "../molecules/ServiceCard.astro";
+---
+
+<section class="services" id="servicios">
+  <div class="container">
+    <div class="services__heading">
+      <h2>{siteData.practiceAreasSection.title}</h2>
+      <p>{siteData.practiceAreasSection.subtitle}</p>
+    </div>
+
+    <div class="services__grid">
+      {siteData.practiceAreas.map((area) => <ServiceCard area={area} />)}
+    </div>
+  </div>
+</section>

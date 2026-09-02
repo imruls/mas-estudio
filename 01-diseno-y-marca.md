@@ -8,6 +8,13 @@ limpias, mucho espacio en blanco (whitespace), tipografía como protagonista
 del diseño (en línea con la referencia de estructura/tipografía que le gusta
 al cliente).
 
+**Excepción aprobada (Hero):** después de probar la versión tipográfica pura
+y una con foto de stock (reunión de trabajo en oficina), el cliente eligió
+quedarse con la foto de fondo (`src/assets/hero/hero-background.jpg`) sobre
+un overlay oscuro. Es una excepción puntual a la regla de "sin stock
+genérico" de este mismo documento — decisión consciente, no pendiente de
+revisar.
+
 ## Logo
 
 - **Logo completo:** `assets/logo-mas-transparente.png` (fondo transparente,

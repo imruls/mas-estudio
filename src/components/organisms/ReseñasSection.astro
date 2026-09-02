@@ -1,0 +1,84 @@
+---
+import { siteData } from "../../data/DataSite";
+import TestimonialCard from "../molecules/TestimonialCard.astro";
+---
+
+<section class="testimonials" id="resenas">
+  <div class="container">
+    <h2 class="testimonials__title">{siteData.testimonialsSection.title}</h2>
+
+    <div class="testimonials__carousel">
+      <button
+        class="testimonials__arrow testimonials__arrow--prev"
+        type="button"
+        id="testimonials-prev"
+        aria-label="Reseña anterior"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          width="20"
+          height="20"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M15 18l-6-6 6-6"></path>
+        </svg>
+      </button>
+
+      <div class="testimonials__track" id="testimonials-track">
+        {
+          siteData.testimonials.map((testimonial) => (
+            <TestimonialCard testimonial={testimonial} />
+          ))
+        }
+      </div>
+
+      <button
+        class="testimonials__arrow testimonials__arrow--next"
+        type="button"
+        id="testimonials-next"
+        aria-label="Reseña siguiente"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          width="20"
+          height="20"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M9 18l6-6-6-6"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  const track = document.getElementById("testimonials-track");
+  const prevBtn = document.getElementById("testimonials-prev");
+  const nextBtn = document.getElementById("testimonials-next");
+
+  if (track && prevBtn && nextBtn) {
+    const getStep = () => {
+      const card = track.querySelector(".testimonial-card");
+      if (!card) return track.clientWidth;
+      const gap = parseFloat(getComputedStyle(track).columnGap || "0");
+      return card.getBoundingClientRect().width + gap;
+    };
+
+    const scrollByStep = (direction: number) => {
+      track.scrollBy({ left: getStep() * direction, behavior: "smooth" });
+    };
+
+    prevBtn.addEventListener("click", () => scrollByStep(-1));
+    nextBtn.addEventListener("click", () => scrollByStep(1));
+  }
+</script>

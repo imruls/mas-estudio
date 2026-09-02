@@ -1,0 +1,79 @@
+---
+import { siteData } from "../../data/DataSite";
+import { buildWhatsAppLink } from "../../utils/whatsapp";
+import NavLink from "../molecules/NavLink.astro";
+
+const ctaHref = buildWhatsAppLink(
+  siteData.contact.whatsappNumber,
+  siteData.contact.defaultWhatsappMessage,
+);
+---
+
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a href="#inicio" class="navbar__brand" aria-label={siteData.brand.shortName}>
+      <img
+        src={siteData.brand.logo}
+        alt={siteData.brand.fullName}
+        class="navbar__logo"
+      />
+      <img
+        src={siteData.brand.isotipo}
+        alt={siteData.brand.fullName}
+        class="navbar__isotipo"
+      />
+    </a>
+
+    <nav class="navbar__nav" id="navbar-nav">
+      <ul class="navbar__links">
+        {
+          siteData.navbar.links.map((link) => (
+            <li>
+              <NavLink label={link.label} href={link.href} />
+            </li>
+          ))
+        }
+      </ul>
+      <a
+        class="btn btn-primary navbar__cta"
+        href={ctaHref}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {siteData.navbar.ctaLabel}
+      </a>
+    </nav>
+
+    <button
+      class="navbar__toggle"
+      id="navbar-toggle"
+      type="button"
+      aria-label="Abrir menú"
+      aria-expanded="false"
+      aria-controls="navbar-nav"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById("navbar-toggle");
+  const nav = document.getElementById("navbar-nav");
+
+  toggle?.addEventListener("click", () => {
+    const isOpen = nav?.classList.toggle("is-open");
+    toggle.classList.toggle("is-open", isOpen);
+    toggle.setAttribute("aria-expanded", String(Boolean(isOpen)));
+  });
+
+  nav?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      nav.classList.remove("is-open");
+      toggle?.classList.remove("is-open");
+      toggle?.setAttribute("aria-expanded", "false");
+    });
+  });
+</script>

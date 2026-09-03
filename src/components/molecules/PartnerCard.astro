@@ -1,0 +1,16 @@
+---
+import type { Partner } from "../../data/DataSite";
+
+interface Props {
+  partner: Partner;
+}
+
+const { partner } = Astro.props;
+---
+
+{/* TODO: reemplazar por foto real del socio */}
+<article class="partner-card">
+  <img src={partner.photo} alt="" aria-hidden="true" class="partner-card__photo" />
+  <h3 class="partner-card__name">{partner.name}</h3>
+  <p class="partner-card__role">{partner.role}</p>
+</article>

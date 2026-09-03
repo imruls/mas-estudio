@@ -181,16 +181,16 @@ export const siteData: SiteData = {
         id: "modugno",
         name: "Dr. Modugno",
         role: "Socio Fundador",
-        // TODO: reemplazar por foto real del socio
-        photo: "/assets/placeholders/avatar-socio.svg",
+        // TODO: reemplazar por foto real del socio (placeholder de banco de imágenes)
+        photo: "/assets/partners/modugno.jpg",
         isPlaceholderPhoto: true,
       },
       {
         id: "alvarez-schiaffino",
-        name: "Dr. Alvarez Schiaffino",
-        role: "Socio Fundador",
-        // TODO: reemplazar por foto real del socio
-        photo: "/assets/placeholders/avatar-socio.svg",
+        name: "Dra. Alvarez Schiaffino",
+        role: "Socia Fundadora",
+        // TODO: reemplazar por foto real de la socia (placeholder de banco de imágenes)
+        photo: "/assets/partners/alvarez-schiaffino.jpg",
         isPlaceholderPhoto: true,
       },
     ],

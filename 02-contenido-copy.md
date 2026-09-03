@@ -74,13 +74,15 @@ Título de sección: **"Nosotros"**
 > desafío legal que enfrentan nuestros clientes. Combinamos rigor técnico
 > con un trato humano, acompañándote de principio a fin en cada proceso.
 
-**Placeholders de foto:** dos espacios de imagen (uno por socio), con
-imagen genérica tipo silueta/avatar hasta contar con fotos reales.
-Marcar en el código: `// TODO: reemplazar por foto real del socio`.
+**Placeholders de foto:** dos espacios de imagen (uno por socio). Se
+actualizó de silueta/avatar genérico a fotos placeholder de banco de
+imágenes (`public/assets/partners/modugno.jpg` y
+`alvarez-schiaffino.jpg`) hasta contar con las fotos reales. Marcar en el
+código: `// TODO: reemplazar por foto real del socio`.
 
 **Nombres a mostrar debajo de cada placeholder:**
 - Dr. Modugno — Socio Fundador
-- Dr. Alvarez Schiaffino — Socio Fundador
+- Dra. Alvarez Schiaffino — Socia Fundadora
 
 *(Nota: no se cuenta con nombres de pila ni especialización individual; se
 puede completar cuando el cliente lo provea.)*

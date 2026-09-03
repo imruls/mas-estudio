@@ -420,7 +420,7 @@ a:hover {
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .hero {
     min-height: calc(100vh - 65px);
   }
@@ -672,8 +672,96 @@ a:hover {
 }
 
 /* NosotrosSection */
+.about {
+  padding-block: var(--spacing-xl);
+  scroll-margin-top: 80px;
+}
+
+.about__text {
+  max-width: 720px;
+  margin-bottom: var(--spacing-lg);
+}
+
+.about__text p {
+  color: var(--color-azul-noche);
+  opacity: 0.85;
+}
+
+.about__partners {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-lg);
+  max-width: 640px;
+}
+
+@media (min-width: 480px) {
+  .about__partners {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.partner-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  text-align: center;
+}
+
+.partner-card__photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.partner-card__name {
+  font-size: 1.125rem;
+}
+
+.partner-card__role {
+  color: var(--color-dorado-profundo);
+  font-size: 0.9rem;
+}
 
 /* ContactoSection */
+.contact {
+  padding-block: var(--spacing-xl);
+  background-color: var(--color-arena);
+  scroll-margin-top: 80px;
+  text-align: center;
+}
+
+.contact__inner {
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+.contact__subtitle {
+  margin-bottom: var(--spacing-lg);
+  color: var(--color-azul-noche);
+  opacity: 0.85;
+}
+
+.contact__cta {
+  display: inline-block;
+  margin-bottom: var(--spacing-lg);
+  padding: 1.1rem 2.5rem;
+  font-size: 1.125rem;
+}
+
+.contact__details {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  color: var(--color-azul-noche);
+}
+
+.contact__separator {
+  opacity: 0.4;
+}
 
 /* Footer */
 .footer {

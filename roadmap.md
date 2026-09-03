@@ -335,10 +335,10 @@ foto, transmitiendo trayectoria y confianza.
 tarjetas de socio, o crear `PartnerCard.astro` puntual).
 
 **Tareas:**
-- [ ] Texto institucional desde `siteData.about.description`.
-- [ ] Dos bloques de socio, cada uno con imagen placeholder (silueta/avatar
+- [x] Texto institucional desde `siteData.about.description`.
+- [x] Dos bloques de socio, cada uno con imagen placeholder (silueta/avatar
       genérico, no una foto de stock de una persona real), nombre y rol.
-- [ ] Insertar en `index.astro`.
+- [x] Insertar en `index.astro`.
 
 **Prompt sugerido:**
 > "Construí la sección Nosotros con el texto institucional de
@@ -368,12 +368,12 @@ canal, sin formularios.
 `src/components/organisms/ContactoSection.astro`.
 
 **Tareas:**
-- [ ] Título y bajada desde `siteData`.
-- [ ] Botón grande de WhatsApp (mensaje general).
-- [ ] Email como link secundario (`mailto:`).
-- [ ] Celular mostrado como texto (no clickeable a formulario, opcionalmente
+- [x] Título y bajada desde `siteData`.
+- [x] Botón grande de WhatsApp (mensaje general).
+- [x] Email como link secundario (`mailto:`).
+- [x] Celular mostrado como texto (no clickeable a formulario, opcionalmente
       clickeable a `tel:` para mobile).
-- [ ] Insertar en `index.astro`.
+- [x] Insertar en `index.astro`.
 
 **Prompt sugerido:**
 > "Construí la sección Contacto: CTA grande de WhatsApp como elemento
@@ -400,13 +400,13 @@ revisar la experiencia de scroll completa.
 **Archivos involucrados:** `src/pages/index.astro`.
 
 **Tareas:**
-- [ ] Orden final: Navbar → Hero → Servicios → Reseñas → Nosotros →
+- [x] Orden final: Navbar → Hero → Servicios → Reseñas → Nosotros →
       Contacto → Footer → WhatsAppFloatingButton.
-- [ ] Verificar que los anchors del Navbar (`#servicios`, `#nosotros`, etc.)
+- [x] Verificar que los anchors del Navbar (`#servicios`, `#nosotros`, etc.)
       apunten a los `id` reales de cada sección.
-- [ ] Revisar transiciones entre secciones (alternancia de fondos Marfil /
+- [x] Revisar transiciones entre secciones (alternancia de fondos Marfil /
       Arena para generar ritmo visual, según se definió en la paleta).
-- [ ] Eliminar la página `/styleguide` de la Fase 1.
+- [x] Eliminar la página `/styleguide` de la Fase 1.
 
 **Prompt sugerido:**
 > "Ensamblá todas las secciones en `index.astro` en el orden definitivo.
@@ -430,12 +430,12 @@ breakpoints clave.
 **Depende de:** Fase 9.
 
 **Tareas:**
-- [ ] Revisar mobile (< 480px), tablet (768px) y desktop (1280px) sección
+- [x] Revisar mobile (< 480px), tablet (768px) y desktop (1280px) sección
       por sección.
-- [ ] Revisar que el botón flotante de WhatsApp no tape CTAs ni texto
+- [x] Revisar que el botón flotante de WhatsApp no tape CTAs ni texto
       importante en mobile.
-- [ ] Revisar contraste de texto sobre cada color de fondo de la paleta.
-- [ ] Probar los 6 links de WhatsApp (5 áreas + 1 general) desde un celular
+- [x] Revisar contraste de texto sobre cada color de fondo de la paleta.
+- [x] Probar los 6 links de WhatsApp (5 áreas + 1 general) desde un celular
       real si es posible.
 
 **Prompt sugerido:**

@@ -2,9 +2,12 @@
 interface Props {
   label: string;
   href: string;
+  variant?: "cta";
 }
 
-const { label, href } = Astro.props;
+const { label, href, variant } = Astro.props;
 ---
 
-<a href={href} class="nav-link">{label}</a>
+<a href={href} class:list={["nav-link", { "nav-link--cta": variant === "cta" }]}>
+  {label}
+</a>

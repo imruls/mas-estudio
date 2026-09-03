@@ -8,6 +8,12 @@ const ctaHref = buildWhatsAppLink(
   siteData.contact.whatsappNumber,
   siteData.contact.defaultWhatsappMessage,
 );
+
+const heroStats = [
+  { target: 2, suffix: "+", label: "Años de trayectoria" },
+  { target: 80, suffix: "+", label: "Casos tramitados" },
+  { target: 100, suffix: "%", label: "Atención personalizada" },
+];
 ---
 
 <section class="hero" id="inicio">
@@ -26,6 +32,24 @@ const ctaHref = buildWhatsAppLink(
     <div class="hero__content">
       <h1 class="hero__title">{siteData.hero.title}</h1>
       <p class="hero__subtitle">{siteData.hero.subtitle}</p>
+      <dl class="hero__stats">
+        {
+          heroStats.map((stat) => (
+            <div class="hero__stat">
+              <dt
+                class="hero__stat-number"
+                data-target={stat.target}
+                data-suffix={stat.suffix}
+              >
+                {stat.target}
+                {stat.suffix}
+              </dt>
+              <dd class="hero__stat-label">{stat.label}</dd>
+            </div>
+          ))
+        }
+      </dl>
+
       <div class="hero__actions">
         <a
           class="btn btn-primary"
@@ -42,3 +66,45 @@ const ctaHref = buildWhatsAppLink(
     </div>
   </div>
 </section>
+
+<script>
+  const numbers = document.querySelectorAll<HTMLElement>(".hero__stat-number");
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  if (numbers.length && !prefersReducedMotion) {
+    const animate = (el: HTMLElement) => {
+      const target = Number(el.dataset.target ?? "0");
+      const suffix = el.dataset.suffix ?? "";
+      const duration = 1200;
+      const start = performance.now();
+
+      const step = (now: number) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = `${Math.round(target * eased)}${suffix}`;
+
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        }
+      };
+
+      requestAnimationFrame(step);
+    };
+
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animate(entry.target as HTMLElement);
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.4 },
+    );
+
+    numbers.forEach((el) => observer.observe(el));
+  }
+</script>

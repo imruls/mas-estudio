@@ -43,7 +43,6 @@ export interface SiteData {
   };
   navbar: {
     links: NavLink[];
-    ctaLabel: string;
   };
   hero: {
     title: string;
@@ -108,7 +107,6 @@ export const siteData: SiteData = {
       { label: "Reseñas", href: "#resenas" },
       { label: "Contacto", href: "#contacto" },
     ],
-    ctaLabel: "Consultanos por WhatsApp",
   },
 
   hero: {

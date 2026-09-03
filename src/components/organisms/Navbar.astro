@@ -1,12 +1,6 @@
 ---
 import { siteData } from "../../data/DataSite";
-import { buildWhatsAppLink } from "../../utils/whatsapp";
 import NavLink from "../molecules/NavLink.astro";
-
-const ctaHref = buildWhatsAppLink(
-  siteData.contact.whatsappNumber,
-  siteData.contact.defaultWhatsappMessage,
-);
 ---
 
 <header class="navbar">
@@ -17,11 +11,6 @@ const ctaHref = buildWhatsAppLink(
         alt={siteData.brand.fullName}
         class="navbar__logo"
       />
-      <img
-        src={siteData.brand.isotipo}
-        alt={siteData.brand.fullName}
-        class="navbar__isotipo"
-      />
     </a>
 
     <nav class="navbar__nav" id="navbar-nav">
@@ -29,19 +18,15 @@ const ctaHref = buildWhatsAppLink(
         {
           siteData.navbar.links.map((link) => (
             <li>
-              <NavLink label={link.label} href={link.href} />
+              <NavLink
+                label={link.label}
+                href={link.href}
+                variant={link.href === "#contacto" ? "cta" : undefined}
+              />
             </li>
           ))
         }
       </ul>
-      <a
-        class="btn btn-primary navbar__cta"
-        href={ctaHref}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {siteData.navbar.ctaLabel}
-      </a>
     </nav>
 
     <button

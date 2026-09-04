@@ -12,7 +12,12 @@ const ctaHref = buildWhatsAppLink(
 const heroStats = [
   { target: 2, suffix: "+", label: "Años de trayectoria" },
   { target: 80, suffix: "+", label: "Casos tramitados" },
-  { target: 100, suffix: "%", label: "Atención personalizada" },
+  {
+    target: 100,
+    suffix: "%",
+    label: "Atención personalizada",
+    hideOnMobile: true,
+  },
 ];
 ---
 
@@ -35,7 +40,7 @@ const heroStats = [
       <dl class="hero__stats">
         {
           heroStats.map((stat) => (
-            <div class="hero__stat">
+            <div class:list={["hero__stat", { "hero__stat--hide-mobile": stat.hideOnMobile }]}>
               <dt
                 class="hero__stat-number"
                 data-target={stat.target}

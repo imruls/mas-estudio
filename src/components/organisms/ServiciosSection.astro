@@ -10,8 +10,130 @@ import ServiceCard from "../molecules/ServiceCard.astro";
       <p>{siteData.practiceAreasSection.subtitle}</p>
     </div>
 
-    <div class="services__grid">
-      {siteData.practiceAreas.map((area) => <ServiceCard area={area} />)}
+    <div class="services-carousel">
+      <div class="services-carousel__viewport" id="services-viewport">
+        <div class="services-carousel__track" id="services-track">
+          {siteData.practiceAreas.map((area) => <ServiceCard area={area} />)}
+          <div class="services-carousel__clone" aria-hidden="true" inert>
+            {siteData.practiceAreas.map((area) => <ServiceCard area={area} />)}
+          </div>
+        </div>
+      </div>
+
+      <div class="services-carousel__dots" id="services-dots">
+        {
+          siteData.practiceAreas.map((area, index) => (
+            <button
+              type="button"
+              class:list={["services-carousel__dot", { "is-active": index === 0 }]}
+              data-index={index}
+              aria-label={`Ir a ${area.title}`}
+              aria-current={index === 0 ? "true" : "false"}
+            />
+          ))
+        }
+      </div>
     </div>
   </div>
 </section>
+
+<script>
+  const viewport = document.getElementById("services-viewport");
+  const track = document.getElementById("services-track");
+  const dots = Array.from(
+    document.querySelectorAll<HTMLButtonElement>(".services-carousel__dot"),
+  );
+
+  if (viewport && track && dots.length > 0) {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const SPEED = 40; // px por segundo
+
+    let isPaused = false;
+    let resumeTimer: number | undefined;
+    let lastTime: number | null = null;
+
+    const halfWidth = () => track.scrollWidth / 2;
+
+    const getStep = () => {
+      const card = track.querySelector(".service-card");
+      if (!card) return viewport.clientWidth;
+      const gap = parseFloat(getComputedStyle(track).columnGap || "0");
+      return card.getBoundingClientRect().width + gap;
+    };
+
+    const wrap = () => {
+      const half = halfWidth();
+      if (viewport.scrollLeft >= half) {
+        viewport.scrollLeft -= half;
+      } else if (viewport.scrollLeft < 0) {
+        viewport.scrollLeft += half;
+      }
+    };
+
+    const setActiveDot = (index: number) => {
+      dots.forEach((dot, i) => {
+        const active = i === index;
+        dot.classList.toggle("is-active", active);
+        dot.setAttribute("aria-current", active ? "true" : "false");
+      });
+    };
+
+    const updateActiveDot = () => {
+      const step = getStep();
+      const half = halfWidth();
+      const pos = ((viewport.scrollLeft % half) + half) % half;
+      const index = Math.round(pos / step) % dots.length;
+      setActiveDot(index);
+    };
+
+    const tick = (time: number) => {
+      if (lastTime === null) lastTime = time;
+      const delta = (time - lastTime) / 1000;
+      lastTime = time;
+
+      if (!isPaused && !prefersReducedMotion) {
+        viewport.scrollLeft += SPEED * delta;
+      }
+      wrap();
+      updateActiveDot();
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+
+    const pause = () => {
+      isPaused = true;
+    };
+    const resume = () => {
+      window.clearTimeout(resumeTimer);
+      isPaused = false;
+    };
+
+    viewport.addEventListener("mouseenter", pause);
+    viewport.addEventListener("mouseleave", resume);
+    viewport.addEventListener("focusin", pause);
+    viewport.addEventListener("focusout", resume);
+    viewport.addEventListener("pointerdown", pause);
+    viewport.addEventListener("pointerup", resume);
+
+    dots.forEach((dot, index) => {
+      dot.addEventListener("click", () => {
+        pause();
+
+        const step = getStep();
+        const half = halfWidth();
+        const currentSet = Math.floor(viewport.scrollLeft / half) * half;
+
+        viewport.scrollTo({
+          left: currentSet + index * step,
+          behavior: prefersReducedMotion ? "auto" : "smooth",
+        });
+        setActiveDot(index);
+
+        window.clearTimeout(resumeTimer);
+        resumeTimer = window.setTimeout(resume, 2000);
+      });
+    });
+  }
+</script>

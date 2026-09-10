@@ -24,6 +24,8 @@ export interface Partner {
   id: string;
   name: string;
   role: string;
+  bio: string; // TODO: bio placeholder, reemplazar por texto real del socio/a
+  isBioPlaceholder: boolean;
   photo: string; // path a placeholder hasta tener foto real
   isPlaceholderPhoto: boolean;
 }
@@ -181,6 +183,9 @@ export const siteData: SiteData = {
         id: "modugno",
         name: "Dr. Modugno",
         role: "Socio Fundador",
+        // TODO: bio placeholder, reemplazar por texto real del socio
+        bio: "Abogado especializado en accidentes de tránsito y derecho societario, con más de dos años de trayectoria asesorando a particulares y empresas. Se caracteriza por un enfoque estratégico y un seguimiento cercano de cada caso hasta su resolución.",
+        isBioPlaceholder: true,
         // TODO: reemplazar por foto real del socio (placeholder de banco de imágenes)
         photo: "/assets/partners/modugno.jpg",
         isPlaceholderPhoto: true,
@@ -189,6 +194,9 @@ export const siteData: SiteData = {
         id: "alvarez-schiaffino",
         name: "Dra. Alvarez Schiaffino",
         role: "Socia Fundadora",
+        // TODO: bio placeholder, reemplazar por texto real de la socia
+        bio: "Abogada con amplia experiencia en sucesiones, derecho de familia e inmobiliario. Su trabajo se distingue por un trato humano y una comunicación clara, acompañando a sus clientes en los momentos más sensibles de sus procesos legales.",
+        isBioPlaceholder: true,
         // TODO: reemplazar por foto real de la socia (placeholder de banco de imágenes)
         photo: "/assets/partners/alvarez-schiaffino.jpg",
         isPlaceholderPhoto: true,

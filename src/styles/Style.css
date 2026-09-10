@@ -21,6 +21,9 @@
   --spacing-lg: 2.5rem;
   --spacing-xl: 4rem;
 
+  /* Bordes */
+  --radius-card: 20px;
+
   /* Breakpoints de referencia (mobile-first).
      CSS no soporta variables dentro de @media, se documentan acá
      y se repiten como valores literales en cada media query:
@@ -577,7 +580,7 @@ a:hover {
   gap: var(--spacing-sm);
   padding: var(--spacing-lg);
   background-color: var(--color-arena);
-  border-radius: 8px;
+  border-radius: var(--radius-card);
   box-shadow: 0 10px 10px rgba(139, 109, 79, 0.35);
 }
 
@@ -716,7 +719,8 @@ a:hover {
   gap: var(--spacing-sm);
   padding: var(--spacing-lg);
   background-color: var(--color-marfil);
-  border-radius: 8px;
+  border-radius: var(--radius-card);
+  box-shadow: 0 10px 10px rgba(139, 109, 79, 0.35);
 }
 
 .testimonial-card__quote {
@@ -812,13 +816,13 @@ a:hover {
 .partner-card:nth-child(odd)::before {
   left: calc(50% - 50vw);
   right: 0;
-  border-radius: 0 8px 8px 0;
+  border-radius: 0 var(--radius-card) var(--radius-card) 0;
 }
 
 .partner-card:nth-child(even)::before {
   left: 0;
   right: calc(50% - 50vw);
-  border-radius: 8px 0 0 8px;
+  border-radius: var(--radius-card) 0 0 var(--radius-card);
 }
 
 @media (min-width: 768px) {
@@ -872,8 +876,26 @@ a:hover {
 }
 
 .contact__inner {
-  max-width: 640px;
+  max-width: 1000px;
   margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.contact__image {
+  width: 100%;
+  height: auto;
+  max-width: 420px;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius-card);
+  box-shadow: 0 10px 10px rgba(139, 109, 79, 0.35);
+}
+
+.contact__content {
+  max-width: 640px;
 }
 
 .contact__subtitle {
@@ -900,6 +922,27 @@ a:hover {
 
 .contact__separator {
   opacity: 0.4;
+}
+
+@media (min-width: 768px) {
+  .contact__inner {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    gap: var(--spacing-xl);
+  }
+
+  .contact {
+    text-align: left;
+  }
+
+  .contact__content {
+    text-align: left;
+  }
+
+  .contact__details {
+    justify-content: flex-start;
+  }
 }
 
 /* Footer */

@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+import contactImage from "../../assets/contacto/firma-documento.jpg";
 import { siteData } from "../../data/DataSite";
 import { buildWhatsAppLink } from "../../utils/whatsapp";
 
@@ -12,22 +14,33 @@ const telHref = `tel:+${siteData.contact.whatsappNumber}`;
 
 <section class="contact" id="contacto">
   <div class="container contact__inner">
-    <h2>{siteData.contactSection.title}</h2>
-    <p class="contact__subtitle">{siteData.contactSection.subtitle}</p>
+    <Image
+      class="contact__image"
+      src={contactImage}
+      alt="Firma de un documento legal"
+      widths={[400, 640, 900]}
+      sizes="(min-width: 768px) 420px, 90vw"
+      loading="lazy"
+    />
 
-    <a
-      class="btn btn-primary contact__cta"
-      href={whatsappHref}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      {siteData.contactSection.ctaLabel}
-    </a>
+    <div class="contact__content">
+      <h2>{siteData.contactSection.title}</h2>
+      <p class="contact__subtitle">{siteData.contactSection.subtitle}</p>
 
-    <div class="contact__details">
-      <a href={mailHref}>{siteData.contact.email}</a>
-      <span class="contact__separator" aria-hidden="true">·</span>
-      <a href={telHref}>{siteData.contact.phone}</a>
+      <a
+        class="btn btn-primary contact__cta"
+        href={whatsappHref}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {siteData.contactSection.ctaLabel}
+      </a>
+
+      <div class="contact__details">
+        <a href={mailHref}>{siteData.contact.email}</a>
+        <span class="contact__separator" aria-hidden="true">·</span>
+        <a href={telHref}>{siteData.contact.phone}</a>
+      </div>
     </div>
   </div>
 </section>

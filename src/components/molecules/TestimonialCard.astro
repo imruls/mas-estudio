@@ -1,16 +1,17 @@
 ---
 import StarRating from "../atoms/StarRating.astro";
+import type { HTMLAttributes } from "astro/types";
 import type { Testimonial } from "../../data/DataSite";
 
-interface Props {
+interface Props extends HTMLAttributes<"article"> {
   testimonial: Testimonial;
 }
 
-const { testimonial } = Astro.props;
+const { testimonial, ...rest } = Astro.props;
 ---
 
 {/* TODO: reseña placeholder, reemplazar por testimonio real */}
-<article class="testimonial-card">
+<article class="testimonial-card" {...rest}>
   <StarRating rating={testimonial.rating} />
   <p class="testimonial-card__quote">&ldquo;{testimonial.content}&rdquo;</p>
   <p class="testimonial-card__author">

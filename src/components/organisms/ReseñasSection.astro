@@ -8,77 +8,85 @@ import TestimonialCard from "../molecules/TestimonialCard.astro";
     <h2 class="testimonials__title">{siteData.testimonialsSection.title}</h2>
 
     <div class="testimonials__carousel">
-      <button
-        class="testimonials__arrow testimonials__arrow--prev"
-        type="button"
-        id="testimonials-prev"
-        aria-label="Reseña anterior"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          width="20"
-          height="20"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <path d="M15 18l-6-6 6-6"></path>
-        </svg>
-      </button>
-
-      <div class="testimonials__track" id="testimonials-track">
-        {
-          siteData.testimonials.map((testimonial) => (
-            <TestimonialCard testimonial={testimonial} />
-          ))
-        }
+      <div class="testimonials__row">
+        <div class="testimonials__viewport" id="testimonials-viewport-1">
+          <div class="testimonials__track" id="testimonials-track-1">
+            {
+              siteData.testimonials.map((testimonial) => (
+                <TestimonialCard testimonial={testimonial} />
+              ))
+            }
+            {
+              siteData.testimonials.map((testimonial) => (
+                <TestimonialCard testimonial={testimonial} aria-hidden="true" inert />
+              ))
+            }
+          </div>
+        </div>
       </div>
 
-      <button
-        class="testimonials__arrow testimonials__arrow--next"
-        type="button"
-        id="testimonials-next"
-        aria-label="Reseña siguiente"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          width="20"
-          height="20"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <path d="M9 18l6-6-6-6"></path>
-        </svg>
-      </button>
+      <div class="testimonials__row">
+        <div class="testimonials__viewport" id="testimonials-viewport-2">
+          <div class="testimonials__track" id="testimonials-track-2">
+            {
+              siteData.testimonials.map((testimonial) => (
+                <TestimonialCard testimonial={testimonial} />
+              ))
+            }
+            {
+              siteData.testimonials.map((testimonial) => (
+                <TestimonialCard testimonial={testimonial} aria-hidden="true" inert />
+              ))
+            }
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 <script>
-  const track = document.getElementById("testimonials-track");
-  const prevBtn = document.getElementById("testimonials-prev");
-  const nextBtn = document.getElementById("testimonials-next");
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+  const SPEED = 40; // px por segundo
 
-  if (track && prevBtn && nextBtn) {
-    const getStep = () => {
-      const card = track.querySelector(".testimonial-card");
-      if (!card) return track.clientWidth;
-      const gap = parseFloat(getComputedStyle(track).columnGap || "0");
-      return card.getBoundingClientRect().width + gap;
+  const setupAutoScroll = (
+    viewport: HTMLElement,
+    track: HTMLElement,
+    direction: 1 | -1,
+  ) => {
+    let lastTime: number | null = null;
+    let offset = 0;
+
+    const halfWidth = () => track.scrollWidth / 2;
+
+    const tick = (time: number) => {
+      if (lastTime === null) lastTime = time;
+      const delta = (time - lastTime) / 1000;
+      lastTime = time;
+
+      if (!prefersReducedMotion) {
+        offset += SPEED * direction * delta;
+      }
+
+      const half = halfWidth();
+      if (half > 0) {
+        // scrollLeft can't go negative (the browser clamps it), so track
+        // position in a signed "offset" and wrap it into range ourselves.
+        viewport.scrollLeft = ((offset % half) + half) % half;
+      }
+
+      requestAnimationFrame(tick);
     };
+    requestAnimationFrame(tick);
+  };
 
-    const scrollByStep = (direction: number) => {
-      track.scrollBy({ left: getStep() * direction, behavior: "smooth" });
-    };
+  const viewport1 = document.getElementById("testimonials-viewport-1");
+  const track1 = document.getElementById("testimonials-track-1");
+  const viewport2 = document.getElementById("testimonials-viewport-2");
+  const track2 = document.getElementById("testimonials-track-2");
 
-    prevBtn.addEventListener("click", () => scrollByStep(-1));
-    nextBtn.addEventListener("click", () => scrollByStep(1));
-  }
+  if (viewport1 && track1) setupAutoScroll(viewport1, track1, 1);
+  if (viewport2 && track2) setupAutoScroll(viewport2, track2, -1);
 </script>

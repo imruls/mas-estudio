@@ -36,6 +36,7 @@ export interface SiteData {
     fullName: string;
     logo: string;
     navbarLogo: string;
+    footerLogo: string;
     isotipo: string;
   };
   contact: {
@@ -71,6 +72,7 @@ export interface SiteData {
     title: string;
     subtitle: string;
     ctaLabel: string;
+    ctaEmailLabel: string;
   };
   whatsappFloatingButton: {
     message: string;
@@ -93,6 +95,7 @@ export const siteData: SiteData = {
     fullName: "Estudio Jurídico Modugno & Alvarez Schiaffino",
     logo: "/assets/brand/logo-mas-transparente.png",
     navbarLogo: "/assets/brand/logo-mas-navbar.png",
+    footerLogo: "/assets/brand/logo-mas-footer.png",
     isotipo: "/assets/brand/isotipo-mas-transparente.png",
   },
 
@@ -250,10 +253,10 @@ export const siteData: SiteData = {
   ],
 
   contactSection: {
-    title: "¿Hablamos?",
-    subtitle:
-      "Contanos tu situación y te respondemos a la brevedad. Sin formularios, directo a WhatsApp.",
-    ctaLabel: "Escribinos por WhatsApp",
+    title: "¿Te quedaron dudas?\nComunicate con nosotros",
+    subtitle: "Contanos tu situación y te respondemos a la brevedad.",
+    ctaLabel: "WhatsApp",
+    ctaEmailLabel: "Email",
   },
 
   whatsappFloatingButton: {

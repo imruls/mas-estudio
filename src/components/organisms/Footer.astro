@@ -11,17 +11,43 @@ const mailHref = `mailto:${siteData.contact.email}`;
 
 <footer class="footer" id="footer">
   <div class="container footer__inner">
-    <p class="footer__name">{siteData.footer.fullName}</p>
+    <div class="footer__brand">
+      <img
+        src={siteData.brand.footerLogo}
+        alt={siteData.brand.fullName}
+        class="footer__logo"
+      />
+    </div>
 
-    <ul class="footer__links">
-      <li><a href={mailHref}>{siteData.contact.email}</a></li>
-      <li>
-        <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
-          {siteData.contact.phone}
-        </a>
-      </li>
-    </ul>
+    <div class="footer__meta">
+      <nav class="footer__col" aria-label="Secciones del sitio">
+        <p class="footer__heading">Secciones</p>
+        <ul class="footer__links">
+          {
+            siteData.navbar.links.map((link) => (
+              <li>
+                <a href={link.href}>{link.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
 
+      <div class="footer__col">
+        <p class="footer__heading">Contacto</p>
+        <ul class="footer__links">
+          <li><a href={mailHref}>{siteData.contact.email}</a></li>
+          <li>
+            <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
+              {siteData.contact.phone}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
     <p class="footer__legal">{siteData.footer.legalText}</p>
   </div>
 </footer>

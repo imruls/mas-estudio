@@ -754,6 +754,17 @@ a:hover {
   flex: 0 0 280px;
 }
 
+.testimonials__clone {
+  display: contents;
+}
+
+@media (max-width: 767px) {
+  /* Sin auto-scroll infinito en mobile, el set clonado sobra. */
+  .testimonials__clone {
+    display: none;
+  }
+}
+
 @media (min-width: 768px) {
   .testimonials__viewport {
     margin-inline: 0;

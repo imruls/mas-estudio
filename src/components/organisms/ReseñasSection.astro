@@ -16,11 +16,13 @@ import TestimonialCard from "../molecules/TestimonialCard.astro";
                 <TestimonialCard testimonial={testimonial} />
               ))
             }
-            {
-              siteData.testimonials.map((testimonial) => (
-                <TestimonialCard testimonial={testimonial} aria-hidden="true" inert />
-              ))
-            }
+            <div class="testimonials__clone" aria-hidden="true" inert>
+              {
+                siteData.testimonials.map((testimonial) => (
+                  <TestimonialCard testimonial={testimonial} />
+                ))
+              }
+            </div>
           </div>
         </div>
       </div>
@@ -33,11 +35,13 @@ import TestimonialCard from "../molecules/TestimonialCard.astro";
                 <TestimonialCard testimonial={testimonial} />
               ))
             }
-            {
-              siteData.testimonials.map((testimonial) => (
-                <TestimonialCard testimonial={testimonial} aria-hidden="true" inert />
-              ))
-            }
+            <div class="testimonials__clone" aria-hidden="true" inert>
+              {
+                siteData.testimonials.map((testimonial) => (
+                  <TestimonialCard testimonial={testimonial} />
+                ))
+              }
+            </div>
           </div>
         </div>
       </div>
@@ -88,6 +92,9 @@ import TestimonialCard from "../molecules/TestimonialCard.astro";
   const track2 = document.getElementById("testimonials-track-2");
   const isMobile = window.matchMedia("(max-width: 767px)").matches;
 
-  if (viewport1 && track1) setupAutoScroll(viewport1, track1, 1);
+  // En mobile no hay auto-scroll: el usuario decide si desliza las
+  // reseñas con el dedo (evita pisar scrollLeft mientras el navegador
+  // maneja el scroll táctil nativo).
+  if (viewport1 && track1 && !isMobile) setupAutoScroll(viewport1, track1, 1);
   if (viewport2 && track2 && !isMobile) setupAutoScroll(viewport2, track2, -1);
 </script>

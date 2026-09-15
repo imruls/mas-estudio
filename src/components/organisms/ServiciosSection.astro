@@ -45,32 +45,7 @@ import ServiceCard from "../molecules/ServiceCard.astro";
   );
 
   if (viewport && track && dots.length > 0) {
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    const SPEED = 40; // px por segundo
-
-    let isPaused = false;
-    let resumeTimer: number | undefined;
-    let lastTime: number | null = null;
-
-    const halfWidth = () => track.scrollWidth / 2;
-
-    const getStep = () => {
-      const card = track.querySelector(".service-card");
-      if (!card) return viewport.clientWidth;
-      const gap = parseFloat(getComputedStyle(track).columnGap || "0");
-      return card.getBoundingClientRect().width + gap;
-    };
-
-    const wrap = () => {
-      const half = halfWidth();
-      if (viewport.scrollLeft >= half) {
-        viewport.scrollLeft -= half;
-      } else if (viewport.scrollLeft < 0) {
-        viewport.scrollLeft += half;
-      }
-    };
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
 
     const setActiveDot = (index: number) => {
       dots.forEach((dot, i) => {
@@ -80,67 +55,127 @@ import ServiceCard from "../molecules/ServiceCard.astro";
       });
     };
 
-    const updateActiveDot = () => {
-      const step = getStep();
-      const half = halfWidth();
-      const pos = ((viewport.scrollLeft % half) + half) % half;
-      const index = Math.round(pos / step) % dots.length;
-      setActiveDot(index);
+    const getStep = () => {
+      const card = track.querySelector(".service-card");
+      if (!card) return viewport.clientWidth;
+      const gap = parseFloat(getComputedStyle(track).columnGap || "0");
+      return card.getBoundingClientRect().width + gap;
     };
 
-    const tick = (time: number) => {
-      if (lastTime === null) lastTime = time;
-      const delta = (time - lastTime) / 1000;
-      lastTime = time;
+    if (isMobile) {
+      // En mobile no hay auto-scroll: el usuario decide si desliza
+      // las cards. Solo reflejamos su posición en los dots y
+      // permitimos saltar a una card tocando su dot.
+      let scrollRaf: number | undefined;
 
-      if (!isPaused && !prefersReducedMotion) {
-        viewport.scrollLeft += SPEED * delta;
-        wrap();
-      }
-      updateActiveDot();
-      requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
+      const updateActiveDotFromScroll = () => {
+        const step = getStep();
+        if (!step) return;
+        const index = Math.round(viewport.scrollLeft / step);
+        setActiveDot(Math.max(0, Math.min(index, dots.length - 1)));
+      };
 
-    const pause = () => {
-      isPaused = true;
-      window.clearTimeout(resumeTimer);
-    };
-    const resume = () => {
-      window.clearTimeout(resumeTimer);
-      resumeTimer = window.setTimeout(() => {
-        isPaused = false;
-      }, 300);
-    };
+      viewport.addEventListener(
+        "scroll",
+        () => {
+          if (scrollRaf) return;
+          scrollRaf = requestAnimationFrame(() => {
+            updateActiveDotFromScroll();
+            scrollRaf = undefined;
+          });
+        },
+        { passive: true },
+      );
 
-    viewport.addEventListener("mouseenter", pause);
-    viewport.addEventListener("mouseleave", resume);
-    viewport.addEventListener("focusin", pause);
-    viewport.addEventListener("focusout", resume);
-    viewport.addEventListener("pointerdown", pause);
-    viewport.addEventListener("pointerup", resume);
-    viewport.addEventListener("pointercancel", resume);
-    viewport.addEventListener("touchstart", pause, { passive: true });
-    viewport.addEventListener("touchend", resume, { passive: true });
-    viewport.addEventListener("touchcancel", resume, { passive: true });
+      dots.forEach((dot, index) => {
+        dot.addEventListener("click", () => {
+          viewport.scrollTo({ left: index * getStep(), behavior: "smooth" });
+          setActiveDot(index);
+        });
+      });
+    } else {
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      const SPEED = 40; // px por segundo
 
-    dots.forEach((dot, index) => {
-      dot.addEventListener("click", () => {
-        pause();
+      let isPaused = false;
+      let resumeTimer: number | undefined;
+      let lastTime: number | null = null;
 
+      const halfWidth = () => track.scrollWidth / 2;
+
+      const wrap = () => {
+        const half = halfWidth();
+        if (viewport.scrollLeft >= half) {
+          viewport.scrollLeft -= half;
+        } else if (viewport.scrollLeft < 0) {
+          viewport.scrollLeft += half;
+        }
+      };
+
+      const updateActiveDot = () => {
         const step = getStep();
         const half = halfWidth();
-        const currentSet = Math.floor(viewport.scrollLeft / half) * half;
-
-        viewport.scrollTo({
-          left: currentSet + index * step,
-          behavior: prefersReducedMotion ? "auto" : "smooth",
-        });
+        const pos = ((viewport.scrollLeft % half) + half) % half;
+        const index = Math.round(pos / step) % dots.length;
         setActiveDot(index);
+      };
 
+      const tick = (time: number) => {
+        if (lastTime === null) lastTime = time;
+        const delta = (time - lastTime) / 1000;
+        lastTime = time;
+
+        if (!isPaused && !prefersReducedMotion) {
+          viewport.scrollLeft += SPEED * delta;
+          wrap();
+        }
+        updateActiveDot();
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+
+      const pause = () => {
+        isPaused = true;
         window.clearTimeout(resumeTimer);
-        resumeTimer = window.setTimeout(resume, 2000);
+      };
+      const resume = () => {
+        window.clearTimeout(resumeTimer);
+        resumeTimer = window.setTimeout(() => {
+          isPaused = false;
+        }, 300);
+      };
+
+      viewport.addEventListener("mouseenter", pause);
+      viewport.addEventListener("mouseleave", resume);
+      viewport.addEventListener("focusin", pause);
+      viewport.addEventListener("focusout", resume);
+      viewport.addEventListener("pointerdown", pause);
+      viewport.addEventListener("pointerup", resume);
+      viewport.addEventListener("pointercancel", resume);
+      viewport.addEventListener("touchstart", pause, { passive: true });
+      viewport.addEventListener("touchend", resume, { passive: true });
+      viewport.addEventListener("touchcancel", resume, { passive: true });
+
+      dots.forEach((dot, index) => {
+        dot.addEventListener("click", () => {
+          pause();
+
+          const step = getStep();
+          const half = halfWidth();
+          const currentSet = Math.floor(viewport.scrollLeft / half) * half;
+
+          viewport.scrollTo({
+            left: currentSet + index * step,
+            behavior: prefersReducedMotion ? "auto" : "smooth",
+          });
+          setActiveDot(index);
+
+          window.clearTimeout(resumeTimer);
+          resumeTimer = window.setTimeout(resume, 2000);
+        });
       });
-    });
+    }
   }
 </script>

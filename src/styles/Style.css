@@ -576,6 +576,15 @@ a:hover {
   display: contents;
 }
 
+@media (max-width: 767px) {
+  /* En mobile no hay auto-scroll infinito (el usuario controla el
+     scroll manualmente), así que el set clonado sobra: se oculta
+     para no duplicar contenido ni alargar el scroll. */
+  .services-carousel__clone {
+    display: none;
+  }
+}
+
 .services-carousel__dots {
   display: flex;
   justify-content: center;

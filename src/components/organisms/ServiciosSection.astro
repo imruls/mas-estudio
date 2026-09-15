@@ -95,8 +95,8 @@ import ServiceCard from "../molecules/ServiceCard.astro";
 
       if (!isPaused && !prefersReducedMotion) {
         viewport.scrollLeft += SPEED * delta;
+        wrap();
       }
-      wrap();
       updateActiveDot();
       requestAnimationFrame(tick);
     };
@@ -104,10 +104,13 @@ import ServiceCard from "../molecules/ServiceCard.astro";
 
     const pause = () => {
       isPaused = true;
+      window.clearTimeout(resumeTimer);
     };
     const resume = () => {
       window.clearTimeout(resumeTimer);
-      isPaused = false;
+      resumeTimer = window.setTimeout(() => {
+        isPaused = false;
+      }, 300);
     };
 
     viewport.addEventListener("mouseenter", pause);
@@ -116,6 +119,10 @@ import ServiceCard from "../molecules/ServiceCard.astro";
     viewport.addEventListener("focusout", resume);
     viewport.addEventListener("pointerdown", pause);
     viewport.addEventListener("pointerup", resume);
+    viewport.addEventListener("pointercancel", resume);
+    viewport.addEventListener("touchstart", pause, { passive: true });
+    viewport.addEventListener("touchend", resume, { passive: true });
+    viewport.addEventListener("touchcancel", resume, { passive: true });
 
     dots.forEach((dot, index) => {
       dot.addEventListener("click", () => {

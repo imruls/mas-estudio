@@ -36,6 +36,7 @@ export interface SiteData {
     fullName: string;
     logo: string;
     navbarLogo: string;
+    footerLogo: string;
     isotipo: string;
   };
   contact: {
@@ -94,6 +95,7 @@ export const siteData: SiteData = {
     fullName: "Estudio Jurídico Modugno & Alvarez Schiaffino",
     logo: "/assets/brand/logo-mas-transparente.png",
     navbarLogo: "/assets/brand/logo-mas-navbar.png",
+    footerLogo: "/assets/brand/logo-mas-footer.png",
     isotipo: "/assets/brand/isotipo-mas-transparente.png",
   },
 

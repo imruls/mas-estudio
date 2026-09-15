@@ -5,7 +5,6 @@
   /* Colores (ver 01-diseno-y-marca.md) */
   --color-marfil: #fbf7f2;
   --color-arena: #f1eae0;
-  --color-champan: #e4d3b8;
   --color-dorado-estudio: #a8896a;
   --color-dorado-profundo: #8b6d4f;
   --color-azul-noche: #16273a;
@@ -953,8 +952,8 @@ a:hover {
 
 /* Footer */
 .footer {
-  background-color: var(--color-champan);
-  color: var(--color-azul-noche);
+  background-color: var(--color-azul-noche);
+  color: var(--color-marfil);
   padding-block: var(--spacing-lg);
 }
 
@@ -998,7 +997,7 @@ a:hover {
   font-size: 0.85rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--color-dorado-profundo);
+  color: var(--color-dorado-estudio);
   margin-bottom: var(--spacing-sm);
 }
 
@@ -1009,14 +1008,18 @@ a:hover {
   gap: var(--spacing-md);
 }
 
+.footer a {
+  color: var(--color-marfil);
+}
+
 .footer a:hover {
-  color: var(--color-azul-noche);
+  color: var(--color-dorado-estudio);
 }
 
 .footer__legal {
   margin-top: var(--spacing-lg);
   padding-top: var(--spacing-md);
-  border-top: 1px solid rgba(22, 39, 58, 0.15);
+  border-top: 1px solid rgba(245, 240, 232, 0.15);
   font-size: 0.85rem;
   opacity: 0.7;
   text-align: center;

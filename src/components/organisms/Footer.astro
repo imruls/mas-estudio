@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+import footerLogo from "../../assets/brand/logo-mas-footer.png";
 import { siteData } from "../../data/DataSite";
 import { buildWhatsAppLink } from "../../utils/whatsapp";
 
@@ -12,10 +14,14 @@ const mailHref = `mailto:${siteData.contact.email}`;
 <footer class="footer" id="footer">
   <div class="container footer__inner">
     <div class="footer__brand">
-      <img
-        src={siteData.brand.footerLogo}
+      <Image
+        src={footerLogo}
         alt={siteData.brand.fullName}
         class="footer__logo"
+        width={256}
+        height={144}
+        densities={[1, 2]}
+        loading="lazy"
       />
     </div>
 

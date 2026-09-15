@@ -10,7 +10,16 @@ const { partner } = Astro.props;
 
 {/* TODO: reemplazar por foto real del socio */}
 <article class="partner-card">
-  <img src={partner.photo} alt="" aria-hidden="true" class="partner-card__photo" />
+  <img
+    src={partner.photo}
+    alt=""
+    aria-hidden="true"
+    class="partner-card__photo"
+    width="180"
+    height="180"
+    loading="lazy"
+    decoding="async"
+  />
   <div class="partner-card__content">
     <h3 class="partner-card__name">{partner.name}</h3>
     <p class="partner-card__role">{partner.role}</p>

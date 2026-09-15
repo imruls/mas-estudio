@@ -125,7 +125,7 @@ export const siteData: SiteData = {
   },
 
   practiceAreasSection: {
-    title: "Áreas de práctica",
+    title: "Áreas prácticas",
     subtitle:
       "Un equipo con experiencia en las áreas del derecho que más impactan tu día a día.",
   },

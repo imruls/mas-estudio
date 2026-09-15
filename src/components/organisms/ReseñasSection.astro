@@ -25,7 +25,7 @@ import TestimonialCard from "../molecules/TestimonialCard.astro";
         </div>
       </div>
 
-      <div class="testimonials__row">
+      <div class="testimonials__row testimonials__row--secondary">
         <div class="testimonials__viewport" id="testimonials-viewport-2">
           <div class="testimonials__track" id="testimonials-track-2">
             {
@@ -86,7 +86,8 @@ import TestimonialCard from "../molecules/TestimonialCard.astro";
   const track1 = document.getElementById("testimonials-track-1");
   const viewport2 = document.getElementById("testimonials-viewport-2");
   const track2 = document.getElementById("testimonials-track-2");
+  const isMobile = window.matchMedia("(max-width: 767px)").matches;
 
   if (viewport1 && track1) setupAutoScroll(viewport1, track1, 1);
-  if (viewport2 && track2) setupAutoScroll(viewport2, track2, -1);
+  if (viewport2 && track2 && !isMobile) setupAutoScroll(viewport2, track2, -1);
 </script>

@@ -20,6 +20,7 @@
   --spacing-md: 1.5rem;
   --spacing-lg: 2.5rem;
   --spacing-xl: 4rem;
+  --spacing-header: 4rem;
 
   /* Bordes */
   --radius-card: 20px;
@@ -122,7 +123,7 @@ h3 {
 h1 + p,
 h2 + p,
 h3 + p {
-  margin-top: var(--spacing-sm);
+  margin-top: calc(var(--spacing-sm) * 2);
 }
 
 /* Las cards (article) ya espacian su contenido con flex gap;
@@ -344,6 +345,13 @@ a:hover {
     align-items: flex-start;
     gap: var(--spacing-md);
   }
+
+  /* El link CTA suma padding horizontal antes del texto; se
+     compensa con un margen negativo para que arranque alineado
+     con el resto de los links del menú. */
+  .nav-link--cta {
+    margin-inline-start: -1rem;
+  }
 }
 
 @media (min-width: 768px) {
@@ -416,6 +424,23 @@ a:hover {
 .hero .btn-primary {
   background-color: var(--color-dorado-estudio);
   color: var(--color-azul-noche);
+}
+
+@media (max-width: 767px) {
+  .hero__actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* El botón relleno suma padding horizontal antes del texto; se
+     reduce el padding inicial y se compensa con un margen negativo
+     equivalente para que el texto arranque alineado con el título
+     y el resto del contenido, sin que el botón se recorte contra
+     el borde de la sección (que tiene overflow: hidden). */
+  .hero .btn-primary {
+    padding-inline-start: 1rem;
+    margin-inline-start: -1rem;
+  }
 }
 
 .hero .btn-primary:hover {
@@ -500,7 +525,7 @@ a:hover {
 .services__heading {
   max-width: 640px;
   margin-inline: auto;
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-header);
   text-align: center;
 }
 
@@ -661,7 +686,7 @@ a:hover {
 }
 
 .testimonials__title {
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-header);
   text-align: center;
 }
 
@@ -673,6 +698,12 @@ a:hover {
 
 .testimonials__row {
   position: relative;
+}
+
+@media (max-width: 767px) {
+  .testimonials__row--secondary {
+    display: none;
+  }
 }
 
 .testimonials__viewport {
@@ -775,7 +806,7 @@ a:hover {
 .about__text {
   max-width: 864px;
   margin-inline: auto;
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-header);
   text-align: center;
 }
 
@@ -913,7 +944,7 @@ a:hover {
 }
 
 .contact__subtitle {
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-header);
   color: var(--color-azul-noche);
   opacity: 0.85;
 }
@@ -954,7 +985,7 @@ a:hover {
 .footer {
   background-color: var(--color-azul-noche);
   color: var(--color-marfil);
-  padding-block: var(--spacing-lg);
+  padding-block: var(--spacing-xl);
 }
 
 .footer__inner {

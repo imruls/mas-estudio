@@ -595,21 +595,52 @@ a:hover {
     display: none;
   }
 
-  /* Sin scroll-snap a propósito. El snap fue un agregado propio y cada
-     problema posterior salió de ahí: se comía el padding lateral al
-     alinear, obligaba al navegador a extender el área scrolleable más
-     allá de la última card (el hueco en blanco del final), y en iOS la
-     corrección contra ese tope se aplica sin animar, que es el rebote
-     brusco. Medido en el dispositivo: el contenido entra en esa zona a
-     velocidad constante —scroll real, no elástico— y vuelve de golpe al
-     soltar, mientras que en el inicio, donde scrollLeft ya está topado
-     en 0, el resorte nativo devuelve suave en ~400ms.
+  /* El scroll manual se apoya en snap nativo: deja cada card alineada
+     sin que JS tenga que tocar scrollLeft durante el gesto.
 
-     Sin snap el área scrolleable es exactamente el contenido: no hay
-     zona vacía en la que entrar ni corrección que aplicar, los dos
-     extremos rebotan igual, y el scroller nunca queda detenido sobre
-     vacío (que es la condición que rompía el repintado en iOS). Los
-     dots siguen funcionando: redondean scrollLeft / step. */
+     scroll-padding-inline no es opcional: el snapport es la padding box
+     del scroller, así que sin esto el snap alinea la card contra el
+     borde del elemento y se come el padding-inline (las cards quedan
+     pegadas al borde de la pantalla). Con el padding declarado acá, las
+     posiciones de snap caen exactamente en index * step, que es lo que
+     asume el JS de los dots.
+
+     NO pasar esto a `proximity` ni sacar el scroll-padding del lado
+     end: se probó en el dispositivo (commit revertido) para suavizar el
+     rebote del final y reapareció el bug de las cards en blanco. Con
+     mandatory el scroller siempre descansa en una posición de snap; con
+     proximity puede quedar detenido dentro del área que el navegador
+     extiende más allá de la última card, que es donde iOS se queda sin
+     nada que pintar. El rebote duro del final es el precio de eso. */
+  .services-carousel__viewport {
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--spacing-md);
+  }
+
+  /* La última card alinea por el final. Con `start` en todas, el
+     navegador extiende el área scrolleable para que la posición de snap
+     de la última sea alcanzable (o sea: hasta dejarla pegada a la
+     izquierda), y eso es el hueco en blanco al final del carrusel.
+     :last-of-type y no :last-child porque el último hijo del track es
+     el div del set clonado, oculto en mobile. */
+  .services-carousel__track > .service-card:last-of-type {
+    scroll-snap-align: end;
+  }
+
+  /* El rebote brusco del final es una corrección de snap que iOS aplica
+     en un solo frame: el fling llega a velocidad plena contra el último
+     punto de snap y cubre de una la distancia que le falta (medido en el
+     dispositivo: ~176px en 16ms, contra los ~400ms con desaceleración
+     del elástico del inicio). `always` impide que un gesto se saltee
+     puntos de snap, así que cada swipe avanza una card y desacelera
+     dentro de ella en vez de estrellarse contra el final.
+
+     A diferencia de proximity —que reintrodujo las cards en blanco—,
+     esto no cambia dónde puede quedar detenido el scroller: lo
+     restringe. Sigue descansando siempre sobre una posición de snap. */
+  .services-carousel__track > .service-card {
+    scroll-snap-stop: always;
+  }
 }
 
 .services-carousel__dots {
@@ -652,6 +683,7 @@ a:hover {
   background-color: var(--color-arena);
   border-radius: var(--radius-card);
   box-shadow: 0 10px 10px rgba(139, 109, 79, 0.35);
+  scroll-snap-align: start;
 }
 
 .service-card__icon {
@@ -803,7 +835,24 @@ a:hover {
     display: none;
   }
 
-  /* Ver el carrusel de servicios: sin scroll-snap a propósito. */
+  /* Ver el carrusel de servicios: scroll-padding para no comerse el
+     padding-inline al snappear, y snap `end` en la última card para que
+     el navegador no extienda el scroll con un hueco al final. Vale acá
+     la misma advertencia: mandatory no se toca. */
+  .testimonials__viewport {
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--spacing-md);
+  }
+
+  .testimonials__track > .testimonial-card:last-of-type {
+    scroll-snap-align: end;
+  }
+
+  /* Ver el carrusel de servicios: un swipe avanza una card y desacelera
+     dentro de ella, en vez de llegar a velocidad plena contra el final. */
+  .testimonials__track > .testimonial-card {
+    scroll-snap-stop: always;
+  }
 }
 
 @media (min-width: 768px) {
@@ -849,6 +898,7 @@ a:hover {
   background-color: var(--color-marfil);
   border-radius: var(--radius-card);
   box-shadow: 0 10px 10px rgba(139, 109, 79, 0.35);
+  scroll-snap-align: start;
 }
 
 .testimonial-card__quote {

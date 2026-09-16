@@ -589,9 +589,27 @@ a:hover {
   }
 
   /* El scroll manual se apoya en snap nativo: deja cada card alineada
-     sin que JS tenga que tocar scrollLeft durante el gesto. */
+     sin que JS tenga que tocar scrollLeft durante el gesto.
+
+     scroll-padding-inline no es opcional: el snapport es la padding box
+     del scroller, así que sin esto el snap alinea la card contra el
+     borde del elemento y se come el padding-inline (las cards quedan
+     pegadas al borde de la pantalla). Con el padding declarado acá, las
+     posiciones de snap caen exactamente en index * step, que es lo que
+     asume el JS de los dots. */
   .services-carousel__viewport {
     scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--spacing-md);
+  }
+
+  /* La última card alinea por el final. Con `start` en todas, el
+     navegador extiende el área scrolleable para que la posición de snap
+     de la última sea alcanzable (o sea: hasta dejarla pegada a la
+     izquierda), y eso es el hueco en blanco al final del carrusel.
+     :last-of-type y no :last-child porque el último hijo del track es
+     el div del set clonado, oculto en mobile. */
+  .services-carousel__track > .service-card:last-of-type {
+    scroll-snap-align: end;
   }
 }
 
@@ -785,8 +803,16 @@ a:hover {
     display: none;
   }
 
+  /* Ver el carrusel de servicios: scroll-padding para no comerse el
+     padding-inline al snappear, y snap `end` en la última card para que
+     el navegador no extienda el scroll con un hueco al final. */
   .testimonials__viewport {
     scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--spacing-md);
+  }
+
+  .testimonials__track > .testimonial-card:last-of-type {
+    scroll-snap-align: end;
   }
 }
 

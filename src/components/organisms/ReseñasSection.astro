@@ -86,6 +86,38 @@ import TestimonialCard from "../molecules/TestimonialCard.astro";
     requestAnimationFrame(tick);
   };
 
+  // Al arrastrar más allá del principio o el final del carrusel, iOS
+  // Safari dispara su rebote elástico nativo (rubber-band), y eso
+  // corrompe el repintado de las cards (confirmado con una grabación
+  // real: el contenido desaparece y no vuelve). CSS
+  // overscroll-behavior-x:none no alcanza a suprimirlo de forma
+  // confiable en todas las versiones de iOS, así que se corta el
+  // gesto táctil a mano antes de que el navegador llegue a iniciar
+  // el rebote.
+  const preventEdgeOverscroll = (viewport: HTMLElement) => {
+    let touchStartX = 0;
+    viewport.addEventListener(
+      "touchstart",
+      (e) => {
+        touchStartX = e.touches[0].clientX;
+      },
+      { passive: true },
+    );
+    viewport.addEventListener(
+      "touchmove",
+      (e) => {
+        const deltaX = touchStartX - e.touches[0].clientX;
+        const maxScrollLeft = viewport.scrollWidth - viewport.clientWidth;
+        const atStart = viewport.scrollLeft <= 0;
+        const atEnd = viewport.scrollLeft >= maxScrollLeft - 1;
+        if ((atStart && deltaX < 0) || (atEnd && deltaX > 0)) {
+          e.preventDefault();
+        }
+      },
+      { passive: false },
+    );
+  };
+
   const viewport1 = document.getElementById("testimonials-viewport-1");
   const track1 = document.getElementById("testimonials-track-1");
   const viewport2 = document.getElementById("testimonials-viewport-2");
@@ -97,4 +129,5 @@ import TestimonialCard from "../molecules/TestimonialCard.astro";
   // maneja el scroll táctil nativo).
   if (viewport1 && track1 && !isMobile) setupAutoScroll(viewport1, track1, 1);
   if (viewport2 && track2 && !isMobile) setupAutoScroll(viewport2, track2, -1);
+  if (viewport1 && isMobile) preventEdgeOverscroll(viewport1);
 </script>

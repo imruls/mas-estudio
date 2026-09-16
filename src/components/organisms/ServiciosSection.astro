@@ -13,7 +13,14 @@ import ServiceCard from "../molecules/ServiceCard.astro";
     <div class="services-carousel">
       <div class="services-carousel__viewport" id="services-viewport">
         <div class="services-carousel__track" id="services-track">
-          {siteData.practiceAreas.map((area) => <ServiceCard area={area} />)}
+          {
+            siteData.practiceAreas.map((area, index) => (
+              <ServiceCard
+                area={area}
+                isLast={index === siteData.practiceAreas.length - 1}
+              />
+            ))
+          }
           <div class="services-carousel__clone" aria-hidden="true" inert>
             {siteData.practiceAreas.map((area) => <ServiceCard area={area} />)}
           </div>

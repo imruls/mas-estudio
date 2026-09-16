@@ -623,7 +623,13 @@ a:hover {
      izquierda), y eso es el hueco en blanco al final del carrusel.
      :last-of-type y no :last-child porque el último hijo del track es
      el div del set clonado, oculto en mobile. */
-  .services-carousel__track > .service-card:last-of-type {
+  /* Alineado por la clase y no por :last-of-type. En Chromium el
+     selector posicional matchea bien y la zona muerta del final mide 0,
+     pero los números medidos en el iPhone dan como si la última card
+     siguiera alineando por el inicio (~176px de zona muerta, que es
+     justo lo que necesita su snap `start`). Una clase puesta desde el
+     template no deja lugar a dudas. */
+  .service-card.is-last {
     scroll-snap-align: end;
   }
 
@@ -844,7 +850,8 @@ a:hover {
     scroll-padding-inline: var(--spacing-md);
   }
 
-  .testimonials__track > .testimonial-card:last-of-type {
+  /* Ver .service-card.is-last. */
+  .testimonial-card.is-last {
     scroll-snap-align: end;
   }
 

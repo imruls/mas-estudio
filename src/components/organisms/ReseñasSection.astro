@@ -12,8 +12,11 @@ import TestimonialCard from "../molecules/TestimonialCard.astro";
         <div class="testimonials__viewport" id="testimonials-viewport-1">
           <div class="testimonials__track" id="testimonials-track-1">
             {
-              siteData.testimonials.map((testimonial) => (
-                <TestimonialCard testimonial={testimonial} />
+              siteData.testimonials.map((testimonial, index) => (
+                <TestimonialCard
+                  testimonial={testimonial}
+                  isLast={index === siteData.testimonials.length - 1}
+                />
               ))
             }
             <div class="testimonials__clone" aria-hidden="true" inert>

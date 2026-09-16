@@ -5,13 +5,15 @@ import type { Testimonial } from "../../data/DataSite";
 
 interface Props extends HTMLAttributes<"article"> {
   testimonial: Testimonial;
+  /* Ver ServiceCard: marca la última card para el alineado de snap. */
+  isLast?: boolean;
 }
 
-const { testimonial, ...rest } = Astro.props;
+const { testimonial, isLast = false, ...rest } = Astro.props;
 ---
 
 {/* TODO: reseña placeholder, reemplazar por testimonio real */}
-<article class="testimonial-card" {...rest}>
+<article class:list={["testimonial-card", { "is-last": isLast }]} {...rest}>
   <StarRating rating={testimonial.rating} />
   <p class="testimonial-card__quote">&ldquo;{testimonial.content}&rdquo;</p>
   <p class="testimonial-card__author">

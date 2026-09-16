@@ -5,13 +5,17 @@ import { siteData, type PracticeArea } from "../../data/DataSite";
 
 interface Props {
   area: PracticeArea;
+  /* Marca la última card del carrusel. El alineado de snap por el final
+     depende de esto y no de :last-of-type: el último hijo del track es el
+     div del set clonado, y un selector posicional ahí es frágil. */
+  isLast?: boolean;
 }
 
-const { area } = Astro.props;
+const { area, isLast = false } = Astro.props;
 const href = buildWhatsAppLink(siteData.contact.whatsappNumber, area.whatsappMessage);
 ---
 
-<article class="service-card">
+<article class:list={["service-card", { "is-last": isLast }]}>
   <div class="service-card__icon">
     <Icon name={area.icon} />
   </div>

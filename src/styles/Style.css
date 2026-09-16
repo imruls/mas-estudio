@@ -583,6 +583,17 @@ a:hover {
   .services-carousel__clone {
     display: none;
   }
+
+  /* Combinar overflow-x:auto (scroll nativo) con mask-image en el
+     mismo elemento dispara un bug conocido de WebKit/iOS Safari: al
+     terminar el scroll táctil, el contenido enmascarado queda en
+     blanco hasta forzar un repaint. Se saca el mask solo en mobile
+     (el fade de los bordes es cosmético, no vale la pena el riesgo
+     de que el carrusel desaparezca). */
+  .services-carousel__viewport {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
 }
 
 .services-carousel__dots {
@@ -762,6 +773,14 @@ a:hover {
   /* Sin auto-scroll infinito en mobile, el set clonado sobra. */
   .testimonials__clone {
     display: none;
+  }
+
+  /* Mismo bug de WebKit que en el carrusel de servicios: mask-image
+     + overflow-x:auto puede dejar el contenido en blanco al terminar
+     el scroll táctil en iOS Safari. Se saca el mask en mobile. */
+  .testimonials__viewport {
+    -webkit-mask-image: none;
+    mask-image: none;
   }
 }
 

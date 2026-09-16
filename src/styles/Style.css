@@ -626,6 +626,21 @@ a:hover {
   .services-carousel__track > .service-card:last-of-type {
     scroll-snap-align: end;
   }
+
+  /* El rebote brusco del final es una corrección de snap que iOS aplica
+     en un solo frame: el fling llega a velocidad plena contra el último
+     punto de snap y cubre de una la distancia que le falta (medido en el
+     dispositivo: ~176px en 16ms, contra los ~400ms con desaceleración
+     del elástico del inicio). `always` impide que un gesto se saltee
+     puntos de snap, así que cada swipe avanza una card y desacelera
+     dentro de ella en vez de estrellarse contra el final.
+
+     A diferencia de proximity —que reintrodujo las cards en blanco—,
+     esto no cambia dónde puede quedar detenido el scroller: lo
+     restringe. Sigue descansando siempre sobre una posición de snap. */
+  .services-carousel__track > .service-card {
+    scroll-snap-stop: always;
+  }
 }
 
 .services-carousel__dots {
@@ -831,6 +846,12 @@ a:hover {
 
   .testimonials__track > .testimonial-card:last-of-type {
     scroll-snap-align: end;
+  }
+
+  /* Ver el carrusel de servicios: un swipe avanza una card y desacelera
+     dentro de ella, en vez de llegar a velocidad plena contra el final. */
+  .testimonials__track > .testimonial-card {
+    scroll-snap-stop: always;
   }
 }
 

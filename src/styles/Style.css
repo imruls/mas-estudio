@@ -546,6 +546,15 @@ a:hover {
   padding-inline: var(--spacing-md);
   padding-bottom: 20px;
   scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  /* iOS Safari puede dejar de repintar el contenido de un contenedor
+     con overflow-x:auto al terminar el scroll táctil, sobre todo con
+     hijos que tienen box-shadow + border-radius (las service-card).
+     Forzamos una capa de composición propia para que WebKit mantenga
+     un backing store estable y no "pierda" el contenido scrolleado. */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
   -webkit-mask-image: linear-gradient(
     to right,
     transparent,
@@ -636,6 +645,12 @@ a:hover {
   background-color: var(--color-arena);
   border-radius: var(--radius-card);
   box-shadow: 0 10px 10px rgba(139, 109, 79, 0.35);
+  /* Aísla cada card en su propia capa de composición: en iOS Safari,
+     box-shadow + border-radius dentro de un contenedor con scroll
+     táctil puede dejar de repintarse tras el gesto de scroll. */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .service-card__icon {
@@ -735,6 +750,12 @@ a:hover {
   padding-bottom: var(--spacing-sm);
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  /* Ver .services-carousel__viewport: misma capa de composición
+     propia para evitar que iOS Safari deje de repintar el contenido
+     scrolleado. */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
   -webkit-mask-image: linear-gradient(
     to right,
     transparent,
@@ -807,6 +828,10 @@ a:hover {
   background-color: var(--color-marfil);
   border-radius: var(--radius-card);
   box-shadow: 0 10px 10px rgba(139, 109, 79, 0.35);
+  /* Ver .service-card: capa de composición propia por la misma razón. */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .testimonial-card__quote {

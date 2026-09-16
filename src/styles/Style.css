@@ -55,7 +55,18 @@ figure {
 
 html {
   -webkit-text-size-adjust: 100%;
+  /* overflow-x:hidden convierte al root en un scroll container real; en
+     iOS Safari eso mete al documento entero en el path de scroll
+     compuesto por tiles, que es uno de los gatillos conocidos de áreas
+     que quedan en blanco. overflow:clip recorta igual sin crear scroll
+     container. hidden queda como fallback para WebKit < 16. */
   overflow-x: hidden;
+}
+
+@supports (overflow: clip) {
+  html {
+    overflow-x: clip;
+  }
 }
 
 img,
@@ -539,6 +550,10 @@ a:hover {
   position: relative;
 }
 
+/* Nada de transform/translateZ/backface-visibility acá: forzar una capa
+   de composición sobre un contenedor con scroll táctil (y sobre sus
+   hijos) es justamente lo que rompe el repintado en iOS Safari. El
+   scroller se deja en el path nativo, sin trucos. */
 .services-carousel__viewport {
   overflow-x: auto;
   overflow-y: hidden;
@@ -546,38 +561,9 @@ a:hover {
   padding-inline: var(--spacing-md);
   padding-bottom: 20px;
   scrollbar-width: none;
-  /* El rebote elástico (rubber-band) que iOS Safari aplica al arrastrar
-     más allá de la última card corrompe el backing store de las capas
-     compuestas: el contenido (texto, ícono) desaparece primero y la
-     card entera se desvanece después, sin recuperarse. Confirmado
-     frame a frame con una grabación real. overscroll-behavior-x:none
-     evita que ese rebote se dispare en este eje, eliminando el gatillo
-     del bug de raíz (no es solo estético: sin esto el carrusel queda
-     roto en el dispositivo real). Se saca -webkit-overflow-scrolling:
-     touch a propósito: esa propiedad legada fuerza el path de scroll
-     "overlay" antiguo de WebKit, que es el que tiene este bug; el
-     scroll con momentum ya es el comportamiento por defecto en iOS
-     moderno sin necesidad de esa propiedad. */
+  /* Evita encadenar el scroll a la página y el rebote elástico en los
+     extremos, sin pisar el gesto táctil desde JS. */
   overscroll-behavior-x: none;
-  /* Capa de composición propia para la card, defensivo por si algún
-     repintado puntual sigue fallando (no reemplaza el fix de arriba). */
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-  backface-visibility: hidden;
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent,
-    black 5%,
-    black 95%,
-    transparent
-  );
-  mask-image: linear-gradient(
-    to right,
-    transparent,
-    black 5%,
-    black 95%,
-    transparent
-  );
 }
 
 .services-carousel__viewport::-webkit-scrollbar {
@@ -602,15 +588,10 @@ a:hover {
     display: none;
   }
 
-  /* Combinar overflow-x:auto (scroll nativo) con mask-image en el
-     mismo elemento dispara un bug conocido de WebKit/iOS Safari: al
-     terminar el scroll táctil, el contenido enmascarado queda en
-     blanco hasta forzar un repaint. Se saca el mask solo en mobile
-     (el fade de los bordes es cosmético, no vale la pena el riesgo
-     de que el carrusel desaparezca). */
+  /* El scroll manual se apoya en snap nativo: deja cada card alineada
+     sin que JS tenga que tocar scrollLeft durante el gesto. */
   .services-carousel__viewport {
-    -webkit-mask-image: none;
-    mask-image: none;
+    scroll-snap-type: x mandatory;
   }
 }
 
@@ -654,12 +635,7 @@ a:hover {
   background-color: var(--color-arena);
   border-radius: var(--radius-card);
   box-shadow: 0 10px 10px rgba(139, 109, 79, 0.35);
-  /* Aísla cada card en su propia capa de composición: en iOS Safari,
-     box-shadow + border-radius dentro de un contenedor con scroll
-     táctil puede dejar de repintarse tras el gesto de scroll. */
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-  backface-visibility: hidden;
+  scroll-snap-align: start;
 }
 
 .service-card__icon {
@@ -719,6 +695,28 @@ a:hover {
   }
 }
 
+/* El fade de los bordes es puramente cosmético y mask-image sobre un
+   contenedor con scroll es un gatillo de repintado roto en WebKit, así
+   que se limita a punteros finos (desktop): nunca llega a iOS ni iPad. */
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  .services-carousel__viewport {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 5%,
+      black 95%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 5%,
+      black 95%,
+      transparent
+    );
+  }
+}
+
 /* ReseñasSection */
 .testimonials {
   padding-block: var(--spacing-xl);
@@ -751,6 +749,8 @@ a:hover {
   }
 }
 
+/* Ver .services-carousel__viewport: scroller nativo, sin transform ni
+   backface-visibility ni mask encima. */
 .testimonials__viewport {
   overflow-x: auto;
   overflow-y: hidden;
@@ -758,28 +758,7 @@ a:hover {
   padding-inline: var(--spacing-md);
   padding-bottom: var(--spacing-sm);
   scrollbar-width: none;
-  /* Ver .services-carousel__viewport: el rebote elástico al final del
-     scroll es el gatillo real del bug (confirmado frame a frame), no
-     el mask ni la falta de capa de composición. Se saca también
-     -webkit-overflow-scrolling:touch por la misma razón. */
   overscroll-behavior-x: none;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-  backface-visibility: hidden;
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent,
-    black 5%,
-    black 95%,
-    transparent
-  );
-  mask-image: linear-gradient(
-    to right,
-    transparent,
-    black 5%,
-    black 95%,
-    transparent
-  );
 }
 
 .testimonials__viewport::-webkit-scrollbar {
@@ -806,12 +785,8 @@ a:hover {
     display: none;
   }
 
-  /* Mismo bug de WebKit que en el carrusel de servicios: mask-image
-     + overflow-x:auto puede dejar el contenido en blanco al terminar
-     el scroll táctil en iOS Safari. Se saca el mask en mobile. */
   .testimonials__viewport {
-    -webkit-mask-image: none;
-    mask-image: none;
+    scroll-snap-type: x mandatory;
   }
 }
 
@@ -830,6 +805,26 @@ a:hover {
   }
 }
 
+/* Ver el carrusel de servicios: el mask queda solo para punteros finos. */
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  .testimonials__viewport {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 5%,
+      black 95%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 5%,
+      black 95%,
+      transparent
+    );
+  }
+}
+
 .testimonial-card {
   display: flex;
   flex-direction: column;
@@ -838,10 +833,7 @@ a:hover {
   background-color: var(--color-marfil);
   border-radius: var(--radius-card);
   box-shadow: 0 10px 10px rgba(139, 109, 79, 0.35);
-  /* Ver .service-card: capa de composición propia por la misma razón. */
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-  backface-visibility: hidden;
+  scroll-snap-align: start;
 }
 
 .testimonial-card__quote {
@@ -884,8 +876,16 @@ a:hover {
      overflow-x:hidden en html alcance en todos los navegadores (en
      iOS Safari no siempre corta el scroll horizontal). El breakout a
      full-bleed de .partner-card::before sigue llegando hasta el borde
-     real de la sección, así que el efecto visual no se recorta. */
+     real de la sección, así que el efecto visual no se recorta. Igual
+     que en html, se prefiere overflow:clip (no crea scroll container y
+     evita el path de scroll compuesto de iOS) con hidden de fallback. */
   overflow-x: hidden;
+}
+
+@supports (overflow: clip) {
+  .about {
+    overflow-x: clip;
+  }
 }
 
 .about__text {

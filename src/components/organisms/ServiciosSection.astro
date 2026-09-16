@@ -87,36 +87,6 @@ import ServiceCard from "../molecules/ServiceCard.astro";
         { passive: true },
       );
 
-      // Al arrastrar más allá del principio o el final del carrusel,
-      // iOS Safari dispara su rebote elástico nativo (rubber-band), y
-      // eso corrompe el repintado de las cards (confirmado con una
-      // grabación real: el contenido desaparece y no vuelve). CSS
-      // overscroll-behavior-x:none no alcanza a suprimirlo de forma
-      // confiable en todas las versiones de iOS, así que se corta el
-      // gesto táctil a mano antes de que el navegador llegue a
-      // iniciar el rebote.
-      let touchStartX = 0;
-      viewport.addEventListener(
-        "touchstart",
-        (e) => {
-          touchStartX = e.touches[0].clientX;
-        },
-        { passive: true },
-      );
-      viewport.addEventListener(
-        "touchmove",
-        (e) => {
-          const deltaX = touchStartX - e.touches[0].clientX;
-          const maxScrollLeft = viewport.scrollWidth - viewport.clientWidth;
-          const atStart = viewport.scrollLeft <= 0;
-          const atEnd = viewport.scrollLeft >= maxScrollLeft - 1;
-          if ((atStart && deltaX < 0) || (atEnd && deltaX > 0)) {
-            e.preventDefault();
-          }
-        },
-        { passive: false },
-      );
-
       dots.forEach((dot, index) => {
         dot.addEventListener("click", () => {
           viewport.scrollTo({ left: index * getStep(), behavior: "smooth" });

@@ -603,7 +603,15 @@ a:hover {
      borde del elemento y se come el padding-inline (las cards quedan
      pegadas al borde de la pantalla). Con el padding declarado acá, las
      posiciones de snap caen exactamente en index * step, que es lo que
-     asume el JS de los dots. */
+     asume el JS de los dots.
+
+     NO pasar esto a `proximity` ni sacar el scroll-padding del lado
+     end: se probó en el dispositivo (commit revertido) para suavizar el
+     rebote del final y reapareció el bug de las cards en blanco. Con
+     mandatory el scroller siempre descansa en una posición de snap; con
+     proximity puede quedar detenido dentro del área que el navegador
+     extiende más allá de la última card, que es donde iOS se queda sin
+     nada que pintar. El rebote duro del final es el precio de eso. */
   .services-carousel__viewport {
     scroll-snap-type: x mandatory;
     scroll-padding-inline: var(--spacing-md);
@@ -814,7 +822,8 @@ a:hover {
 
   /* Ver el carrusel de servicios: scroll-padding para no comerse el
      padding-inline al snappear, y snap `end` en la última card para que
-     el navegador no extienda el scroll con un hueco al final. */
+     el navegador no extienda el scroll con un hueco al final. Vale acá
+     la misma advertencia: mandatory no se toca. */
   .testimonials__viewport {
     scroll-snap-type: x mandatory;
     scroll-padding-inline: var(--spacing-md);

@@ -546,12 +546,21 @@ a:hover {
   padding-inline: var(--spacing-md);
   padding-bottom: 20px;
   scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  /* iOS Safari puede dejar de repintar el contenido de un contenedor
-     con overflow-x:auto al terminar el scroll táctil, sobre todo con
-     hijos que tienen box-shadow + border-radius (las service-card).
-     Forzamos una capa de composición propia para que WebKit mantenga
-     un backing store estable y no "pierda" el contenido scrolleado. */
+  /* El rebote elástico (rubber-band) que iOS Safari aplica al arrastrar
+     más allá de la última card corrompe el backing store de las capas
+     compuestas: el contenido (texto, ícono) desaparece primero y la
+     card entera se desvanece después, sin recuperarse. Confirmado
+     frame a frame con una grabación real. overscroll-behavior-x:none
+     evita que ese rebote se dispare en este eje, eliminando el gatillo
+     del bug de raíz (no es solo estético: sin esto el carrusel queda
+     roto en el dispositivo real). Se saca -webkit-overflow-scrolling:
+     touch a propósito: esa propiedad legada fuerza el path de scroll
+     "overlay" antiguo de WebKit, que es el que tiene este bug; el
+     scroll con momentum ya es el comportamiento por defecto en iOS
+     moderno sin necesidad de esa propiedad. */
+  overscroll-behavior-x: none;
+  /* Capa de composición propia para la card, defensivo por si algún
+     repintado puntual sigue fallando (no reemplaza el fix de arriba). */
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
   backface-visibility: hidden;
@@ -748,11 +757,12 @@ a:hover {
   margin-inline: calc(var(--spacing-md) * -1);
   padding-inline: var(--spacing-md);
   padding-bottom: var(--spacing-sm);
-  -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  /* Ver .services-carousel__viewport: misma capa de composición
-     propia para evitar que iOS Safari deje de repintar el contenido
-     scrolleado. */
+  /* Ver .services-carousel__viewport: el rebote elástico al final del
+     scroll es el gatillo real del bug (confirmado frame a frame), no
+     el mask ni la falta de capa de composición. Se saca también
+     -webkit-overflow-scrolling:touch por la misma razón. */
+  overscroll-behavior-x: none;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
   backface-visibility: hidden;

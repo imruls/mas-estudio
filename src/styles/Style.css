@@ -561,9 +561,16 @@ a:hover {
   padding-inline: var(--spacing-md);
   padding-bottom: 20px;
   scrollbar-width: none;
-  /* Evita encadenar el scroll a la página y el rebote elástico en los
-     extremos, sin pisar el gesto táctil desde JS. */
-  overscroll-behavior-x: none;
+  /* `contain` y no `none`: corta el encadenamiento del scroll a la
+     página, pero deja el rebote elástico nativo del propio carrusel.
+     Con `none` el scroll frena en seco contra el último card, que en
+     iOS —donde todo rebota— se lee como un glitch. El rebote no era la
+     causa del bug de repintado (eran las capas de composición
+     forzadas), así que se puede devolver sin riesgo. Como la última
+     card alinea por el final, el máximo de scroll coincide con su
+     posición de snap: el elástico devuelve directo ahí, sin el tirón
+     extra de un snap posterior. */
+  overscroll-behavior-x: contain;
 }
 
 .services-carousel__viewport::-webkit-scrollbar {
@@ -776,7 +783,9 @@ a:hover {
   padding-inline: var(--spacing-md);
   padding-bottom: var(--spacing-sm);
   scrollbar-width: none;
-  overscroll-behavior-x: none;
+  /* Ver .services-carousel__viewport: `contain` deja el rebote elástico
+     nativo, `none` frenaba en seco. */
+  overscroll-behavior-x: contain;
 }
 
 .testimonials__viewport::-webkit-scrollbar {

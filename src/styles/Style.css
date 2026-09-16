@@ -598,28 +598,15 @@ a:hover {
   /* El scroll manual se apoya en snap nativo: deja cada card alineada
      sin que JS tenga que tocar scrollLeft durante el gesto.
 
-     `proximity` y no `mandatory`: con mandatory, al llegar al final de
-     un fling el elástico estira y después WebKit corrige a la posición
-     de snap de golpe, en un solo frame. Medido sobre la grabación: en
-     el inicio del carrusel el resorte devuelve ~78px en unos 400ms con
-     desaceleración, y en el final devuelve ~176px en 16ms. Ese salto
-     seco es lo que se lee como glitch. Con proximity el navegador no
-     fuerza la corrección y el elástico vuelve solo, igual que en el
-     inicio.
-
-     scroll-padding-inline-start no es opcional: el snapport es la
-     padding box del scroller, así que sin esto el snap alinea la card
-     contra el borde del elemento y se come el padding-inline (las cards
-     quedan pegadas al borde de la pantalla). Con el padding declarado
-     acá las posiciones de snap caen en index * step, que es lo que
-     asume el JS de los dots. Del lado end se deja en 0 a propósito: el
-     aire final ya lo da el padding-inline del contenedor, y sumarle
-     scroll-padding correría la posición de snap de la última card más
-     allá del máximo de scroll, lo que obliga al navegador a extender el
-     área scrolleable (un hueco en blanco extra al final). */
+     scroll-padding-inline no es opcional: el snapport es la padding box
+     del scroller, así que sin esto el snap alinea la card contra el
+     borde del elemento y se come el padding-inline (las cards quedan
+     pegadas al borde de la pantalla). Con el padding declarado acá, las
+     posiciones de snap caen exactamente en index * step, que es lo que
+     asume el JS de los dots. */
   .services-carousel__viewport {
-    scroll-snap-type: x proximity;
-    scroll-padding-inline-start: var(--spacing-md);
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--spacing-md);
   }
 
   /* La última card alinea por el final. Con `start` en todas, el
@@ -825,13 +812,12 @@ a:hover {
     display: none;
   }
 
-  /* Ver el carrusel de servicios: proximity para que el elástico del
-     final vuelva solo en vez de corregir de golpe, scroll-padding solo
-     del lado start, y snap `end` en la última card para que el
-     navegador no extienda el scroll con un hueco al final. */
+  /* Ver el carrusel de servicios: scroll-padding para no comerse el
+     padding-inline al snappear, y snap `end` en la última card para que
+     el navegador no extienda el scroll con un hueco al final. */
   .testimonials__viewport {
-    scroll-snap-type: x proximity;
-    scroll-padding-inline-start: var(--spacing-md);
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--spacing-md);
   }
 
   .testimonials__track > .testimonial-card:last-of-type {

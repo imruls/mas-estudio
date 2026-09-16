@@ -822,6 +822,16 @@ a:hover {
 .about {
   padding-block: var(--spacing-xl);
   scroll-margin-top: 80px;
+  /* Las partner-card arrancan con translateX(±60px) para el reveal
+     al hacer scroll; ese offset visual se suma al ancho scrolleable
+     del documento (los transforms sí cuentan para el overflow aunque
+     no afecten el layout). Clipeamos acá, al ancho real de la sección
+     (que ya coincide con el viewport), para no depender de que
+     overflow-x:hidden en html alcance en todos los navegadores (en
+     iOS Safari no siempre corta el scroll horizontal). El breakout a
+     full-bleed de .partner-card::before sigue llegando hasta el borde
+     real de la sección, así que el efecto visual no se recorta. */
+  overflow-x: hidden;
 }
 
 .about__text {

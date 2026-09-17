@@ -1,3 +1,6 @@
+import alvarezSchiaffinoPhoto from "../assets/partners/alvarez-schiaffino.jpg";
+import modugnoPhoto from "../assets/partners/modugno.jpg";
+
 export interface NavLink {
   label: string;
   href: string;
@@ -17,25 +20,20 @@ export interface Testimonial {
   context: string; // ej: "Cliente de Sucesiones"
   content: string;
   rating: number; // 1-5
-  isPlaceholder: boolean; // true = reemplazar antes de producción
 }
 
 export interface Partner {
   id: string;
   name: string;
   role: string;
-  bio: string; // TODO: bio placeholder, reemplazar por texto real del socio/a
-  isBioPlaceholder: boolean;
-  photo: string; // path a placeholder hasta tener foto real
-  isPlaceholderPhoto: boolean;
+  bio: string;
+  photo: ImageMetadata; // importada desde src/assets para que <Image> la optimice
 }
 
 export interface SiteData {
   brand: {
     shortName: string;
     fullName: string;
-    logo: string;
-    isotipo: string;
   };
   contact: {
     email: string;
@@ -72,18 +70,13 @@ export interface SiteData {
     ctaLabel: string;
     ctaEmailLabel: string;
   };
-  whatsappFloatingButton: {
-    message: string;
-  };
   footer: {
-    fullName: string;
     legalText: string;
   };
   seo: {
     title: string;
     description: string;
-    url: string; // placeholder hasta tener dominio real
-    ogImage: string;
+    ogImage: string; // ruta en /public: la comparten los scrapers sociales
   };
 }
 
@@ -91,8 +84,6 @@ export const siteData: SiteData = {
   brand: {
     shortName: "MAS",
     fullName: "Estudio Jurídico Modugno & Alvarez Schiaffino",
-    logo: "/assets/brand/logo-mas-transparente.png",
-    isotipo: "/assets/brand/isotipo-mas-transparente.png",
   },
 
   contact: {
@@ -184,10 +175,8 @@ export const siteData: SiteData = {
         role: "Socio Fundador",
         // TODO: bio placeholder, reemplazar por texto real del socio
         bio: "Abogado especializado en accidentes de tránsito y derecho societario, con más de dos años de trayectoria asesorando a particulares y empresas. Se caracteriza por un enfoque estratégico y un seguimiento cercano de cada caso hasta su resolución.",
-        isBioPlaceholder: true,
         // TODO: reemplazar por foto real del socio (placeholder de banco de imágenes)
-        photo: "/assets/partners/modugno.jpg",
-        isPlaceholderPhoto: true,
+        photo: modugnoPhoto,
       },
       {
         id: "alvarez-schiaffino",
@@ -195,10 +184,8 @@ export const siteData: SiteData = {
         role: "Socia Fundadora",
         // TODO: bio placeholder, reemplazar por texto real de la socia
         bio: "Abogada con amplia experiencia en sucesiones, derecho de familia e inmobiliario. Su trabajo se distingue por un trato humano y una comunicación clara, acompañando a sus clientes en los momentos más sensibles de sus procesos legales.",
-        isBioPlaceholder: true,
         // TODO: reemplazar por foto real de la socia (placeholder de banco de imágenes)
-        photo: "/assets/partners/alvarez-schiaffino.jpg",
-        isPlaceholderPhoto: true,
+        photo: alvarezSchiaffinoPhoto,
       },
     ],
   },
@@ -216,7 +203,6 @@ export const siteData: SiteData = {
       content:
         "Me sentí acompañado en todo momento, explicaron cada paso con mucha claridad.",
       rating: 5,
-      isPlaceholder: true,
     },
     {
       id: "testimonial-2",
@@ -225,7 +211,6 @@ export const siteData: SiteData = {
       context: "Cliente de Derecho Inmobiliario",
       content: "Excelente atención y mucha rapidez para resolver mi situación.",
       rating: 5,
-      isPlaceholder: true,
     },
     {
       id: "testimonial-3",
@@ -234,7 +219,6 @@ export const siteData: SiteData = {
       context: "Cliente de Derecho de Familia",
       content: "Profesionalismo y calidez humana, algo difícil de encontrar.",
       rating: 5,
-      isPlaceholder: true,
     },
     {
       id: "testimonial-4",
@@ -244,7 +228,6 @@ export const siteData: SiteData = {
       content:
         "Resolvieron mi caso de forma ágil y siempre estuvieron disponibles para mis dudas.",
       rating: 5,
-      isPlaceholder: true,
     },
   ],
 
@@ -255,12 +238,7 @@ export const siteData: SiteData = {
     ctaEmailLabel: "Email",
   },
 
-  whatsappFloatingButton: {
-    message: "Hola, quiero hacer una consulta.",
-  },
-
   footer: {
-    fullName: "Estudio Jurídico Modugno & Alvarez Schiaffino",
     legalText:
       "© 2026 Estudio Jurídico Modugno & Alvarez Schiaffino. Todos los derechos reservados.",
   },
@@ -269,7 +247,6 @@ export const siteData: SiteData = {
     title: "MAS | Estudio Jurídico Modugno & Alvarez Schiaffino",
     description:
       "Estudio jurídico especializado en accidentes de tránsito, sucesiones, derecho societario, inmobiliario y de familia. Asesoramiento legal serio y cercano.",
-    url: "https://estudiomas.com.ar",
     ogImage: "/assets/brand/logo-mas-transparente.png",
   },
 };

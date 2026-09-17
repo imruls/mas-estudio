@@ -488,7 +488,7 @@ dominio placeholder).
 - [ ] Reemplazar los 4 testimonios placeholder por reseñas reales (cuando
       el cliente las provea).
 - [ ] Reemplazar las 2 fotos placeholder de los socios por fotos reales.
-- [ ] Actualizar `siteData.seo.url` con el dominio real una vez comprado.
+- [ ] Actualizar `site` en `astro.config.mjs` con el dominio real una vez comprado (de ahí salen la canonical y las URLs de Open Graph).
 - [ ] Doble verificación del número de WhatsApp en formato E.164.
 - [ ] Deploy a Vercel y prueba end-to-end en el dominio (o subdominio de
       Vercel) final.

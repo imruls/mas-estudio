@@ -72,23 +72,19 @@ export interface Testimonial {
   context: string; // ej: "Cliente de Sucesiones"
   content: string;
   rating: number; // 1-5
-  isPlaceholder: boolean; // true = reemplazar antes de producción
 }
 
 export interface Partner {
   id: string;
   name: string;
   role: string;
-  photo: string; // path a placeholder hasta tener foto real
-  isPlaceholderPhoto: boolean;
+  photo: ImageMetadata; // importada desde src/assets para que <Image> la optimice
 }
 
 export interface SiteData {
   brand: {
     shortName: string;
     fullName: string;
-    logo: string;
-    isotipo: string;
   };
   contact: {
     email: string;

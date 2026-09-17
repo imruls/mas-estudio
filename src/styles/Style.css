@@ -10,9 +10,9 @@
   --color-azul-noche: #16273a;
   --color-blanco: #ffffff;
 
-  /* Tipografía */
-  --font-heading: "Playfair Display", serif;
-  --font-body: "Inter", sans-serif;
+  /* Tipografía: --font-heading y --font-body los declara la API de fonts
+     de Astro (ver `fonts` en astro.config.mjs), junto con sus @font-face
+     y los fallbacks con métricas ajustadas. */
 
   /* Espaciado */
   --spacing-xs: 0.5rem;
@@ -22,8 +22,13 @@
   --spacing-xl: 4rem;
   --spacing-header: 4rem;
 
-  /* Bordes */
+  /* Bordes y sombras */
   --radius-card: 20px;
+  --radius-pill: 999px;
+  --shadow-card: 0 10px 10px rgba(139, 109, 79, 0.35);
+
+  /* Compensación del navbar sticky para los anclajes de sección */
+  --scroll-offset: 80px;
 
   /* Breakpoints de referencia (mobile-first).
      CSS no soporta variables dentro de @media, se documentan acá
@@ -184,12 +189,14 @@ a:hover {
   padding-inline: var(--spacing-md);
 }
 
-.section {
-  padding-block: var(--spacing-xl);
-}
-
-.section--arena {
-  background-color: var(--color-arena);
+/* Todas las secciones enlazadas desde el navbar frenan debajo del header
+   sticky en vez de quedar tapadas por él. */
+.hero,
+.services,
+.testimonials,
+.about,
+.contact {
+  scroll-margin-top: var(--scroll-offset);
 }
 
 .icon {
@@ -208,15 +215,14 @@ a:hover {
    de /src/components. Se completan a medida que avanza el roadmap.
    ========================================================================== */
 
-/* Button (preview temporal para /styleguide, se reemplaza por el átomo
-   Button.astro en su fase correspondiente) */
+/* Button */
 .btn {
   display: inline-block;
   font-family: var(--font-body);
   font-weight: 600;
   letter-spacing: 0.02em;
   padding: 0.85rem 1.75rem;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
 }
 
 .btn-primary {
@@ -279,7 +285,7 @@ a:hover {
 
 .nav-link--cta {
   padding: 0.5rem 1rem;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background-color: var(--color-azul-noche);
   color: var(--color-marfil);
 }
@@ -383,7 +389,6 @@ a:hover {
   align-items: center;
   padding-block: var(--spacing-xl);
   overflow: hidden;
-  scroll-margin-top: 80px;
   color: var(--color-marfil);
 }
 
@@ -409,7 +414,6 @@ a:hover {
 }
 
 .hero__content {
-  position: relative;
   max-width: 640px;
 }
 
@@ -488,12 +492,6 @@ a:hover {
   display: none;
 }
 
-@media (min-width: 768px) {
-  .hero__stat--hide-mobile {
-    display: block;
-  }
-}
-
 .hero__stat-number {
   display: block;
   margin: 0;
@@ -512,6 +510,10 @@ a:hover {
 }
 
 @media (min-width: 768px) {
+  .hero {
+    min-height: calc(100vh - 65px);
+  }
+
   .hero__scrim {
     background: linear-gradient(
       to right,
@@ -520,18 +522,15 @@ a:hover {
       rgba(22, 39, 58, 0.25) 100%
     );
   }
-}
 
-@media (min-width: 768px) {
-  .hero {
-    min-height: calc(100vh - 65px);
+  .hero__stat--hide-mobile {
+    display: block;
   }
 }
 
 /* ServiciosSection */
 .services {
   padding-block: var(--spacing-xl);
-  scroll-margin-top: 80px;
 }
 
 .services__heading {
@@ -621,14 +620,12 @@ a:hover {
      navegador extiende el área scrolleable para que la posición de snap
      de la última sea alcanzable (o sea: hasta dejarla pegada a la
      izquierda), y eso es el hueco en blanco al final del carrusel.
-     :last-of-type y no :last-child porque el último hijo del track es
-     el div del set clonado, oculto en mobile. */
-  /* Alineado por la clase y no por :last-of-type. En Chromium el
-     selector posicional matchea bien y la zona muerta del final mide 0,
-     pero los números medidos en el iPhone dan como si la última card
-     siguiera alineando por el inicio (~176px de zona muerta, que es
-     justo lo que necesita su snap `start`). Una clase puesta desde el
-     template no deja lugar a dudas. */
+
+     La marca viene de una clase puesta desde el template y no de
+     :last-of-type: en Chromium el selector posicional matchea bien y la
+     zona muerta del final mide 0, pero los números medidos en el iPhone
+     dan como si la última card siguiera alineando por el inicio (~176px
+     de zona muerta, que es justo lo que necesita su snap `start`). */
   .service-card.is-last {
     scroll-snap-align: end;
   }
@@ -706,7 +703,7 @@ a:hover {
   padding: var(--spacing-lg);
   background-color: var(--color-arena);
   border-radius: var(--radius-card);
-  box-shadow: 0 10px 10px rgba(139, 109, 79, 0.35);
+  box-shadow: var(--shadow-card);
   scroll-snap-align: start;
 }
 
@@ -739,7 +736,7 @@ a:hover {
   background-color: var(--color-azul-noche);
   border: 1px solid var(--color-azul-noche);
   padding: 0.65rem 1.5rem;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   transition:
     background-color 0.2s ease,
     color 0.2s ease,
@@ -767,28 +764,6 @@ a:hover {
   }
 }
 
-/* El fade de los bordes es puramente cosmético y mask-image sobre un
-   contenedor con scroll es un gatillo de repintado roto en WebKit, así
-   que se limita a punteros finos (desktop): nunca llega a iOS ni iPad. */
-@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
-  .services-carousel__viewport {
-    -webkit-mask-image: linear-gradient(
-      to right,
-      transparent,
-      black 5%,
-      black 95%,
-      transparent
-    );
-    mask-image: linear-gradient(
-      to right,
-      transparent,
-      black 5%,
-      black 95%,
-      transparent
-    );
-  }
-}
-
 /* ReseñasSection */
 .testimonials {
   padding-block: var(--spacing-xl);
@@ -797,7 +772,6 @@ a:hover {
     var(--color-marfil),
     var(--color-arena)
   );
-  scroll-margin-top: 80px;
 }
 
 .testimonials__title {
@@ -897,8 +871,12 @@ a:hover {
   }
 }
 
-/* Ver el carrusel de servicios: el mask queda solo para punteros finos. */
+/* El fade de los bordes de los carruseles es puramente cosmético y
+   mask-image sobre un contenedor con scroll es un gatillo de repintado
+   roto en WebKit, así que se limita a punteros finos (desktop): nunca
+   llega a iOS ni iPad. */
 @media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  .services-carousel__viewport,
   .testimonials__viewport {
     -webkit-mask-image: linear-gradient(
       to right,
@@ -924,7 +902,7 @@ a:hover {
   padding: var(--spacing-lg);
   background-color: var(--color-marfil);
   border-radius: var(--radius-card);
-  box-shadow: 0 10px 10px rgba(139, 109, 79, 0.35);
+  box-shadow: var(--shadow-card);
   scroll-snap-align: start;
 }
 
@@ -959,7 +937,6 @@ a:hover {
 /* NosotrosSection */
 .about {
   padding-block: var(--spacing-xl);
-  scroll-margin-top: 80px;
   /* Las partner-card arrancan con translateX(±60px) para el reveal
      al hacer scroll; ese offset visual se suma al ancho scrolleable
      del documento (los transforms sí cuentan para el overflow aunque
@@ -1035,7 +1012,7 @@ a:hover {
   bottom: 0;
   z-index: -1;
   background-color: var(--color-arena);
-  box-shadow: 0 10px 10px rgba(139, 109, 79, 0.35);
+  box-shadow: var(--shadow-card);
 }
 
 .partner-card:nth-child(odd)::before {
@@ -1096,22 +1073,26 @@ a:hover {
 .contact {
   padding-block: var(--spacing-xl);
   background-color: var(--color-arena);
-  scroll-margin-top: 80px;
   text-align: center;
 }
 
 .contact__card {
-  width: 70vw;
+  /* min() y no un vw a secas: el ancho relativo al viewport ignora el
+     padding del container, así que la card se desbordaba en las puntas
+     (arriba de ~1830px con 70vw, y abajo de 480px con los 90vw de
+     mobile). Con min() el vw manda mientras entre, y el container
+     después. */
+  width: min(100%, 70vw);
   margin-inline: auto;
   padding: var(--spacing-xl);
   background-color: var(--color-marfil);
   border-radius: var(--radius-card);
-  box-shadow: 0 10px 10px rgba(139, 109, 79, 0.35);
+  box-shadow: var(--shadow-card);
 }
 
 @media (max-width: 767px) {
   .contact__card {
-    width: 90vw;
+    width: min(100%, 90vw);
     padding: var(--spacing-lg);
   }
 }
@@ -1268,6 +1249,7 @@ a:hover {
   height: 56px;
   border-radius: 50%;
   background-color: #25d366;
+  color: var(--color-blanco);
   box-shadow: 0 4px 12px rgba(22, 39, 58, 0.25);
   transition: transform 0.2s ease;
 }

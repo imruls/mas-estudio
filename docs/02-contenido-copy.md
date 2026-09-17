@@ -76,7 +76,7 @@ Título de sección: **"Nosotros"**
 
 **Placeholders de foto:** dos espacios de imagen (uno por socio). Se
 actualizó de silueta/avatar genérico a fotos placeholder de banco de
-imágenes (`public/assets/partners/modugno.jpg` y
+imágenes (`src/assets/partners/modugno.jpg` y
 `alvarez-schiaffino.jpg`) hasta contar con las fotos reales. Marcar en el
 código: `// TODO: reemplazar por foto real del socio`.
 

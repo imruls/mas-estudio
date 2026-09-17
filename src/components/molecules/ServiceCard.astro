@@ -1,7 +1,7 @@
 ---
 import Icon from "../atoms/Icon.astro";
-import { buildWhatsAppLink } from "../../utils/whatsapp";
-import { siteData, type PracticeArea } from "../../data/DataSite";
+import { whatsappLink } from "../../utils/contact";
+import type { PracticeArea } from "../../data/DataSite";
 
 interface Props {
   area: PracticeArea;
@@ -12,7 +12,6 @@ interface Props {
 }
 
 const { area, isLast = false } = Astro.props;
-const href = buildWhatsAppLink(siteData.contact.whatsappNumber, area.whatsappMessage);
 ---
 
 <article class:list={["service-card", { "is-last": isLast }]}>
@@ -23,7 +22,7 @@ const href = buildWhatsAppLink(siteData.contact.whatsappNumber, area.whatsappMes
   <p class="service-card__description">{area.description}</p>
   <a
     class="service-card__cta"
-    href={href}
+    href={whatsappLink(area.whatsappMessage)}
     target="_blank"
     rel="noopener noreferrer"
   >

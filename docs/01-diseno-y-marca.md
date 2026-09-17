@@ -16,15 +16,14 @@ genérico" de este mismo documento — decisión consciente, no pendiente de
 revisar.
 
 **Excepción aprobada (Nosotros):** los placeholders de foto de los socios
-(`public/assets/partners/modugno.jpg` y `alvarez-schiaffino.jpg`) son fotos
+(`src/assets/partners/modugno.jpg` y `alvarez-schiaffino.jpg`) son fotos
 de banco de imágenes de personas reales, no el ícono de silueta genérico
 que pedía originalmente `04-plan-implementacion.md` /
 `02-contenido-copy.md`. El cliente decidió conservarlas así a pesar de que
 el criterio de aceptación de la Fase 7 del roadmap advertía sobre el riesgo
 de que un visitante las confunda con los socios reales — queda marcado
-igual con `isPlaceholderPhoto: true` y comentario `// TODO: reemplazar por
-foto real` en `DataSite.ts`, para que no se pierda de vista antes de
-producción.
+igual con un comentario `// TODO: reemplazar por foto real` en
+`DataSite.ts`, para que no se pierda de vista antes de producción.
 
 ## Logo
 

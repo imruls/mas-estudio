@@ -2,16 +2,10 @@
 import { Image } from "astro:assets";
 import footerLogo from "../../assets/brand/logo-mas-footer.png";
 import { siteData } from "../../data/DataSite";
-import { buildWhatsAppLink } from "../../utils/whatsapp";
-
-const whatsappHref = buildWhatsAppLink(
-  siteData.contact.whatsappNumber,
-  siteData.contact.defaultWhatsappMessage,
-);
-const mailHref = `mailto:${siteData.contact.email}`;
+import { mailtoLink, whatsappLink } from "../../utils/contact";
 ---
 
-<footer class="footer" id="footer">
+<footer class="footer">
   <div class="container footer__inner">
     <div class="footer__brand">
       <Image
@@ -42,9 +36,9 @@ const mailHref = `mailto:${siteData.contact.email}`;
       <div class="footer__col">
         <p class="footer__heading">Contacto</p>
         <ul class="footer__links">
-          <li><a href={mailHref}>{siteData.contact.email}</a></li>
+          <li><a href={mailtoLink()}>{siteData.contact.email}</a></li>
           <li>
-            <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
+            <a href={whatsappLink()} target="_blank" rel="noopener noreferrer">
               {siteData.contact.phone}
             </a>
           </li>

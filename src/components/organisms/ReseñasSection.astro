@@ -53,7 +53,8 @@ import TestimonialCard from "../molecules/TestimonialCard.astro";
 </section>
 
 <script>
-  const prefersReducedMotion = window.matchMedia(
+  /* Ver Hero: sin imports para que Astro lo deje inline. */
+  const reducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)",
   ).matches;
   const SPEED = 40; // px por segundo
@@ -73,9 +74,7 @@ import TestimonialCard from "../molecules/TestimonialCard.astro";
       const delta = (time - lastTime) / 1000;
       lastTime = time;
 
-      if (!prefersReducedMotion) {
-        offset += SPEED * direction * delta;
-      }
+      offset += SPEED * direction * delta;
 
       const half = halfWidth();
       if (half > 0) {
@@ -97,7 +96,11 @@ import TestimonialCard from "../molecules/TestimonialCard.astro";
 
   // En mobile no hay auto-scroll: el usuario decide si desliza las
   // reseñas con el dedo (evita pisar scrollLeft mientras el navegador
-  // maneja el scroll táctil nativo).
-  if (viewport1 && track1 && !isMobile) setupAutoScroll(viewport1, track1, 1);
-  if (viewport2 && track2 && !isMobile) setupAutoScroll(viewport2, track2, -1);
+  // maneja el scroll táctil nativo). Con prefers-reduced-motion tampoco
+  // arranca el loop: dejarlo corriendo sin avanzar el offset reescribía
+  // scrollLeft en cada frame y bloqueaba el scroll manual del usuario.
+  const autoScroll = !isMobile && !reducedMotion;
+
+  if (autoScroll && viewport1 && track1) setupAutoScroll(viewport1, track1, 1);
+  if (autoScroll && viewport2 && track2) setupAutoScroll(viewport2, track2, -1);
 </script>

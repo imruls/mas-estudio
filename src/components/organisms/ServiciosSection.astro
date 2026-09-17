@@ -45,6 +45,7 @@ import ServiceCard from "../molecules/ServiceCard.astro";
 </section>
 
 <script>
+  /* Ver Hero: sin imports para que Astro lo deje inline. */
   const viewport = document.getElementById("services-viewport");
   const track = document.getElementById("services-track");
   const dots = Array.from(
@@ -101,7 +102,7 @@ import ServiceCard from "../molecules/ServiceCard.astro";
         });
       });
     } else {
-      const prefersReducedMotion = window.matchMedia(
+      const reducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)",
       ).matches;
       const SPEED = 40; // px por segundo
@@ -134,7 +135,7 @@ import ServiceCard from "../molecules/ServiceCard.astro";
         const delta = (time - lastTime) / 1000;
         lastTime = time;
 
-        if (!isPaused && !prefersReducedMotion) {
+        if (!isPaused && !reducedMotion) {
           viewport.scrollLeft += SPEED * delta;
           wrap();
         }
@@ -175,7 +176,7 @@ import ServiceCard from "../molecules/ServiceCard.astro";
 
           viewport.scrollTo({
             left: currentSet + index * step,
-            behavior: prefersReducedMotion ? "auto" : "smooth",
+            behavior: reducedMotion ? "auto" : "smooth",
           });
           setActiveDot(index);
 

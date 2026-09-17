@@ -633,20 +633,27 @@ a:hover {
     scroll-snap-align: end;
   }
 
-  /* El rebote brusco del final es una corrección de snap que iOS aplica
-     en un solo frame: el fling llega a velocidad plena contra el último
-     punto de snap y cubre de una la distancia que le falta (medido en el
-     dispositivo: ~176px en 16ms, contra los ~400ms con desaceleración
-     del elástico del inicio). `always` impide que un gesto se saltee
-     puntos de snap, así que cada swipe avanza una card y desacelera
-     dentro de ella en vez de estrellarse contra el final.
+  /* Acá NO va `scroll-snap-stop: always`. Se probó para amortiguar el
+     final y hace lo contrario. Como la última card alinea por el final,
+     su punto de snap queda a poco más de medio paso del anterior
+     (medido a 430px de viewport: 852 → 1014, o sea 162px, contra los
+     284px de un paso normal).
+     Con `always` ningún gesto puede saltear puntos de snap, así que el
+     navegador tiene que disolver todo el impulso de un swipe fuerte
+     dentro de ese paso corto: frena en seco contra el borde, y el primer
+     swipe en sentido contrario arranca igual de corto y duro.
 
-     A diferencia de proximity —que reintrodujo las cards en blanco—,
-     esto no cambia dónde puede quedar detenido el scroller: lo
-     restringe. Sigue descansando siempre sobre una posición de snap. */
-  .services-carousel__track > .service-card {
-    scroll-snap-stop: always;
-  }
+     La corrección de snap en un solo frame que había motivado ese
+     `always` (~176px en 16ms) ya no existe: venía de que el último
+     punto de snap quedaba fuera de alcance y el scroller era devuelto
+     de un tirón al anterior. Con la última card alineada por el final
+     (ver .service-card.is-last) ese punto coincide exacto con el máximo
+     de scroll, así que sin `always` el fling desacelera a lo largo de
+     varias cards y llega al borde con poca velocidad, que es la
+     condición para que el elástico nativo se sienta suave.
+
+     Sacarlo no cambia dónde puede quedar detenido el scroller: con
+     mandatory sigue descansando siempre sobre una posición de snap. */
 }
 
 .services-carousel__dots {
@@ -682,7 +689,18 @@ a:hover {
 
 .service-card {
   display: flex;
-  flex: 0 0 260px;
+  /* `width` explícito y no solo `flex-basis`: el track es `width:
+     max-content` y, sin un ancho definido, el tamaño intrínseco del
+     contenedor flex se calcula sumando el texto de cada card sin
+     cortar. Medido en Firefox: el track daba 5993px en vez de 1396px,
+     o sea ~4600px de scroll vacío después de la última card —una zona
+     muerta enorme contra la que el fling se estrella y de la que el
+     snap devuelve de un tirón, que es justo el rebote brusco que se
+     intentaba sacar. Con el ancho definido el track mide exactamente
+     lo que suman las cards y el último punto de snap coincide con el
+     máximo de scroll. */
+  flex: 0 0 auto;
+  width: 260px;
   flex-direction: column;
   gap: var(--spacing-sm);
   padding: var(--spacing-lg);
@@ -745,7 +763,7 @@ a:hover {
   }
 
   .service-card {
-    flex-basis: 320px;
+    width: 320px;
   }
 }
 
@@ -828,7 +846,11 @@ a:hover {
 }
 
 .testimonials__track .testimonial-card {
-  flex: 0 0 280px;
+  /* Ver .service-card: ancho explícito para que el track no infle su
+     tamaño intrínseco con el texto sin cortar (acá daba 2495px en vez
+     de 1192px). */
+  flex: 0 0 auto;
+  width: 280px;
 }
 
 .testimonials__clone {
@@ -855,11 +877,9 @@ a:hover {
     scroll-snap-align: end;
   }
 
-  /* Ver el carrusel de servicios: un swipe avanza una card y desacelera
-     dentro de ella, en vez de llegar a velocidad plena contra el final. */
-  .testimonials__track > .testimonial-card {
-    scroll-snap-stop: always;
-  }
+  /* Ver el carrusel de servicios: acá tampoco va `scroll-snap-stop`, que
+     obligaba a matar el impulso del swipe contra el último paso corto
+     (608 → 810, 202px contra los 304px de un paso normal). */
 }
 
 @media (min-width: 768px) {
@@ -873,7 +893,7 @@ a:hover {
   }
 
   .testimonials__track .testimonial-card {
-    flex-basis: 340px;
+    width: 340px;
   }
 }
 

@@ -6,12 +6,7 @@ import { whatsappLink } from "../../utils/contact";
 
 const heroStats = [
   { target: 9, suffix: "+", label: "Años de trayectoria" },
-  {
-    target: 100,
-    suffix: "%",
-    label: "Atención personalizada",
-    hideOnMobile: true,
-  },
+  { target: 100, suffix: "%", label: "Atención personalizada" },
 ];
 ---
 
@@ -36,7 +31,7 @@ const heroStats = [
       <dl class="hero__stats">
         {
           heroStats.map((stat) => (
-            <div class:list={["hero__stat", { "hero__stat--hide-mobile": stat.hideOnMobile }]}>
+            <div class="hero__stat">
               <dt
                 class="hero__stat-number"
                 data-target={stat.target}

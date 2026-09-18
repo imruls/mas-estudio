@@ -492,10 +492,6 @@ a:hover {
   min-width: 96px;
 }
 
-.hero__stat--hide-mobile {
-  display: none;
-}
-
 .hero__stat-number {
   display: block;
   margin: 0;
@@ -525,10 +521,6 @@ a:hover {
       rgba(22, 39, 58, 0.55) 55%,
       rgba(22, 39, 58, 0.25) 100%
     );
-  }
-
-  .hero__stat--hide-mobile {
-    display: block;
   }
 }
 
@@ -701,7 +693,7 @@ a:hover {
      lo que suman las cards y el último punto de snap coincide con el
      máximo de scroll. */
   flex: 0 0 auto;
-  width: 260px;
+  width: 300px;
   flex-direction: column;
   gap: var(--spacing-sm);
   padding: var(--spacing-lg);
@@ -736,6 +728,9 @@ a:hover {
 
 .service-card__cta {
   align-self: flex-start;
+  /* Suma un 20% al gap del flex (var(--spacing-sm)) solo entre la
+     descripción y el CTA, sin tocar la separación del resto de la card. */
+  margin-top: calc(var(--spacing-sm) * 0.2);
   font-weight: 600;
   color: var(--color-marfil);
   background-color: var(--color-azul-noche);

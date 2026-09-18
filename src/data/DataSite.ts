@@ -17,7 +17,6 @@ export interface PracticeArea {
 export interface Testimonial {
   id: string;
   name: string;
-  context: string; // ej: "Cliente de Sucesiones"
   content: string;
   rating: number; // 1-5
 }
@@ -104,9 +103,9 @@ export const siteData: SiteData = {
   },
 
   hero: {
-    title: "Asesoramiento legal serio, cercano y a tu medida",
+    title: "Claridad para decidir. Estrategia para avanzar.",
     subtitle:
-      "En MAS Estudio Jurídico combinamos experiencia y trato personalizado para acompañarte en cada etapa de tu caso, con la claridad y confianza que merecés.",
+      "Cada caso requiere entender primero la situación, conocer las alternativas y evaluar las posibilidades reales. En Estudio jurídico MAS brindamos asesoramiento jurídico estratégico, claro y personalizado, para que nuestros clientes puedan tomar decisiones informadas y avanzar con seguridad.",
     ctaPrimary: "Hacé tu consulta por WhatsApp",
     ctaSecondary: "Conocé nuestras áreas de práctica",
   },
@@ -122,7 +121,7 @@ export const siteData: SiteData = {
       id: "accidentes-transito",
       title: "Accidentes de Tránsito",
       description:
-        "Te asesoramos y representamos ante siniestros viales, gestionando reclamos por daños y perjuicios para que obtengas la compensación que te corresponde.",
+        "Abordamos integralmente los reclamos derivados de accidentes de tránsito, tanto por daños materiales como por lesiones. Gestionamos reclamos ante compañías de seguros, negociaciones extrajudiciales y, cuando resulta necesario, la instancia judicial.",
       icon: "car",
       whatsappMessage:
         "Hola, quiero hacer una consulta sobre un accidente de tránsito.",
@@ -131,7 +130,7 @@ export const siteData: SiteData = {
       id: "sucesiones",
       title: "Sucesiones",
       description:
-        "Acompañamos todo el proceso sucesorio —desde el inicio del trámite hasta la partición de bienes— con un trato cercano en momentos difíciles.",
+        "Analizamos cada situación familiar y patrimonial para orientar el trámite de manera clara y ordenada. Brindamos asesoramiento y acompañamiento durante todo el proceso sucesorio, desde su inicio hasta la inscripción y adjudicación de los bienes.",
       icon: "scroll",
       whatsappMessage: "Hola, quiero hacer una consulta sobre una sucesión.",
     },
@@ -139,7 +138,7 @@ export const siteData: SiteData = {
       id: "societario-empresarial",
       title: "Sociedades, Marcas y Empresarial",
       description:
-        "Constitución de sociedades, registro de marcas y asesoramiento legal integral para que tu empresa o emprendimiento crezca con respaldo jurídico sólido.",
+        "Asesoramos a emprendedores, empresas y profesionales en las distintas etapas de su actividad. Entendemos que cada negocio necesita un marco legal que acompañe su crecimiento. Brindamos asistencia en materia societaria, contratos, marcas y cuestiones jurídicas vinculadas con el desarrollo y protección de la actividad empresarial.",
       icon: "building",
       whatsappMessage:
         "Hola, quiero hacer una consulta sobre temas societarios/empresariales.",
@@ -148,7 +147,7 @@ export const siteData: SiteData = {
       id: "inmobiliario",
       title: "Derecho Inmobiliario",
       description:
-        "Compraventas, alquileres, boletos y escrituras: revisamos y redactamos contratos para que tu operación inmobiliaria sea segura y sin sorpresas.",
+        "Asesoramos en operaciones y conflictos vinculados con bienes inmuebles. Verificamos la documentación, antecedentes y situación jurídica del inmueble para detectar posibles contingencias y brindar seguridad antes de avanzar. También intervenimos en cuestiones relacionadas con la propiedad y su regularización.",
       icon: "home",
       whatsappMessage:
         "Hola, quiero hacer una consulta sobre derecho inmobiliario.",
@@ -157,7 +156,7 @@ export const siteData: SiteData = {
       id: "familia",
       title: "Derecho de Familia",
       description:
-        "Divorcios, alimentos, régimen de visitas y otras cuestiones familiares, abordadas con la sensibilidad y firmeza que cada caso necesita.",
+        "Entendemos que las cuestiones de la vida privada son complejas y delicadas. Escuchamos y asesoramos con el cuidado y calidez humana que requieren las cuestiones de familia. Intervenimos en procesos de divorcio, alimentos, cuidado personal, régimen de comunicación, filiación y demás cuestiones vinculadas a las relaciones familiares, procurando soluciones jurídicas adecuadas a cada familia.",
       icon: "family",
       whatsappMessage:
         "Hola, quiero hacer una consulta sobre derecho de familia.",
@@ -167,24 +166,20 @@ export const siteData: SiteData = {
   about: {
     title: "Nosotros",
     description:
-      "MAS Estudio Jurídico nace de la unión de Modugno & Alvarez Schiaffino, dos abogados con más de dos años de trayectoria trabajando de forma independiente antes de unir fuerzas bajo una misma identidad. Creemos en un ejercicio del derecho cercano, transparente y a la altura de cada desafío legal que enfrentan nuestros clientes. Combinamos rigor técnico con un trato humano, acompañándote de principio a fin en cada proceso.",
+      "MAS Estudio es un estudio jurídico orientado a brindar asesoramiento profesional, estratégico y personalizado. Entendemos que detrás de cada consulta jurídica existe una situación concreta que necesita ser comprendida antes de ser abordada. Por eso, analizamos cada caso, explicamos con claridad las alternativas y sus implicancias, y acompañamos a nuestros clientes en la toma de decisiones. Trabajamos desde el conocimiento jurídico, la cercanía y la transparencia, sin generar falsas expectativas y procurando que cada persona comprenda realmente su situación y las posibilidades con las que cuenta.",
     partners: [
       {
         id: "modugno",
-        name: "Dr. Modugno",
-        role: "Socio Fundador",
-        // TODO: bio placeholder, reemplazar por texto real del socio
-        bio: "Abogado especializado en accidentes de tránsito y derecho societario, con más de dos años de trayectoria asesorando a particulares y empresas. Se caracteriza por un enfoque estratégico y un seguimiento cercano de cada caso hasta su resolución.",
-        // TODO: reemplazar por foto real del socio (placeholder de banco de imágenes)
+        name: "Dr. Maximiliano Modugno",
+        role: "Abogado (UBA) — C.A.S.M.",
+        bio: "Abogado graduado de la UBA, con posgrado en Derecho de Seguros y actualmente cursando un posgrado en Derecho Penal. Desde 2019 combina experiencia en estudios jurídicos y compañías de seguros. Al frente de su propio estudio, se especializa en Derecho de Seguros, responsabilidad civil y accidentes de tránsito, con un enfoque estratégico y personalizado.",
         photo: modugnoPhoto,
       },
       {
         id: "alvarez-schiaffino",
-        name: "Dra. Alvarez Schiaffino",
-        role: "Socia Fundadora",
-        // TODO: bio placeholder, reemplazar por texto real de la socia
-        bio: "Abogada con amplia experiencia en sucesiones, derecho de familia e inmobiliario. Su trabajo se distingue por un trato humano y una comunicación clara, acompañando a sus clientes en los momentos más sensibles de sus procesos legales.",
-        // TODO: reemplazar por foto real de la socia (placeholder de banco de imágenes)
+        name: "Dra. Melissa Alvarez Schiaffino",
+        role: "Abogada — C.P.A.C.F. | Universidad de Buenos Aires",
+        bio: "Abogada graduada de la UBA con posgrado en Asesoramiento Jurídico de Empresas. Desde 2017 combina experiencia en escribanías, estudios jurídicos y asesoría legal interna de empresas. Ejerce de forma independiente en Derecho Civil, Inmobiliario, Empresarial y Contratos, asesorando a escribanías, emprendedores y profesionales con un enfoque claro, estratégico y cercano.",
         photo: alvarezSchiaffinoPhoto,
       },
     ],
@@ -197,36 +192,44 @@ export const siteData: SiteData = {
   testimonials: [
     {
       id: "testimonial-1",
-      // TODO: reseña placeholder, reemplazar por testimonio real (nombre ficticio)
-      name: "Marcela González",
-      context: "Cliente de Sucesiones",
+      name: "Lucas Fernández",
       content:
-        "Me sentí acompañado en todo momento, explicaron cada paso con mucha claridad.",
+        "Excelente atención y acompañamiento durante todo el reclamo. Me explicaron cada paso y lograron resolver mi caso de manera rápida y profesional.",
       rating: 5,
     },
     {
       id: "testimonial-2",
-      // TODO: reseña placeholder, reemplazar por testimonio real (nombre ficticio)
-      name: "Julián López",
-      context: "Cliente de Derecho Inmobiliario",
-      content: "Excelente atención y mucha rapidez para resolver mi situación.",
+      name: "Mariana Hollman",
+      content:
+        "Después del fallecimiento de nuestra mamá no sabíamos cómo resolver la situación laboral con la empresa donde trabaja nuestra mamá. En MAS Estudio nos asesoraron respecto a la liquidación que nos correspondía, nos ayudaron con todo el trámite y nos acompañaron hasta que pudimos cobrar. Estamos muy agradecidas por la atención y por la tranquilidad que nos dieron durante todo el proceso.",
       rating: 5,
     },
     {
       id: "testimonial-3",
-      // TODO: reseña placeholder, reemplazar por testimonio real (nombre ficticio)
-      name: "Romina Fernández",
-      context: "Cliente de Derecho de Familia",
-      content: "Profesionalismo y calidez humana, algo difícil de encontrar.",
+      name: "Sofía Martínez",
+      content:
+        "Mi papá era el titular del vehículo y, después de su fallecimiento, tuve un accidente con el auto que estaba asegurado. No sabía cómo hacer para poder cobrar el seguro porque el vehículo seguía a nombre de mi papá. En MAS Estudio me asesoraron y se ocuparon de la sucesión y de toda la gestión necesaria para poder avanzar con el reclamo ante la compañía. Me acompañaron durante todo el proceso y finalmente pude resolver la situación.",
       rating: 5,
     },
     {
       id: "testimonial-4",
-      // TODO: reseña placeholder, reemplazar por testimonio real (nombre ficticio)
-      name: "Sebastián Pérez",
-      context: "Cliente de Accidentes de Tránsito",
+      name: "Martín Di Martino",
       content:
-        "Resolvieron mi caso de forma ágil y siempre estuvieron disponibles para mis dudas.",
+        "La verdad que estoy muy conforme. Me fueron explicando todo desde el principio y no tuve que preocuparme por hacer trámites ni hablar con la compañía.",
+      rating: 5,
+    },
+    {
+      id: "testimonial-5",
+      name: "Florencia Kraft",
+      content:
+        "Tenía los papeles de mi casa desordenados y varios trámites pendientes desde hacía años. En MAS Estudio revisaron toda la documentación y me ayudaron a poner todo en regla. Me explicaron cada paso y pude resolver algo que venía postergando hacía muchísimo tiempo.",
+      rating: 5,
+    },
+    {
+      id: "testimonial-6",
+      name: "Dúo Studio Digital",
+      content:
+        "Queríamos agradecerte muchísimo por el trabajo que hiciste con el contrato. Lo revisamos juntas y la verdad es que quedó excelente, así que estamos muy contentas con el resultado. Ahora sí vamos a empezar a enviárselo a todos nuestros clientes.",
       rating: 5,
     },
   ],

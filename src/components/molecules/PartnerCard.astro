@@ -9,18 +9,19 @@ interface Props {
 const { partner } = Astro.props;
 ---
 
-{/* TODO: reemplazar por foto real del socio.
-    densities va hasta 1.5x y no 2x: el original mide 320px y Astro no reescala
-    hacia arriba, así que un 2x (360px) no daría más detalle. */}
+{/* La foto mide 180px en mobile/tablet y 225px en desktop (ver Style.css).
+    El original mide 450px (2x de 225), recortado a cabeza y hombros: Astro no
+    reescala hacia arriba, así que no hay que pedir anchos mayores. */}
 <article class="partner-card">
   <Image
     src={partner.photo}
     alt=""
     aria-hidden="true"
     class="partner-card__photo"
-    width={180}
-    height={180}
-    densities={[1, 1.5]}
+    width={225}
+    height={225}
+    widths={[180, 225, 360, 450]}
+    sizes="(min-width: 1024px) 225px, 180px"
     loading="lazy"
   />
   <div class="partner-card__content">

@@ -1050,6 +1050,21 @@ a:hover {
   flex-shrink: 0;
 }
 
+/* En desktop la foto crece a 225px sin cambiar la altura de la card: los 45px
+   extra se le suman al contenedor para que la columna de texto conserve su
+   ancho (si se angosta, la bio suma líneas y la card crece). En mobile y
+   tablet no hay margen para eso y la foto se queda en 180px. */
+@media (min-width: 1024px) {
+  .about__partners {
+    max-width: 885px;
+  }
+
+  .partner-card__photo {
+    width: 225px;
+    height: 225px;
+  }
+}
+
 .partner-card__content {
   display: flex;
   flex-direction: column;

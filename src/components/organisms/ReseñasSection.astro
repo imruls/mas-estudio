@@ -1,21 +1,34 @@
 ---
 import { siteData } from "../../data/DataSite";
 import TestimonialCard from "../molecules/TestimonialCard.astro";
+import CarouselToggle from "../molecules/CarouselToggle.astro";
+
+const total = siteData.testimonials.length;
 ---
 
 <section class="testimonials" id="resenas">
   <div class="container">
     <h2 class="testimonials__title">{siteData.testimonialsSection.title}</h2>
 
-    <div class="testimonials__carousel">
+    <div class="testimonials__carousel" id="testimonials-carousel">
       <div class="testimonials__row">
-        <div class="testimonials__viewport" id="testimonials-viewport-1">
+        {/* Sin links adentro, el viewport necesita su propio tabindex para
+            que se pueda desplazar con las flechas del teclado. */}
+        <div
+          class="testimonials__viewport"
+          id="testimonials-viewport-1"
+          tabindex="0"
+          role="region"
+          aria-roledescription="carrusel"
+          aria-label="Reseñas de clientes"
+        >
           <div class="testimonials__track" id="testimonials-track-1">
             {
               siteData.testimonials.map((testimonial, index) => (
                 <TestimonialCard
                   testimonial={testimonial}
-                  isLast={index === siteData.testimonials.length - 1}
+                  isLast={index === total - 1}
+                  slideLabel={`${index + 1} de ${total}`}
                 />
               ))
             }
@@ -30,7 +43,11 @@ import TestimonialCard from "../molecules/TestimonialCard.astro";
         </div>
       </div>
 
-      <div class="testimonials__row testimonials__row--secondary">
+      {/* La segunda fila repite las mismas reseñas: es decorativa, así que
+          se oculta entera a lectores de pantalla (si no, las leían dos
+          veces). No lleva inert para que se pueda seguir desplazando con el
+          mouse. */}
+      <div class="testimonials__row testimonials__row--secondary" aria-hidden="true">
         <div class="testimonials__viewport" id="testimonials-viewport-2">
           <div class="testimonials__track" id="testimonials-track-2">
             {
@@ -38,7 +55,7 @@ import TestimonialCard from "../molecules/TestimonialCard.astro";
                 <TestimonialCard testimonial={testimonial} />
               ))
             }
-            <div class="testimonials__clone" aria-hidden="true" inert>
+            <div class="testimonials__clone" inert>
               {
                 siteData.testimonials.map((testimonial) => (
                   <TestimonialCard testimonial={testimonial} />
@@ -48,6 +65,10 @@ import TestimonialCard from "../molecules/TestimonialCard.astro";
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="testimonials__controls">
+      <CarouselToggle id="testimonials-toggle" target="el carrusel de reseñas" />
     </div>
   </div>
 </section>
@@ -59,6 +80,14 @@ import TestimonialCard from "../molecules/TestimonialCard.astro";
   ).matches;
   const SPEED = 40; // px por segundo
 
+  // Igual que en el carrusel de servicios: isPaused lo manejan el foco y
+  // el toque, y se reanuda solo (el hover no pausa: para eso está el
+  // botón). userPaused es el botón de pausa (WCAG 2.2.2) y queda hasta que
+  // lo vuelvan a tocar.
+  let isPaused = false;
+  let userPaused = false;
+  let resumeTimer: number | undefined;
+
   const setupAutoScroll = (
     viewport: HTMLElement,
     track: HTMLElement,
@@ -66,6 +95,10 @@ import TestimonialCard from "../molecules/TestimonialCard.astro";
   ) => {
     let lastTime: number | null = null;
     let offset = 0;
+    // Último scrollLeft que escribió la animación. Si en el frame siguiente
+    // no coincide, lo movió el usuario (rueda, trackpad) y se sigue desde ahí
+    // en vez de pisarle el scroll.
+    let lastScroll = 0;
 
     const halfWidth = () => track.scrollWidth / 2;
 
@@ -74,13 +107,24 @@ import TestimonialCard from "../molecules/TestimonialCard.astro";
       const delta = (time - lastTime) / 1000;
       lastTime = time;
 
-      offset += SPEED * direction * delta;
+      if (isPaused || userPaused) {
+        // En pausa no se toca scrollLeft, así el usuario puede desplazar
+        // a mano (rueda, trackpad, flechas). Al reanudar se sigue desde
+        // donde lo dejó.
+        offset = viewport.scrollLeft;
+      } else {
+        if (Math.abs(viewport.scrollLeft - lastScroll) > 1) {
+          offset = viewport.scrollLeft;
+        }
+        offset += SPEED * direction * delta;
 
-      const half = halfWidth();
-      if (half > 0) {
-        // scrollLeft can't go negative (the browser clamps it), so track
-        // position in a signed "offset" and wrap it into range ourselves.
-        viewport.scrollLeft = ((offset % half) + half) % half;
+        const half = halfWidth();
+        if (half > 0) {
+          // scrollLeft can't go negative (the browser clamps it), so track
+          // position in a signed "offset" and wrap it into range ourselves.
+          viewport.scrollLeft = ((offset % half) + half) % half;
+        }
+        lastScroll = viewport.scrollLeft;
       }
 
       requestAnimationFrame(tick);
@@ -88,6 +132,8 @@ import TestimonialCard from "../molecules/TestimonialCard.astro";
     requestAnimationFrame(tick);
   };
 
+  const carousel = document.getElementById("testimonials-carousel");
+  const toggle = document.getElementById("testimonials-toggle");
   const viewport1 = document.getElementById("testimonials-viewport-1");
   const track1 = document.getElementById("testimonials-track-1");
   const viewport2 = document.getElementById("testimonials-viewport-2");
@@ -101,6 +147,39 @@ import TestimonialCard from "../molecules/TestimonialCard.astro";
   // scrollLeft en cada frame y bloqueaba el scroll manual del usuario.
   const autoScroll = !isMobile && !reducedMotion;
 
-  if (autoScroll && viewport1 && track1) setupAutoScroll(viewport1, track1, 1);
-  if (autoScroll && viewport2 && track2) setupAutoScroll(viewport2, track2, -1);
+  if (autoScroll && carousel) {
+    const pause = () => {
+      isPaused = true;
+      window.clearTimeout(resumeTimer);
+    };
+    const resume = () => {
+      window.clearTimeout(resumeTimer);
+      resumeTimer = window.setTimeout(() => {
+        isPaused = false;
+      }, 300);
+    };
+
+    carousel.addEventListener("focusin", pause);
+    carousel.addEventListener("focusout", resume);
+    carousel.addEventListener("pointerdown", pause);
+    carousel.addEventListener("pointerup", resume);
+    carousel.addEventListener("pointercancel", resume);
+    carousel.addEventListener("touchstart", pause, { passive: true });
+    carousel.addEventListener("touchend", resume, { passive: true });
+    carousel.addEventListener("touchcancel", resume, { passive: true });
+
+    if (toggle) {
+      toggle.hidden = false;
+      const label = toggle.querySelector(".carousel-toggle__label");
+
+      toggle.addEventListener("click", () => {
+        userPaused = !userPaused;
+        toggle.dataset.paused = String(userPaused);
+        if (label) label.textContent = userPaused ? "Reanudar" : "Pausar";
+      });
+    }
+
+    if (viewport1 && track1) setupAutoScroll(viewport1, track1, 1);
+    if (viewport2 && track2) setupAutoScroll(viewport2, track2, -1);
+  }
 </script>

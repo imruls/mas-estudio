@@ -6,13 +6,20 @@ interface Props {
   testimonial: Testimonial;
   /* Ver ServiceCard: marca la última card para el alineado de snap. */
   isLast?: boolean;
+  /* Ver ServiceCard: "2 de 6" para anunciarla como diapositiva. */
+  slideLabel?: string;
 }
 
-const { testimonial, isLast = false } = Astro.props;
+const { testimonial, isLast = false, slideLabel } = Astro.props;
 ---
 
 {/* TODO: reseña placeholder, reemplazar por testimonio real */}
-<article class:list={["testimonial-card", { "is-last": isLast }]}>
+<article
+  class:list={["testimonial-card", { "is-last": isLast }]}
+  role={slideLabel ? "group" : undefined}
+  aria-roledescription={slideLabel ? "diapositiva" : undefined}
+  aria-label={slideLabel}
+>
   <StarRating rating={testimonial.rating} />
   <p class="testimonial-card__quote">&ldquo;{testimonial.content}&rdquo;</p>
   <p class="testimonial-card__author">

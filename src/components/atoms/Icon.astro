@@ -5,9 +5,21 @@ import building from "lucide-static/icons/building.svg?raw";
 import home from "lucide-static/icons/home.svg?raw";
 import users from "lucide-static/icons/users.svg?raw";
 import mail from "lucide-static/icons/mail.svg?raw";
+import pause from "lucide-static/icons/pause.svg?raw";
+import play from "lucide-static/icons/play.svg?raw";
 
-// nombres de PracticeArea.icon en DataSite.ts -> ícono de lucide-static
-const icons: Record<string, string> = { car, scroll, building, home, family: users, mail };
+// nombres de PracticeArea.icon en DataSite.ts (y los de los controles de
+// los carruseles) -> ícono de lucide-static
+const icons: Record<string, string> = {
+  car,
+  scroll,
+  building,
+  home,
+  family: users,
+  mail,
+  pause,
+  play,
+};
 
 interface Props {
   name: string;

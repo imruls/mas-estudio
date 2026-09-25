@@ -1,6 +1,9 @@
 ---
 import { siteData } from "../../data/DataSite";
 import ServiceCard from "../molecules/ServiceCard.astro";
+import CarouselToggle from "../molecules/CarouselToggle.astro";
+
+const total = siteData.practiceAreas.length;
 ---
 
 <section class="services" id="servicios">
@@ -9,14 +12,20 @@ import ServiceCard from "../molecules/ServiceCard.astro";
       <h2>{siteData.practiceAreasSection.title}</h2>
     </div>
 
-    <div class="services-carousel">
+    <div
+      class="services-carousel"
+      role="region"
+      aria-roledescription="carrusel"
+      aria-label={siteData.practiceAreasSection.title}
+    >
       <div class="services-carousel__viewport" id="services-viewport">
         <div class="services-carousel__track" id="services-track">
           {
             siteData.practiceAreas.map((area, index) => (
               <ServiceCard
                 area={area}
-                isLast={index === siteData.practiceAreas.length - 1}
+                isLast={index === total - 1}
+                slideLabel={`${index + 1} de ${total}`}
               />
             ))
           }
@@ -26,18 +35,21 @@ import ServiceCard from "../molecules/ServiceCard.astro";
         </div>
       </div>
 
-      <div class="services-carousel__dots" id="services-dots">
-        {
-          siteData.practiceAreas.map((area, index) => (
-            <button
-              type="button"
-              class:list={["services-carousel__dot", { "is-active": index === 0 }]}
-              data-index={index}
-              aria-label={`Ir a ${area.title}`}
-              aria-current={index === 0 ? "true" : "false"}
-            />
-          ))
-        }
+      <div class="services-carousel__controls">
+        <div class="services-carousel__dots" id="services-dots">
+          {
+            siteData.practiceAreas.map((area, index) => (
+              <button
+                type="button"
+                class:list={["services-carousel__dot", { "is-active": index === 0 }]}
+                data-index={index}
+                aria-label={`Ir a ${area.title}`}
+                aria-current={index === 0 ? "true" : "false"}
+              />
+            ))
+          }
+        </div>
+        <CarouselToggle id="services-toggle" target="el carrusel de áreas" />
       </div>
     </div>
   </div>
@@ -105,8 +117,13 @@ import ServiceCard from "../molecules/ServiceCard.astro";
         "(prefers-reduced-motion: reduce)",
       ).matches;
       const SPEED = 40; // px por segundo
+      const toggle = document.getElementById("services-toggle");
 
+      // isPaused lo manejan el foco y el toque, y se reanuda solo (el hover
+      // no pausa: para eso está el botón). userPaused es el botón de pausa
+      // (WCAG 2.2.2) y queda hasta que lo vuelvan a tocar.
       let isPaused = false;
+      let userPaused = false;
       let resumeTimer: number | undefined;
       let lastTime: number | null = null;
 
@@ -134,7 +151,7 @@ import ServiceCard from "../molecules/ServiceCard.astro";
         const delta = (time - lastTime) / 1000;
         lastTime = time;
 
-        if (!isPaused && !reducedMotion) {
+        if (!isPaused && !userPaused && !reducedMotion) {
           viewport.scrollLeft += SPEED * delta;
           wrap();
         }
@@ -154,8 +171,17 @@ import ServiceCard from "../molecules/ServiceCard.astro";
         }, 300);
       };
 
-      viewport.addEventListener("mouseenter", pause);
-      viewport.addEventListener("mouseleave", resume);
+      if (toggle && !reducedMotion) {
+        toggle.hidden = false;
+        const label = toggle.querySelector(".carousel-toggle__label");
+
+        toggle.addEventListener("click", () => {
+          userPaused = !userPaused;
+          toggle.dataset.paused = String(userPaused);
+          if (label) label.textContent = userPaused ? "Reanudar" : "Pausar";
+        });
+      }
+
       viewport.addEventListener("focusin", pause);
       viewport.addEventListener("focusout", resume);
       viewport.addEventListener("pointerdown", pause);

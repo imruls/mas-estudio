@@ -9,12 +9,20 @@ interface Props {
      depende de esto y no de :last-of-type: el último hijo del track es el
      div del set clonado, y un selector posicional ahí es frágil. */
   isLast?: boolean;
+  /* "2 de 5": la anuncia el lector de pantalla al entrar a la card como
+     diapositiva del carrusel. Las del set clonado no la llevan. */
+  slideLabel?: string;
 }
 
-const { area, isLast = false } = Astro.props;
+const { area, isLast = false, slideLabel } = Astro.props;
 ---
 
-<article class:list={["service-card", { "is-last": isLast }]}>
+<article
+  class:list={["service-card", { "is-last": isLast }]}
+  role={slideLabel ? "group" : undefined}
+  aria-roledescription={slideLabel ? "diapositiva" : undefined}
+  aria-label={slideLabel}
+>
   <div class="service-card__icon">
     <Icon name={area.icon} />
   </div>

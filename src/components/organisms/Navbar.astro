@@ -20,6 +20,22 @@ import NavLink from "../molecules/NavLink.astro";
       />
     </a>
 
+    {/* El toggle va antes del nav en el DOM: al abrir el menú, el siguiente
+        Tab entra directo a los links. En desktop está oculto y en mobile el
+        nav es fixed, así que el orden no cambia nada visualmente. */}
+    <button
+      class="navbar__toggle"
+      id="navbar-toggle"
+      type="button"
+      aria-label="Abrir menú"
+      aria-expanded="false"
+      aria-controls="navbar-nav"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
     <nav class="navbar__nav" id="navbar-nav">
       <ul class="navbar__links">
         {
@@ -35,37 +51,52 @@ import NavLink from "../molecules/NavLink.astro";
         }
       </ul>
     </nav>
-
-    <button
-      class="navbar__toggle"
-      id="navbar-toggle"
-      type="button"
-      aria-label="Abrir menú"
-      aria-expanded="false"
-      aria-controls="navbar-nav"
-    >
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
   </div>
 </header>
 
 <script>
+  const header = document.querySelector<HTMLElement>(".navbar");
   const toggle = document.getElementById("navbar-toggle");
   const nav = document.getElementById("navbar-nav");
+  // Lo que queda tapado por el menú mobile abierto: mientras está abierto
+  // se vuelve inert, así el foco no se pierde detrás del overlay.
+  const covered = document.querySelectorAll<HTMLElement>(
+    "main, .footer, .whatsapp-float",
+  );
+  const desktop = window.matchMedia("(min-width: 768px)");
 
-  toggle?.addEventListener("click", () => {
-    const isOpen = nav?.classList.toggle("is-open");
-    toggle.classList.toggle("is-open", isOpen);
-    toggle.setAttribute("aria-expanded", String(Boolean(isOpen)));
-  });
+  const isOpen = () => nav?.classList.contains("is-open") ?? false;
+
+  const setOpen = (open: boolean) => {
+    nav?.classList.toggle("is-open", open);
+    toggle?.classList.toggle("is-open", open);
+    toggle?.setAttribute("aria-expanded", String(open));
+    covered.forEach((el) => (el.inert = open));
+  };
+
+  toggle?.addEventListener("click", () => setOpen(!isOpen()));
 
   nav?.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => {
-      nav.classList.remove("is-open");
-      toggle?.classList.remove("is-open");
-      toggle?.setAttribute("aria-expanded", "false");
-    });
+    link.addEventListener("click", () => setOpen(false));
   });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape" || !isOpen()) return;
+    setOpen(false);
+    toggle?.focus();
+  });
+
+  // Si se agranda la ventana con el menú abierto, el nav pasa a ser la
+  // barra de desktop: hay que sacar el inert del resto de la página.
+  desktop.addEventListener("change", (event) => {
+    if (event.matches) setOpen(false);
+  });
+
+  // El menú mobile se posiciona debajo del header con esta variable (ver
+  // .navbar__nav en Style.css): con zoom o texto agrandado el header crece.
+  if (header) {
+    new ResizeObserver(() => {
+      header.style.setProperty("--navbar-height", `${header.offsetHeight}px`);
+    }).observe(header);
+  }
 </script>

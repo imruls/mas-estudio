@@ -849,6 +849,12 @@ a:hover {
 }
 
 .service-card {
+  /* Contiene los .sr-only del "Más info" (position: absolute). Sin un
+     ancestro posicionado se ubicaban respecto de la página y no del
+     carrusel, así que escapaban de su recorte: el de la última card
+     quedaba a ~1450px y Chrome Android ensanchaba la página entera hasta
+     ahí (el botón de WhatsApp y el menú quedaban fuera de pantalla). */
+  position: relative;
   display: flex;
   /* `width` explícito y no solo `flex-basis`: el track es `width:
      max-content` y, sin un ancho definido, el tamaño intrínseco del

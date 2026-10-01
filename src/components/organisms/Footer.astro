@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import footerLogo from "../../assets/brand/logo-mas-footer.png";
 import { siteData } from "../../data/DataSite";
 import { mailtoLink, whatsappLink } from "../../utils/contact";
+import NewTabNotice from "../atoms/NewTabNotice.astro";
 ---
 
 <footer class="footer">
@@ -10,7 +11,7 @@ import { mailtoLink, whatsappLink } from "../../utils/contact";
     <div class="footer__brand">
       <Image
         src={footerLogo}
-        alt={siteData.brand.fullName}
+        alt={`${siteData.brand.shortName} ${siteData.brand.fullName}`}
         class="footer__logo"
         width={256}
         height={144}
@@ -21,7 +22,7 @@ import { mailtoLink, whatsappLink } from "../../utils/contact";
 
     <div class="footer__meta">
       <nav class="footer__col" aria-label="Secciones del sitio">
-        <p class="footer__heading">Secciones</p>
+        <h2 class="footer__heading">Secciones</h2>
         <ul class="footer__links">
           {
             siteData.navbar.links.map((link) => (
@@ -34,12 +35,16 @@ import { mailtoLink, whatsappLink } from "../../utils/contact";
       </nav>
 
       <div class="footer__col">
-        <p class="footer__heading">Contacto</p>
+        <h2 class="footer__heading">Contacto</h2>
         <ul class="footer__links">
           <li><a href={mailtoLink()}>{siteData.contact.email}</a></li>
           <li>
+            {/* El número lleva a WhatsApp y no a una llamada: se aclara para
+                lectores de pantalla (WCAG 2.4.4). */}
             <a href={whatsappLink()} target="_blank" rel="noopener noreferrer">
               {siteData.contact.phone}
+              <span class="sr-only">{" por WhatsApp"}</span>
+              <NewTabNotice />
             </a>
           </li>
         </ul>

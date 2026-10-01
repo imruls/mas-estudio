@@ -6,9 +6,9 @@ import CarouselToggle from "../molecules/CarouselToggle.astro";
 const total = siteData.testimonials.length;
 ---
 
-<section class="testimonials" id="resenas">
+<section class="testimonials" id="resenas" aria-labelledby="resenas-titulo">
   <div class="container">
-    <h2 class="testimonials__title">{siteData.testimonialsSection.title}</h2>
+    <h2 class="testimonials__title" id="resenas-titulo">{siteData.testimonialsSection.title}</h2>
 
     <div class="testimonials__carousel" id="testimonials-carousel">
       <div class="testimonials__row">

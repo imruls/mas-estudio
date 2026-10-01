@@ -1,5 +1,6 @@
 ---
 import Icon from "../atoms/Icon.astro";
+import NewTabNotice from "../atoms/NewTabNotice.astro";
 import { whatsappLink } from "../../utils/contact";
 import type { PracticeArea } from "../../data/DataSite";
 
@@ -12,9 +13,14 @@ interface Props {
   /* "2 de 5": la anuncia el lector de pantalla al entrar a la card como
      diapositiva del carrusel. Las del set clonado no la llevan. */
   slideLabel?: string;
+  /* Card del set clonado del carrusel infinito: el link se saca del orden
+     de tabulación (el teclado ya pasa por el original) pero sigue
+     funcionando con el mouse, que es lo que ve el usuario cuando el
+     auto-scroll muestra las copias. */
+  isClone?: boolean;
 }
 
-const { area, isLast = false, slideLabel } = Astro.props;
+const { area, isLast = false, slideLabel, isClone = false } = Astro.props;
 ---
 
 <article
@@ -33,7 +39,11 @@ const { area, isLast = false, slideLabel } = Astro.props;
     href={whatsappLink(area.whatsappMessage)}
     target="_blank"
     rel="noopener noreferrer"
+    tabindex={isClone ? -1 : undefined}
   >
-    Más info
+    {/* Los cinco links dicen "Más info": el texto oculto dice de qué área
+        y adónde llevan (WCAG 2.4.4). */}
+    Más info<span class="sr-only">{` sobre ${area.title} por WhatsApp`}</span>
+    <NewTabNotice />
   </a>
 </article>

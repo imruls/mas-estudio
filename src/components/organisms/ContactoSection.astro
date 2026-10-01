@@ -1,14 +1,15 @@
 ---
 import Icon from "../atoms/Icon.astro";
 import WhatsAppIcon from "../atoms/WhatsAppIcon.astro";
+import NewTabNotice from "../atoms/NewTabNotice.astro";
 import { siteData } from "../../data/DataSite";
 import { mailtoLink, whatsappLink } from "../../utils/contact";
 ---
 
-<section class="contact" id="contacto">
+<section class="contact" id="contacto" aria-labelledby="contacto-titulo">
   <div class="container">
     <div class="contact__card">
-      <h2>{siteData.contactSection.title}</h2>
+      <h2 id="contacto-titulo">{siteData.contactSection.title}</h2>
       <p class="contact__subtitle">{siteData.contactSection.subtitle}</p>
 
       <div class="contact__ctas">
@@ -20,6 +21,7 @@ import { mailtoLink, whatsappLink } from "../../utils/contact";
         >
           <WhatsAppIcon size={22} />
           {siteData.contactSection.ctaLabel}
+          <NewTabNotice />
         </a>
 
         <a class="btn contact__cta" href={mailtoLink()}>

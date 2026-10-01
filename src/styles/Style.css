@@ -30,8 +30,10 @@
   --radius-pill: 999px;
   --shadow-card: 0 10px 10px rgba(139, 109, 79, 0.35);
 
-  /* Compensación del navbar sticky para los anclajes de sección */
-  --scroll-offset: 80px;
+  /* Compensación del navbar sticky para anclajes y foco: la altura real
+     del header (--navbar-height, la mide el script del Navbar sobre
+     <html>) más un respiro. El fallback es la altura sin zoom. */
+  --scroll-offset: calc(var(--navbar-height, 73px) + 0.5rem);
 
   /* Breakpoints de referencia (mobile-first).
      CSS no soporta variables dentro de @media, se documentan acá
@@ -63,6 +65,11 @@ figure {
 
 html {
   -webkit-text-size-adjust: 100%;
+  /* Aplica a anclas y también al scroll que hace el navegador al mover el
+     foco con Tab: así un elemento enfocado no queda debajo del header
+     sticky ni del botón flotante de WhatsApp (WCAG 2.4.11). */
+  scroll-padding-top: var(--scroll-offset);
+  scroll-padding-bottom: calc(56px + var(--spacing-md) * 2);
   /* overflow-x:hidden convierte al root en un scroll container real; en
      iOS Safari eso mete al documento entero en el path de scroll
      compuesto por tiles, que es uno de los gatillos conocidos de áreas
@@ -170,6 +177,21 @@ a:hover {
   color: var(--color-azul-noche);
 }
 
+/* Foco visible propio (WCAG 2.4.7): el anillo por defecto del navegador
+   casi no se ve sobre el azul noche ni sobre el dorado. El offset lo
+   separa de los botones rellenos, así se lee contra el fondo de la
+   sección y no contra el del botón. */
+:focus-visible {
+  outline: 2px solid var(--color-azul-noche);
+  outline-offset: 3px;
+}
+
+/* Secciones de fondo oscuro: el anillo va en marfil. */
+.hero :focus-visible,
+.footer :focus-visible {
+  outline-color: var(--color-marfil);
+}
+
 @media (min-width: 768px) {
   h1 {
     font-size: 3.25rem;
@@ -194,16 +216,6 @@ a:hover {
   padding-inline: var(--spacing-md);
 }
 
-/* Todas las secciones enlazadas desde el navbar frenan debajo del header
-   sticky en vez de quedar tapadas por él. */
-.hero,
-.services,
-.testimonials,
-.about,
-.contact {
-  scroll-margin-top: var(--scroll-offset);
-}
-
 .icon {
   display: inline-flex;
 }
@@ -212,6 +224,36 @@ a:hover {
   display: block;
   width: 1em;
   height: 1em;
+}
+
+/* Skip link (WCAG 2.4.1): primer elemento enfocable de la página, fuera
+   de la pantalla hasta que recibe foco con Tab. */
+.skip-link {
+  position: absolute;
+  top: var(--spacing-xs);
+  left: var(--spacing-xs);
+  z-index: 50;
+  padding: 0.75rem 1.25rem;
+  font-weight: 600;
+  color: var(--color-marfil);
+  background-color: var(--color-azul-noche);
+  border-radius: var(--radius-pill);
+  transform: translateY(calc(-100% - var(--spacing-md)));
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+/* Sin esto gana el `a:hover` global y el texto queda azul sobre azul. */
+.skip-link:hover {
+  color: var(--color-marfil);
+}
+
+/* Destino del skip link: tiene tabindex="-1" para recibir el foco, pero no
+   es un control, así que no lleva anillo. */
+#contenido:focus {
+  outline: none;
 }
 
 /* Texto solo para lectores de pantalla. */
@@ -568,7 +610,14 @@ a:hover {
   font-size: 2.25rem;
   font-weight: 700;
   line-height: 1;
-  color: var(--color-dorado-estudio);
+  /* Dorado estudio aclarado con un 30% de marfil: el token puro daba
+     2.4:1 sobre las zonas más claras de la foto (medido), y aun siendo
+     texto grande WCAG 1.4.3 pide 3:1. Así da 3.5:1 en el peor punto. */
+  color: color-mix(
+    in srgb,
+    var(--color-dorado-estudio) 70%,
+    var(--color-marfil)
+  );
 }
 
 .hero__stat-label {
@@ -588,6 +637,22 @@ a:hover {
       to right,
       rgba(22, 39, 58, 0.88) 0%,
       rgba(22, 39, 58, 0.55) 55%,
+      rgba(22, 39, 58, 0.25) 100%
+    );
+  }
+}
+
+/* En tablet la columna de texto (640px + padding) ocupa casi todo el
+   ancho y entraba en la parte clara del degradé: el subtítulo bajaba a
+   3.1:1 sobre la foto (WCAG 1.4.3 pide 4.5:1). Acá el scrim se mantiene
+   en 0.72 (el de mobile) hasta donde termina el texto y recién después
+   se aclara. Desde 1280px el degradé de arriba ya cumple. */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .hero__scrim {
+    background: linear-gradient(
+      to right,
+      rgba(22, 39, 58, 0.88) 0%,
+      rgba(22, 39, 58, 0.72) 664px,
       rgba(22, 39, 58, 0.25) 100%
     );
   }
@@ -1321,7 +1386,10 @@ a:hover {
   align-items: center;
 }
 
+/* Es un h2: se pisan el tamaño, el color y el interlineado que trae de
+   los estilos base de los headings. */
 .footer__heading {
+  line-height: inherit;
   font-family: var(--font-heading);
   font-weight: 600;
   font-size: var(--font-size-base);

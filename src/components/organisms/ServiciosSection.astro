@@ -6,10 +6,10 @@ import CarouselToggle from "../molecules/CarouselToggle.astro";
 const total = siteData.practiceAreas.length;
 ---
 
-<section class="services" id="servicios">
+<section class="services" id="servicios" aria-labelledby="servicios-titulo">
   <div class="container">
     <div class="services__heading">
-      <h2>{siteData.practiceAreasSection.title}</h2>
+      <h2 id="servicios-titulo">{siteData.practiceAreasSection.title}</h2>
     </div>
 
     <div
@@ -29,8 +29,15 @@ const total = siteData.practiceAreas.length;
               />
             ))
           }
-          <div class="services-carousel__clone" aria-hidden="true" inert>
-            {siteData.practiceAreas.map((area) => <ServiceCard area={area} />)}
+          {/* Sin inert: bloquearía también los clics, y en desktop la mitad
+              de las cards que se ven son estas copias. aria-hidden las
+              oculta a lectores de pantalla y isClone las saca del Tab. */}
+          <div class="services-carousel__clone" aria-hidden="true">
+            {
+              siteData.practiceAreas.map((area) => (
+                <ServiceCard area={area} isClone />
+              ))
+            }
           </div>
         </div>
       </div>

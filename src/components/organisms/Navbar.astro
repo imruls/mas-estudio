@@ -7,10 +7,12 @@ import NavLink from "../molecules/NavLink.astro";
 
 <header class="navbar">
   <div class="container navbar__inner">
-    <a href="#inicio" class="navbar__brand" aria-label={siteData.brand.shortName}>
+    {/* Sin aria-label: el nombre del link sale del alt, que arranca con el
+        texto visible del logo y suma adónde lleva (WCAG 2.5.3 y 2.4.4). */}
+    <a href="#inicio" class="navbar__brand">
       <Image
         src={navbarLogo}
-        alt={siteData.brand.fullName}
+        alt="MAS Estudio Jurídico, ir al inicio"
         class="navbar__logo"
         width={137}
         height={50}
@@ -36,7 +38,7 @@ import NavLink from "../molecules/NavLink.astro";
       <span></span>
     </button>
 
-    <nav class="navbar__nav" id="navbar-nav">
+    <nav class="navbar__nav" id="navbar-nav" aria-label="Principal">
       <ul class="navbar__links">
         {
           siteData.navbar.links.map((link) => (
@@ -92,11 +94,16 @@ import NavLink from "../molecules/NavLink.astro";
     if (event.matches) setOpen(false);
   });
 
-  // El menú mobile se posiciona debajo del header con esta variable (ver
-  // .navbar__nav en Style.css): con zoom o texto agrandado el header crece.
+  // Altura real del header, para el menú mobile (.navbar__nav) y para la
+  // compensación de anclas y foco (--scroll-offset en Style.css): con zoom
+  // o texto agrandado el header crece. Va en <html> porque el
+  // scroll-padding se declara ahí.
   if (header) {
     new ResizeObserver(() => {
-      header.style.setProperty("--navbar-height", `${header.offsetHeight}px`);
+      document.documentElement.style.setProperty(
+        "--navbar-height",
+        `${header.offsetHeight}px`,
+      );
     }).observe(header);
   }
 </script>

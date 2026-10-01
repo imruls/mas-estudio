@@ -29,4 +29,5 @@ interface Props {
 const { name, class: className } = Astro.props;
 ---
 
-<span class:list={["icon", className]} set:html={icons[name]} />
+{/* Siempre decorativo: acompaña a un texto que ya dice lo mismo. */}
+<span class:list={["icon", className]} aria-hidden="true" set:html={icons[name]} />

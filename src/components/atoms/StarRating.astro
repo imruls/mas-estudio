@@ -7,7 +7,13 @@ const { rating } = Astro.props;
 const stars = [1, 2, 3, 4, 5];
 ---
 
-<div class="star-rating" aria-label={`Calificación: ${rating} de 5 estrellas`}>
+{/* role="img": un aria-label en un div sin rol no está permitido en ARIA
+    y muchos lectores lo ignoran. */}
+<div
+  class="star-rating"
+  role="img"
+  aria-label={`Calificación: ${rating} de 5 estrellas`}
+>
   {
     stars.map((star) => (
       <svg

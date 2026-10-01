@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import heroBackground from "../../assets/hero/hero-background.jpg";
 import { siteData } from "../../data/DataSite";
 import { whatsappLink } from "../../utils/contact";
+import NewTabNotice from "../atoms/NewTabNotice.astro";
 
 const heroStats = [
   { target: 9, suffix: "+", label: "Años de trayectoria" },
@@ -10,7 +11,7 @@ const heroStats = [
 ];
 ---
 
-<section class="hero" id="inicio">
+<section class="hero" id="inicio" aria-labelledby="hero-titulo">
   <Image
     src={heroBackground}
     alt=""
@@ -26,7 +27,7 @@ const heroStats = [
 
   <div class="container hero__inner">
     <div class="hero__content">
-      <h1 class="hero__title">{siteData.hero.title}</h1>
+      <h1 class="hero__title" id="hero-titulo">{siteData.hero.title}</h1>
       <p class="hero__subtitle">{siteData.hero.subtitle}</p>
       <dl class="hero__stats">
         {
@@ -54,6 +55,7 @@ const heroStats = [
           rel="noopener noreferrer"
         >
           {siteData.hero.ctaPrimary}
+          <NewTabNotice />
         </a>
         <a class="hero__cta-secondary" href="#servicios">
           {siteData.hero.ctaSecondary}

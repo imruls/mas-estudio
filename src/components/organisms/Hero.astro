@@ -33,15 +33,20 @@ const heroStats = [
         {
           heroStats.map((stat) => (
             <div class="hero__stat">
-              <dt
-                class="hero__stat-number"
-                data-target={stat.target}
-                data-suffix={stat.suffix}
-              >
-                {stat.target}
-                {stat.suffix}
-              </dt>
-              <dd class="hero__stat-label">{stat.label}</dd>
+              <dt class="hero__stat-label">{stat.label}</dt>
+              {/* El número animado se oculta al lector, que si no podía leer
+                  un valor intermedio ("3+"); el valor final va en sr-only. */}
+              <dd class="hero__stat-number">
+                <span
+                  class="hero__stat-value"
+                  aria-hidden="true"
+                  data-target={stat.target}
+                  data-suffix={stat.suffix}
+                >
+                  {`${stat.target}${stat.suffix}`}
+                </span>
+                <span class="sr-only">{`${stat.target}${stat.suffix}`}</span>
+              </dd>
             </div>
           ))
         }
@@ -68,7 +73,7 @@ const heroStats = [
 <script>
   /* Sin imports a propósito: Astro solo deja el script inline (sin pedido
      extra) mientras no importe nada, y acá son 20 líneas propias. */
-  const numbers = document.querySelectorAll<HTMLElement>(".hero__stat-number");
+  const numbers = document.querySelectorAll<HTMLElement>(".hero__stat-value");
   const prefersReducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)",
   ).matches;

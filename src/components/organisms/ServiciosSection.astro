@@ -72,6 +72,9 @@ const total = siteData.practiceAreas.length;
 
   if (viewport && track && dots.length > 0) {
     const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
 
     const setActiveDot = (index: number) => {
       dots.forEach((dot, i) => {
@@ -115,14 +118,14 @@ const total = siteData.practiceAreas.length;
 
       dots.forEach((dot, index) => {
         dot.addEventListener("click", () => {
-          viewport.scrollTo({ left: index * getStep(), behavior: "smooth" });
+          viewport.scrollTo({
+            left: index * getStep(),
+            behavior: reducedMotion ? "auto" : "smooth",
+          });
           setActiveDot(index);
         });
       });
     } else {
-      const reducedMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
-      ).matches;
       const SPEED = 40; // px por segundo
       const toggle = document.getElementById("services-toggle");
 

@@ -599,7 +599,12 @@ a:hover {
   border-bottom: 1px solid rgba(245, 240, 232, 0.2);
 }
 
+/* En el DOM va primero el dt (la etiqueta) y después el dd (el valor),
+   que es el orden que tiene sentido para un lector de pantalla. Visualmente
+   el número sigue arriba. */
 .hero__stat {
+  display: flex;
+  flex-direction: column-reverse;
   min-width: 96px;
 }
 
@@ -1079,6 +1084,15 @@ a:hover {
       transparent
     );
   }
+
+  /* Con foco de teclado adentro se saca el fade: si no, una card enfocada
+     en un costado (o el outline del viewport de reseñas) queda a medio
+     ver. */
+  .services-carousel__viewport:focus-within,
+  .testimonials__viewport:focus-within {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
 }
 
 .testimonial-card {
@@ -1092,8 +1106,18 @@ a:hover {
   scroll-snap-align: start;
 }
 
+/* La figure envuelve la cita y el autor; ocupa el resto de la card para
+   que el autor siga pegado abajo. */
+.testimonial-card__figure {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: var(--spacing-sm);
+}
+
 .testimonial-card__quote {
   flex-grow: 1;
+  margin: 0;
   color: var(--color-azul-noche);
   font-style: italic;
   font-size: var(--font-size-base);
@@ -1170,23 +1194,31 @@ a:hover {
   gap: var(--spacing-sm);
   text-align: center;
   padding: var(--spacing-lg);
-  opacity: 0;
-  transition:
-    transform 0.7s ease,
-    opacity 0.7s ease;
 }
 
-.partner-card:nth-child(odd) {
-  transform: translateX(-60px);
-}
+/* Estado inicial del reveal al hacer scroll. Solo con JS habilitado: el
+   que agrega .is-visible es el script de NosotrosSection, y sin él las
+   cards (y las bios) quedaban invisibles para siempre. */
+@media (scripting: enabled) {
+  .partner-card {
+    opacity: 0;
+    transition:
+      transform 0.7s ease,
+      opacity 0.7s ease;
+  }
 
-.partner-card:nth-child(even) {
-  transform: translateX(60px);
-}
+  .partner-card:nth-child(odd) {
+    transform: translateX(-60px);
+  }
 
-.partner-card.is-visible {
-  opacity: 1;
-  transform: translateX(0);
+  .partner-card:nth-child(even) {
+    transform: translateX(60px);
+  }
+
+  .partner-card.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .partner-card::before {
@@ -1475,12 +1507,26 @@ a:hover {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .whatsapp-float {
-    transition: none;
-  }
-
   .whatsapp-float:hover,
   .whatsapp-float:focus-visible {
     transform: none;
+  }
+}
+
+/* ==========================================================================
+   6. Movimiento reducido (WCAG 2.3.3)
+   Con prefers-reduced-motion los cambios de estado pasan sin animar. Va al
+   final y con !important porque tiene que ganarle a las transiciones de
+   cada componente. 0.01ms y no 0: así transitionend se sigue disparando
+   para cualquier script que lo espere.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
   }
 }

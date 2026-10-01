@@ -21,8 +21,14 @@ const { testimonial, isLast = false, slideLabel } = Astro.props;
   aria-label={slideLabel}
 >
   <StarRating rating={testimonial.rating} />
-  <p class="testimonial-card__quote">&ldquo;{testimonial.content}&rdquo;</p>
-  <p class="testimonial-card__author">
-    <strong>{testimonial.name}</strong>
-  </p>
+  {/* figure + blockquote + figcaption: el lector anuncia que es una cita y
+      la asocia con su autor (WCAG 1.3.1). */}
+  <figure class="testimonial-card__figure">
+    <blockquote class="testimonial-card__quote">
+      <p>&ldquo;{testimonial.content}&rdquo;</p>
+    </blockquote>
+    <figcaption class="testimonial-card__author">
+      <strong>{testimonial.name}</strong>
+    </figcaption>
+  </figure>
 </article>

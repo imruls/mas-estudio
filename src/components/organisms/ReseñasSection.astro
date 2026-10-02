@@ -48,7 +48,10 @@ const total = siteData.testimonials.length;
           veces). No lleva inert para que se pueda seguir desplazando con el
           mouse. */}
       <div class="testimonials__row testimonials__row--secondary" aria-hidden="true">
-        <div class="testimonials__viewport" id="testimonials-viewport-2">
+        {/* tabindex="-1": Chrome vuelve enfocable con Tab un contenedor con
+            scroll que no tiene nada enfocable adentro, y esta fila está
+            oculta para lectores de pantalla. */}
+        <div class="testimonials__viewport" id="testimonials-viewport-2" tabindex="-1">
           <div class="testimonials__track" id="testimonials-track-2">
             {
               siteData.testimonials.map((testimonial) => (
@@ -100,7 +103,12 @@ const total = siteData.testimonials.length;
     // en vez de pisarle el scroll.
     let lastScroll = 0;
 
-    const halfWidth = () => track.scrollWidth / 2;
+    // Período del loop: lo que mide un set de cards más el gap que lo separa
+    // de la copia. Con scrollWidth / 2 a secas faltaba medio gap y cada
+    // vuelta daba un salto de 20px en desktop.
+    const halfWidth = () =>
+      (track.scrollWidth + parseFloat(getComputedStyle(track).columnGap || "0")) /
+      2;
 
     const tick = (time: number) => {
       if (lastTime === null) lastTime = time;

@@ -849,11 +849,11 @@ a:hover {
 }
 
 .service-card {
-  /* Contiene los .sr-only del "Más info" (position: absolute). Sin un
-     ancestro posicionado se ubicaban respecto de la página y no del
-     carrusel, así que escapaban de su recorte: el de la última card
-     quedaba a ~1450px y Chrome Android ensanchaba la página entera hasta
-     ahí (el botón de WhatsApp y el menú quedaban fuera de pantalla). */
+  /* Contiene cualquier elemento con position: absolute de la card (por
+     ejemplo un .sr-only). Sin un ancestro posicionado se ubicaba respecto
+     de la página y no del carrusel, escapaba de su recorte, y Chrome
+     Android ensanchaba la página entera hasta ahí (pasó con el texto
+     oculto del viejo "Más info": la página medía ~1450px). */
   position: relative;
   display: flex;
   /* `width` explícito y no solo `flex-basis`: el track es `width:
@@ -900,27 +900,51 @@ a:hover {
   font-size: var(--font-size-base);
 }
 
-.service-card__cta {
-  align-self: flex-start;
-  /* Suma un 20% al gap del flex (var(--spacing-sm)) solo entre la
-     descripción y el CTA, sin tocar la separación del resto de la card. */
-  margin-top: calc(var(--spacing-sm) * 0.2);
-  font-weight: 600;
+/* CTA único de la sección, debajo del carrusel. */
+.services__cta {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-lg);
+}
+
+/* Más llamativo que el resto de los botones: más grande y con sombra.
+   Azul por defecto y en el hover pasa al dorado del CTA del hero (texto
+   azul sobre dorado, 4.66:1) y se eleva. */
+.services__cta-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 1.1rem 2.5rem;
+  font-size: var(--font-size-lg);
   color: var(--color-marfil);
   background-color: var(--color-azul-noche);
-  border: 1px solid var(--color-azul-noche);
-  padding: 0.65rem 1.5rem;
-  border-radius: var(--radius-pill);
+  box-shadow: 0 10px 24px rgba(22, 39, 58, 0.3);
   transition:
     background-color 0.2s ease,
     color 0.2s ease,
-    transform 0.2s ease;
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.service-card__cta:hover {
-  background-color: var(--color-marfil);
+.services__cta-link:hover {
   color: var(--color-azul-noche);
+  background-color: var(--color-dorado-estudio);
+  box-shadow: 0 14px 28px rgba(139, 109, 79, 0.35);
   transform: translateY(-2px);
+}
+
+@media (max-width: 767px) {
+  .services__cta-link {
+    width: 100%;
+    padding-inline: var(--spacing-sm);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .services__cta-link:hover {
+    transform: none;
+  }
 }
 
 @media (min-width: 768px) {
@@ -990,9 +1014,10 @@ a:hover {
   display: none;
 }
 
-/* El viewport es enfocable para poder desplazarlo con las flechas. El
-   outline va hacia adentro: afuera lo recortan los bordes de la pantalla
-   en mobile y el fade de los costados en desktop. */
+/* Los dos viewports son enfocables para poder desplazarlos con las
+   flechas. El outline va hacia adentro: afuera lo recortan los bordes de
+   la pantalla en mobile y el fade de los costados en desktop. */
+.services-carousel__viewport:focus-visible,
 .testimonials__viewport:focus-visible {
   outline: 2px solid var(--color-azul-noche);
   outline-offset: -2px;

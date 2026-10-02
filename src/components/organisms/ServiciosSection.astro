@@ -2,6 +2,9 @@
 import { siteData } from "../../data/DataSite";
 import ServiceCard from "../molecules/ServiceCard.astro";
 import CarouselToggle from "../molecules/CarouselToggle.astro";
+import WhatsAppIcon from "../atoms/WhatsAppIcon.astro";
+import NewTabNotice from "../atoms/NewTabNotice.astro";
+import { whatsappLink } from "../../utils/contact";
 
 const total = siteData.practiceAreas.length;
 ---
@@ -18,7 +21,14 @@ const total = siteData.practiceAreas.length;
       aria-roledescription="carrusel"
       aria-label={siteData.practiceAreasSection.title}
     >
-      <div class="services-carousel__viewport" id="services-viewport">
+      {/* Sin links adentro, el viewport necesita su propio tabindex para
+          que se pueda desplazar con las flechas del teclado (ver el de
+          reseñas). */}
+      <div
+        class="services-carousel__viewport"
+        id="services-viewport"
+        tabindex="0"
+      >
         <div class="services-carousel__track" id="services-track">
           {
             siteData.practiceAreas.map((area, index) => (
@@ -29,15 +39,8 @@ const total = siteData.practiceAreas.length;
               />
             ))
           }
-          {/* Sin inert: bloquearía también los clics, y en desktop la mitad
-              de las cards que se ven son estas copias. aria-hidden las
-              oculta a lectores de pantalla y isClone las saca del Tab. */}
-          <div class="services-carousel__clone" aria-hidden="true">
-            {
-              siteData.practiceAreas.map((area) => (
-                <ServiceCard area={area} isClone />
-              ))
-            }
+          <div class="services-carousel__clone" aria-hidden="true" inert>
+            {siteData.practiceAreas.map((area) => <ServiceCard area={area} />)}
           </div>
         </div>
       </div>
@@ -58,6 +61,20 @@ const total = siteData.practiceAreas.length;
         </div>
         <CarouselToggle id="services-toggle" target="el carrusel de áreas" />
       </div>
+    </div>
+
+    {/* Un solo CTA para toda la sección en vez de uno por card. */}
+    <div class="services__cta">
+      <a
+        class="btn services__cta-link"
+        href={whatsappLink()}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <WhatsAppIcon size={22} />
+        {siteData.practiceAreasSection.ctaLabel}
+        <NewTabNotice />
+      </a>
     </div>
   </div>
 </section>
@@ -137,7 +154,12 @@ const total = siteData.practiceAreas.length;
       let resumeTimer: number | undefined;
       let lastTime: number | null = null;
 
-      const halfWidth = () => track.scrollWidth / 2;
+      // Período del loop: lo que mide un set de cards más el gap que lo separa
+      // de la copia. Con scrollWidth / 2 a secas faltaba medio gap y cada
+      // vuelta daba un salto de 20px en desktop.
+      const halfWidth = () =>
+        (track.scrollWidth + parseFloat(getComputedStyle(track).columnGap || "0")) /
+        2;
 
       const wrap = () => {
         const half = halfWidth();

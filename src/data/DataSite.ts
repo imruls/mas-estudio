@@ -11,7 +11,6 @@ export interface PracticeArea {
   title: string;
   description: string;
   icon: string; // nombre de ícono, ej: "car", "scroll", "building", "home", "family"
-  whatsappMessage: string;
 }
 
 export interface Testimonial {
@@ -52,6 +51,7 @@ export interface SiteData {
   practiceAreasSection: {
     title: string;
     subtitle: string;
+    ctaLabel: string; // CTA único a WhatsApp debajo del carrusel
   };
   practiceAreas: PracticeArea[];
   about: {
@@ -114,6 +114,7 @@ export const siteData: SiteData = {
     title: "Áreas prácticas",
     subtitle:
       "Un equipo con experiencia en las áreas del derecho que más impactan tu día a día.",
+    ctaLabel: "Consultanos por WhatsApp",
   },
 
   practiceAreas: [
@@ -123,8 +124,6 @@ export const siteData: SiteData = {
       description:
         "Abordamos integralmente los reclamos derivados de accidentes de tránsito, tanto por daños materiales como por lesiones. Gestionamos reclamos ante compañías de seguros, negociaciones extrajudiciales y, cuando resulta necesario, la instancia judicial.",
       icon: "car",
-      whatsappMessage:
-        "Hola, quiero hacer una consulta sobre un accidente de tránsito.",
     },
     {
       id: "sucesiones",
@@ -132,7 +131,6 @@ export const siteData: SiteData = {
       description:
         "Analizamos cada situación familiar y patrimonial para orientar el trámite de manera clara y ordenada. Brindamos asesoramiento y acompañamiento durante todo el proceso sucesorio, desde su inicio hasta la inscripción y adjudicación de los bienes.",
       icon: "scroll",
-      whatsappMessage: "Hola, quiero hacer una consulta sobre una sucesión.",
     },
     {
       id: "societario-empresarial",
@@ -140,8 +138,6 @@ export const siteData: SiteData = {
       description:
         "Asesoramos a emprendedores, empresas y profesionales en las distintas etapas de su actividad. Entendemos que cada negocio necesita un marco legal que acompañe su crecimiento. Brindamos asistencia en materia societaria, contratos, marcas y cuestiones jurídicas vinculadas con el desarrollo y protección de la actividad empresarial.",
       icon: "building",
-      whatsappMessage:
-        "Hola, quiero hacer una consulta sobre temas societarios/empresariales.",
     },
     {
       id: "inmobiliario",
@@ -149,8 +145,6 @@ export const siteData: SiteData = {
       description:
         "Asesoramos en operaciones y conflictos vinculados con bienes inmuebles. Verificamos la documentación, antecedentes y situación jurídica del inmueble para detectar posibles contingencias y brindar seguridad antes de avanzar. También intervenimos en cuestiones relacionadas con la propiedad y su regularización.",
       icon: "home",
-      whatsappMessage:
-        "Hola, quiero hacer una consulta sobre derecho inmobiliario.",
     },
     {
       id: "familia",
@@ -158,8 +152,6 @@ export const siteData: SiteData = {
       description:
         "Entendemos que las cuestiones de la vida privada son complejas y delicadas. Escuchamos y asesoramos con el cuidado y calidez humana que requieren las cuestiones de familia. Intervenimos en procesos de divorcio, alimentos, cuidado personal, régimen de comunicación, filiación y demás cuestiones vinculadas a las relaciones familiares, procurando soluciones jurídicas adecuadas a cada familia.",
       icon: "family",
-      whatsappMessage:
-        "Hola, quiero hacer una consulta sobre derecho de familia.",
     },
   ],
 

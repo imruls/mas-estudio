@@ -122,35 +122,35 @@ export const siteData: SiteData = {
       id: "accidentes-transito",
       title: "Accidentes de Tránsito",
       description:
-        "Abordamos integralmente los reclamos derivados de accidentes de tránsito, tanto por daños materiales como por lesiones. Gestionamos reclamos ante compañías de seguros, negociaciones extrajudiciales y, cuando resulta necesario, la instancia judicial.",
+        "Gestionamos reclamos por accidentes de tránsito, daños materiales y lesiones, ante compañías de seguros tanto en etapa administrativa como judicial.",
       icon: "car",
     },
     {
       id: "sucesiones",
       title: "Sucesiones",
       description:
-        "Analizamos cada situación familiar y patrimonial para orientar el trámite de manera clara y ordenada. Brindamos asesoramiento y acompañamiento durante todo el proceso sucesorio, desde su inicio hasta la inscripción y adjudicación de los bienes.",
+        "Analizamos cada situación familiar y patrimonial. Asesoramiento integral en sucesiones, desde su inicio hasta la adjudicación de los bienes.",
       icon: "scroll",
     },
     {
       id: "societario-empresarial",
       title: "Sociedades, Marcas y Empresarial",
       description:
-        "Asesoramos a emprendedores, empresas y profesionales en las distintas etapas de su actividad. Entendemos que cada negocio necesita un marco legal que acompañe su crecimiento. Brindamos asistencia en materia societaria, contratos, marcas y cuestiones jurídicas vinculadas con el desarrollo y protección de la actividad empresarial.",
+        "Asesoramos a emprendedores, profesionales y empresas en contratos, sociedades, marcas y demás cuestiones legales de su actividad.",
       icon: "building",
     },
     {
       id: "inmobiliario",
       title: "Derecho Inmobiliario",
       description:
-        "Asesoramos en operaciones y conflictos vinculados con bienes inmuebles. Verificamos la documentación, antecedentes y situación jurídica del inmueble para detectar posibles contingencias y brindar seguridad antes de avanzar. También intervenimos en cuestiones relacionadas con la propiedad y su regularización.",
+        "Asesoramos en operaciones, conflictos y regularización de inmuebles, brindando seguridad jurídica en cada etapa.",
       icon: "home",
     },
     {
       id: "familia",
       title: "Derecho de Familia",
       description:
-        "Entendemos que las cuestiones de la vida privada son complejas y delicadas. Escuchamos y asesoramos con el cuidado y calidez humana que requieren las cuestiones de familia. Intervenimos en procesos de divorcio, alimentos, cuidado personal, régimen de comunicación, filiación y demás cuestiones vinculadas a las relaciones familiares, procurando soluciones jurídicas adecuadas a cada familia.",
+        "Escuchamos y asesoramos en cuestiones de familia. Intervenimos en divorcios, alimentos, cuidado personal y demás cuestiones de familia. Procurando soluciones jurídicas adecuadas a cada familia.",
       icon: "family",
     },
   ],
@@ -158,7 +158,7 @@ export const siteData: SiteData = {
   about: {
     title: "Nosotros",
     description:
-      "MAS Estudio es un estudio jurídico orientado a brindar asesoramiento profesional, estratégico y personalizado. Entendemos que detrás de cada consulta jurídica existe una situación concreta que necesita ser comprendida antes de ser abordada. Por eso, analizamos cada caso, explicamos con claridad las alternativas y sus implicancias, y acompañamos a nuestros clientes en la toma de decisiones. Trabajamos desde el conocimiento jurídico, la cercanía y la transparencia, sin generar falsas expectativas y procurando que cada persona comprenda realmente su situación y las posibilidades con las que cuenta.",
+      "MAS Estudio es un estudio jurídico orientado a brindar asesoramiento profesional, estratégico y personalizado. Entendemos que detrás de cada consulta jurídica existe una situación concreta que necesita ser comprendida antes de ser abordada. Por eso, analizamos cada caso, explicamos con claridad las alternativas y sus implicancias, y acompañamos a nuestros clientes en la toma de decisiones.",
     partners: [
       {
         id: "modugno",
@@ -170,7 +170,7 @@ export const siteData: SiteData = {
       {
         id: "alvarez-schiaffino",
         name: "Dra. Melissa Alvarez Schiaffino",
-        role: "Abogada — C.P.A.C.F. | Universidad de Buenos Aires",
+        role: "Abogada  (UBA)— C.P.A.C.F.",
         bio: "Abogada graduada de la UBA con posgrado en Asesoramiento Jurídico de Empresas. Desde 2017 combina experiencia en escribanías, estudios jurídicos y asesoría legal interna de empresas. Ejerce de forma independiente en Derecho Civil, Inmobiliario, Empresarial y Contratos, asesorando a escribanías, emprendedores y profesionales con un enfoque claro, estratégico y cercano.",
         photo: alvarezSchiaffinoPhoto,
       },

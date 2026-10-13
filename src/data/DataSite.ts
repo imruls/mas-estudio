@@ -89,7 +89,8 @@ export const siteData: SiteData = {
     email: "e.juridicomas@gmail.com",
     phone: "11-3489-6440",
     whatsappNumber: "5491134896440",
-    defaultWhatsappMessage: "Hola, quiero hacer una consulta legal.",
+    defaultWhatsappMessage:
+      "Hola, quisiera hacer una consulta con MAS Estudio Jurídico.",
   },
 
   navbar: {
@@ -170,7 +171,7 @@ export const siteData: SiteData = {
       {
         id: "alvarez-schiaffino",
         name: "Dra. Melissa Alvarez Schiaffino",
-        role: "Abogada  (UBA)— C.P.A.C.F.",
+        role: "Abogada  (UBA) — C.P.A.C.F.",
         bio: "Abogada graduada de la UBA con posgrado en Asesoramiento Jurídico de Empresas. Desde 2017 combina experiencia en escribanías, estudios jurídicos y asesoría legal interna de empresas. Ejerce de forma independiente en Derecho Civil, Inmobiliario, Empresarial y Contratos, asesorando a escribanías, emprendedores y profesionales con un enfoque claro, estratégico y cercano.",
         photo: alvarezSchiaffinoPhoto,
       },

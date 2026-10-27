@@ -1,4 +1,4 @@
-# MAS — Estudio Jurídico Modugno & Alvarez Schiaffino
+# MAS — Estudio Jurídico
 
 Landing institucional del estudio, hecha con [Astro](https://astro.build) y
 desplegada en Vercel.

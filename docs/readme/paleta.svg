@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="150" viewBox="0 0 840 150" font-family="Inter, system-ui, sans-serif">
+  <rect width="840" height="150" rx="16" fill="#ffffff"/>
+  <g font-size="13" text-anchor="middle">
+    <rect x="20" y="20" width="120" height="70" rx="10" fill="#fbf7f2" stroke="#e5ddd2"/>
+    <text x="80" y="112" fill="#16273a" font-weight="600">Marfil</text>
+    <text x="80" y="130" fill="#6b6b6b">#FBF7F2</text>
+
+    <rect x="155" y="20" width="120" height="70" rx="10" fill="#f1eae0" stroke="#e5ddd2"/>
+    <text x="215" y="112" fill="#16273a" font-weight="600">Arena</text>
+    <text x="215" y="130" fill="#6b6b6b">#F1EAE0</text>
+
+    <rect x="290" y="20" width="120" height="70" rx="10" fill="#a8896a"/>
+    <text x="350" y="112" fill="#16273a" font-weight="600">Dorado estudio</text>
+    <text x="350" y="130" fill="#6b6b6b">#A8896A</text>
+
+    <rect x="425" y="20" width="120" height="70" rx="10" fill="#8b6d4f"/>
+    <text x="485" y="112" fill="#16273a" font-weight="600">Dorado profundo</text>
+    <text x="485" y="130" fill="#6b6b6b">#8B6D4F</text>
+
+    <rect x="560" y="20" width="120" height="70" rx="10" fill="#16273a"/>
+    <text x="620" y="112" fill="#16273a" font-weight="600">Azul noche</text>
+    <text x="620" y="130" fill="#6b6b6b">#16273A</text>
+
+    <rect x="695" y="20" width="120" height="70" rx="10" fill="#ffffff" stroke="#e5ddd2"/>
+    <text x="755" y="112" fill="#16273a" font-weight="600">Blanco</text>
+    <text x="755" y="130" fill="#6b6b6b">#FFFFFF</text>
+  </g>
+</svg>

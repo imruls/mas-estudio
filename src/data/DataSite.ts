@@ -253,7 +253,7 @@ export const siteData: SiteData = {
   },
 
   seo: {
-    title: "MAS | Estudio Jurídico Modugno & Alvarez Schiaffino",
+    title: "MAS Estudio Jurídico | Abogados en Caseros, Tres de Febrero",
     description:
       "Estudio jurídico en Caseros, Tres de Febrero. Abogados en accidentes de tránsito, sucesiones, derecho societario, inmobiliario y de familia.",
     // 1200x630 con fondo opaco: el PNG transparente se veía negro en WhatsApp/Facebook.

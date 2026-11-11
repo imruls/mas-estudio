@@ -5,6 +5,7 @@ import { siteData } from "../../data/DataSite";
 import Navbar from "../organisms/Navbar.astro";
 import Footer from "../organisms/Footer.astro";
 import WhatsAppFloatingButton from "../molecules/WhatsAppFloatingButton.astro";
+import { buildStructuredData } from "../../utils/structuredData";
 
 interface Props {
   title?: string;
@@ -17,6 +18,7 @@ const { title = siteData.seo.title, description = siteData.seo.description } =
 // El dominio vive en astro.config.mjs (`site`), no duplicado en DataSite.
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 const ogImageUrl = new URL(siteData.seo.ogImage, Astro.site);
+const structuredData = JSON.stringify(buildStructuredData(Astro.site!));
 ---
 
 <html lang="es-AR">
@@ -33,6 +35,8 @@ const ogImageUrl = new URL(siteData.seo.ogImage, Astro.site);
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={siteData.brand.fullName} />
@@ -40,7 +44,19 @@ const ogImageUrl = new URL(siteData.seo.ogImage, Astro.site);
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content={String(siteData.seo.ogImageWidth)} />
+    <meta property="og:image:height" content={String(siteData.seo.ogImageHeight)} />
+    <meta property="og:image:alt" content={siteData.seo.ogImageAlt} />
     <meta property="og:url" content={canonicalUrl} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={siteData.seo.ogImageAlt} />
+
+    <script type="application/ld+json" is:inline set:html={structuredData} />
 
     <Font cssVariable="--font-body" preload />
     <Font cssVariable="--font-heading" preload />

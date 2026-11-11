@@ -76,6 +76,19 @@ export interface SiteData {
     title: string;
     description: string;
     ogImage: string; // ruta en /public: la comparten los scrapers sociales
+    ogImageAlt: string;
+    ogImageWidth: number;
+    ogImageHeight: number;
+    logo: string; // ruta en /public, logo para los datos estructurados (JSON-LD)
+    /* Datos para buscadores (JSON-LD): NO se muestran en la página.
+       Solo la localidad, sin calle: el estudio no publica dirección. */
+    location: {
+      locality: string;
+      district: string; // partido
+      region: string;
+      country: string; // código ISO 3166-1
+    };
+    open24Hours: boolean;
   };
 }
 
@@ -242,7 +255,19 @@ export const siteData: SiteData = {
   seo: {
     title: "MAS | Estudio Jurídico Modugno & Alvarez Schiaffino",
     description:
-      "Estudio jurídico especializado en accidentes de tránsito, sucesiones, derecho societario, inmobiliario y de familia. Asesoramiento legal serio y cercano.",
-    ogImage: "/assets/brand/logo-mas-transparente.png",
+      "Estudio jurídico en Caseros, Tres de Febrero. Abogados en accidentes de tránsito, sucesiones, derecho societario, inmobiliario y de familia.",
+    // 1200x630 con fondo opaco: el PNG transparente se veía negro en WhatsApp/Facebook.
+    ogImage: "/og-image.jpg",
+    ogImageAlt: "Logo de MAS Estudio Jurídico",
+    ogImageWidth: 1200,
+    ogImageHeight: 630,
+    logo: "/assets/brand/logo-mas-transparente.png",
+    location: {
+      locality: "Caseros",
+      district: "Tres de Febrero",
+      region: "Buenos Aires",
+      country: "AR",
+    },
+    open24Hours: true,
   },
 };

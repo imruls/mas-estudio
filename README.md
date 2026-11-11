@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://estudiomas.com.ar">estudiomas.com.ar</a> ·
+  <a href="https://estudiomas.com.ar">estudiojuridicomas.com.ar</a> ·
   <a href="#secciones">Secciones</a> ·
   <a href="#características">Características</a> ·
   <a href="#cómo-editar-el-contenido">Editar contenido</a> ·

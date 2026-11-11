@@ -54,8 +54,8 @@ hay formularios de contacto ni backend de envío de mails).
 
 ## Pendientes / decisiones abiertas
 
-- **Dominio:** aún no está comprado. Se usa un placeholder en metadata SEO
-  (`estudiomas.com.ar`) que debe reemplazarse cuando se defina el real.
+- ~~**Dominio:** aún no está comprado~~ → **Resuelto.** El dominio es
+  `www.estudiojuridicomas.com.ar` (configurado en `site`, `astro.config.mjs`).
 - ~~**Isotipo/logo transparente:** pendiente de procesar~~ → **Resuelto.**
   Ya se cuenta con `assets/logo-mas-transparente.png` y
   `assets/isotipo-mas-transparente.png`, ambos con transparencia real. Son

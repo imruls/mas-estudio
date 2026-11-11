@@ -5,7 +5,7 @@ import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://estudiomas.com.ar',
+  site: 'https://www.estudiojuridicomas.com.ar',
   adapter: vercel(),
 
   /* Fuentes servidas desde el propio dominio (API de fonts de Astro): evita

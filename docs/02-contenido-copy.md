@@ -139,7 +139,6 @@ Mensaje predefinido general: "Hola, quiero hacer una consulta legal."
 - **Description:** "Estudio jurídico especializado en accidentes de
   tránsito, sucesiones, derecho societario, inmobiliario y de familia.
   Asesoramiento legal serio y cercano."
-- **URL canónica:** `https://estudiomas.com.ar` *(placeholder — reemplazar
-  cuando se compre el dominio real)*
+- **URL canónica:** `https://www.estudiojuridicomas.com.ar/`
 - **OG Image:** usar el logo completo (`assets/logo-mas.png`) o una versión
   optimizada para redes (1200x630px)
